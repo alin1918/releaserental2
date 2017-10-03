@@ -1,2 +1,2 @@
-# releaserental2
-All extensions to release
+# mage2debugger
+Magento 2 Debugger using whoops
