@@ -9,9 +9,9 @@
   ],
   "require": {
     "php": "~5.5.0|~5.6.0|~7.0.0",
-    "kjavitz/releaserentalcontract2": "^1.0",
-    "kjavitz/releasecommon2": "^1.0",
-    "kjavitz/releasemaintenance2": "^1.0",
+    "kjavitz/releaserentalcontract2": "*",
+    "kjavitz/releasecommon2": "*",
+    "kjavitz/releasemaintenance2": "*",
     "league/period": "^3.2",
     "anahkiasen/underscore-php": "^2.0",
     "querypath/QueryPath": ">=3.0.0",
