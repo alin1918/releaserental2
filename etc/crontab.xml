@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="sirent_reminders">
+        <job name="send_admin_reminders" instance="SalesIgniter\Rental\Cron\SendAdminReminders" method="execute">
+            <schedule>0 0 23 * *</schedule>
+        </job>
+        <job name="send_customer_reminders" instance="SalesIgniter\Rental\Cron\SendCustomerReminders" method="execute">
+            <schedule>0 0 23 * *</schedule>
+        </job>
+        <job name="send_customer_overdue" instance="SalesIgniter\Rental\Cron\SendCustomerOverdue" method="execute">
+            <schedule>0 0 23 * *</schedule>
+        </job>
+
+    </group>
+</config>

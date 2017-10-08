@@ -1,0 +1,406 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="salesigniter" translate="label" sortOrder="200">
+            <label>Sales Igniter</label>
+        </tab>
+        <section id="salesigniter_rental" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Rental</label>
+            <tab>salesigniter</tab>
+            <resource>SalesIgniter_Rental::settings</resource>
+            <group id="current_version" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Current Version Installed</label>
+                <field id="version" translate="label" type="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Current Version</label>
+                    <frontend_model>SalesIgniter\Rental\Block\System\Config\Form\Field\Version</frontend_model>
+                </field>
+            </group>
+            <group id="calendar_options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Calendar Options</label>
+                <field id="theme_style" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Theme Style</label>
+                    <source_model>SalesIgniter\Rental\Model\Config\ThemeStyle</source_model>
+                </field>
+                <field id="datepicker_months" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of months to show on date picker</label>
+                    <comment>format is [number of rows,number of columns]. If you want 2 months of calendars in a single row would be [1,2]. If you want a 3 months calendar one under the other would be [3,1]</comment>
+                </field>
+                <field id="always_show" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Always Show Calendar</label>
+                    <comment>EXPERIMENTAL FEATURE If set to yes calendar will be always shown instead of inputs. This does not work with times enabled or the calendar widget</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <!--<field id="hide_products_not_available" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                   <label>Hide (filter out) products not available for selected dates</label>
+                   <comment>If you put yes, then the product listing won't show the products not available for the selected dates</comment>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+               </field>-->
+                <field id="fixed_type" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Fixed Selection Type</label>
+                    <comment>Only applies if calendar type above uses Fixed Rental Lengths</comment>
+                    <source_model>SalesIgniter\Rental\Model\Config\FixedType</source_model>
+                </field>
+                <field id="fixed_rental_length" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Length for fixed rental selection</label>
+                    <comment>Comma separated in format: 7d, 14d, 21d, meaning 7 days, 14 days. The periods can be in h - hours, d - days, w - weeks, m - months</comment>
+                </field>
+                <field id="same_dates_enforce" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>All products in order must use the same start and end dates</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="global_dates_pricing_on_listing" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>How pricing will show on listing</label>
+                    <source_model>SalesIgniter\Rental\Model\Config\GlobalDatesPricingOnListing</source_model>
+                </field>
+                <field id="keep_selected_dates" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Keep start/end dates for session</label>
+                    <comment>If enabled, if you choose the start/end dates for a product and rent it, those same start/end dates will be remembered for the next product</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="min_max" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Max / Min Rental Period</label>
+                <field id="future_limit" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max period from now a reservation can be started or ended</label>
+                    <comment>Use quantity and period. Format is like 1d = 1 day, 1w = 1 week, 1M = 1 month, 1m = 1 minute, 1h = 1 hour, 1y = 1 Year, 1s = 1 second. You can also use quantities other than 1 like 5d = 5 days</comment>
+                    <tooltip>Set to 0 for no limit</tooltip>
+                </field>
+                <field id="min_period" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Minimum Period</label>
+                    <comment>Format: 1d = 1 day, 1w = 1 week, 1M = 1 month, 1m = 1 minute, 1h = 1 hour, 1y = 1 Year, 1s = 1 second</comment>
+                    <tooltip><![CDATA[Minimum rental period global setting. Like 2 Days means person can't rent less than 2 days. Only applies if product is set to use global setting]]></tooltip>
+                </field>
+                <field id="max_period" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Maximum Period</label>
+                    <comment>Use quantity and period. Format is like 1d = 1 day, 1w = 1 week, 1M = 1 month, 1m = 1 minute, 1h = 1 hour, 1y = 1 Year, 1s = 1 second. You can also use quantities other than 1 like 5d = 5 days</comment>
+                    <tooltip><![CDATA[Maximum rental period global setting. 5 Days would mean maximum rental period is 5 days. Only applies if product is set to use global setting]]></tooltip>
+                </field>
+                <field id="show_min_max_details" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show minimum and maximum rental period on product details page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="turnover" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Turnover Time and Rental Start Padding</label>
+                <field id="show_turnover" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Show turnovers on calendar]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="padding" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Start date padding</label>
+                    <comment>Use quantity and period. Format is like 1d = 1 day, 1w = 1 week, 1M = 1 month, 1m = 1 minute, 1h = 1 hour, 1y = 1 Year, 1s = 1 second. You can also use quantities other than 1 like 5d = 5 days</comment>
+                    <tooltip><![CDATA[How long you need added to the start date before you will take a rental reservation. Say today is June 1, if you put 1 day, then your client can't start their rental until June 2.]]></tooltip>
+                </field>
+                <field id="turnover_before" translate="label tooltip" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Turnover Before</label>
+                    <comment>Use quantity and period. Format is like 1d = 1 day, 1w = 1 week, 1M = 1 month, 1m = 1 minute, 1h = 1 hour, 1y = 1 Year, 1s = 1 second. You can also use quantities other than 1 like 5d = 5 days</comment>
+                    <tooltip><![CDATA[How long before a rental is started is the inventory not available for. This is to account for cleaning, shipping, etc. For example if rental starts on May 15 and this is set to 2 days, then the inventory will not be available for May 13 and 14]]></tooltip>
+                </field>
+                <field id="turnover_after" translate="label tooltip" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Turnover After</label>
+                    <comment>Use quantity and period. Format is like 1d = 1 day, 1w = 1 week, 1M = 1 month, 1m = 1 minute, 1h = 1 hour, 1y = 1 Year, 1s = 1 second. You can also use quantities other than 1 like 5d = 5 days</comment>
+                    <tooltip><![CDATA[How long after a rental is returned is it not available for. This is to account for cleaning, shipping, etc. For example if the rental ends on June 1 and turnover after is set to 2 days, then the inventory will not be available on June 2 and 3]]></tooltip>
+                </field>
+            </group>
+            <group id="inventory" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Inventory</label>
+                <field id="reserve_inventory_status" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reserve inventory</label>
+                    <comment><![CDATA[Inventory will be automatically reserved when the order changes its status to one from this list]]></comment>
+                    <source_model>SalesIgniter\Rental\Model\Config\OrderStatuses</source_model>
+                </field>
+                <field id="reserve_inventory_early_send_date" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reserve inventory starting with the send date</label>
+                    <comment><![CDATA[Usually The inventory is reserved starting with the reserved start date. If this is set to Yes if the order is sent earlier the start_date will become send_date]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="reserve_inventory_early_return_date" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reserve inventory ending with return date</label>
+                    <comment><![CDATA[Usually The inventory is reserved until end_date is passed, but in this case if a return is made, the end date will become return_date]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="reserve_inventory_until_return_date" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reserve inventory until the item is returned in inventory</label>
+                    <comment><![CDATA[Usually The inventory is reserved until end_date is passed or early return is made, but in this case if a return is not made, the item will still be counted as rented]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allow_overbooking" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Overbooking for all products</label>
+                    <comment><![CDATA[Allow Overbooking for all products]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="admin_allow_overbooking" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Admin is allowed to overbook all products</label>
+                    <comment><![CDATA[Allow Overbooking for all products in admin]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="admin_show_warning_overbooking" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>If Admin is allowed to overbook then a warning will show if overbooking</label>
+                    <comment><![CDATA[If Admin is allowed to overbook then a warning will show if overbooking]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="price" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Pricing</label>
+                <field id="add_time" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Add to price calculation number</label>
+                    <comment>Use quantity and period. Format is like 1d = 1 day, 1w = 1 week, 1M = 1 month, 1m = 1 minute, 1h = 1 hour, 1y = 1 Year, 1s = 1 second. You can also use quantities other than 1 like 5d = 5 days</comment>
+                    <tooltip><![CDATA[By default a 2 day rental is calculated as one day. If you want it to be 2 days, use "1d" here so the extra day is added to the price.]]></tooltip>
+                </field>
+                <field id="grid_points" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of price points to show in Admin Catalog Grid</label>
+                    <tooltip><![CDATA[If you have a lot of price points defined can be annoying to see all the prices in Admin Catalog Product Grid]]></tooltip>
+                    <comment>-1 means all price points</comment>
+                </field>
+                <field id="special_pricing_dates" translate="label" type="multiselect" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Special Pricing Dates</label>
+                    <source_model>SalesIgniter\Rental\Model\Config\SpecialPricingRules</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+
+            </group>
+            <group id="listing" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Category / Listing Page</label>
+                <field id="price_points" translate="label tooltip comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of price points to show</label>
+                    <tooltip><![CDATA[How many prices show on the product listing only applies to reservation type products that use rental pricing. For example if you set to 2, then the first 2 price period would show like:<br/>1 day $5<br/>1 week $10<br/>If you set to 3, then it would show 3 of the price periods.]]></tooltip>
+                    <validate>validate-number</validate>
+                    <comment>-1 means all price points</comment>
+                </field>
+                <field id="next_available_date" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show next available date</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If hours are used this is highly intensive operation and is not recommended for listing</comment>
+                </field>
+                <field id="sort_list_price_period" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sort Price List by Period</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="sort_list_price_type" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sort Price List Type</label>
+                    <source_model>SalesIgniter\Rental\Model\Config\PriceType</source_model>
+                </field>
+                <field id="price_as_table_product_view" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show prices in table format on product view</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_buyout_price" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show buyout price on listing page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="hide_time_periods_numbers" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Hide time period numbers from product info page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="details" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product Details Page</label>
+                <field id="next_available_date" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show next available date</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="additional_time_display_preference" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Additional time period display preference</label>
+                    <source_model>SalesIgniter\Rental\Model\Config\AdditionalTimeDisplayPreference</source_model>
+                    <comment><![CDATA[Example:<br />+ price/period would show as:<br />1 Day: $2 + $1/Day<br />Extra period: price would show as:<br />1 Day: $2 Extra Day: $1]]></comment>
+                </field>
+            </group>
+            <group id="store_hours" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Store Hours / Holidays / Blackout Dates</label>
+                <field id="hour_next_day" translate="label tooltip" type="time" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Hour For Next Day</label>
+                    <tooltip><![CDATA[Time of day that your store closes and you no longer accept rentals for today. Example: Time of day for next day: 14:00 and the current store time is 14:30, so you can no longer reserve today's date. Or if turnover time was set to 1 day before, you could not reserve for today or tomorrow.]]></tooltip>
+                    <comment>Format is HH:MM:SS</comment>
+                </field>
+                <field id="hotel_mode" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Hotel / Property Rental Mode]]></label>
+                    <comment><![CDATA[Enabling this means that you accept reservations for the same start/end day. This is because hotel/property rentals allow one person to checkout and another person to check-in on the same day. This is different than rental products that don't allow overlaps]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="time_increment" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Time Increment On Time Of Day Drop Down Fields</label>
+                    <comment>15 minutes would mean 7:00am, 7:15am... in drop down field, 30 minutes would mean 7:00am, 7:30am... 1 hour would mean 7:00am, 8:00am</comment>
+                    <source_model>SalesIgniter\Rental\Model\Config\TimeIncrement</source_model>
+                </field>
+                <field id="time_type_ampm" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[How is time shown on calendar. If set to yes AM/PM is used.]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="store_open_time" translate="label tooltip comment" type="time" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Open Time]]></label>
+                    <tooltip><![CDATA[What time your store opens. This is used for the time of day drop down for rental start time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_close_time" translate="label tooltip" type="time" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Close Time]]></label>
+                    <tooltip><![CDATA[What time your store closes. This is used for the time of day drop down for the rental end time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_open_time_monday" translate="label tooltip comment" type="time" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Open Time Monday]]></label>
+                    <tooltip><![CDATA[What time your store opens on Monday. This is used for the time of day drop down for rental start time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_close_time_monday" translate="label tooltip" type="time" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Close Time Monday]]></label>
+                    <tooltip><![CDATA[What time your store closes Monday. This is used for the time of day drop down for the rental end time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_open_time_tuesday" translate="label tooltip comment" type="time" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Open Time Tuesday]]></label>
+                    <tooltip><![CDATA[What time your store opens Tuesday. This is used for the time of day drop down for rental start time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_close_time_tuesday" translate="label tooltip" type="time" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Close Time Tuesday]]></label>
+                    <tooltip><![CDATA[What time your store closes. This is used for the time of day drop down for the rental end time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_open_time_wednesday" translate="label tooltip comment" type="time" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Open Time Wednesday]]></label>
+                    <tooltip><![CDATA[What time your store opens Wednesday. This is used for the time of day drop down for rental start time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_close_time_wednesday" translate="label tooltip" type="time" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Close Time Wednesday]]></label>
+                    <tooltip><![CDATA[What time your store closes. This is used for the time of day drop down for the rental end time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_open_time_thursday" translate="label tooltip comment" type="time" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Open Time Thursday]]></label>
+                    <tooltip><![CDATA[What time your store opens Thursday. This is used for the time of day drop down for rental start time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_close_time_thursday" translate="label tooltip" type="time" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Close Time Thursday]]></label>
+                    <tooltip><![CDATA[What time your store closes Thursday. This is used for the time of day drop down for the rental end time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_open_time_friday" translate="label tooltip comment" type="time" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Open Time Friday]]></label>
+                    <tooltip><![CDATA[What time your store opens Friday. This is used for the time of day drop down for rental start time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_close_time_friday" translate="label tooltip" type="time" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Close Time Friday]]></label>
+                    <tooltip><![CDATA[What time your store closes Friday. This is used for the time of day drop down for the rental end time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_open_time_saturday" translate="label tooltip comment" type="time" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Open Time Saturday]]></label>
+                    <tooltip><![CDATA[What time your store opens Saturday. This is used for the time of day drop down for rental start time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_close_time_saturday" translate="label tooltip" type="time" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Close Time Saturday]]></label>
+                    <tooltip><![CDATA[What time your store closes Saturday. This is used for the time of day drop down for the rental end time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_open_time_sunday" translate="label tooltip comment" type="time" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Open Time Sunday]]></label>
+                    <tooltip><![CDATA[What time your store opens Sunday. This is used for the time of day drop down for rental start time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="store_close_time_sunday" translate="label tooltip" type="time" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Store Close Time Sunday]]></label>
+                    <tooltip><![CDATA[What time your store closes Sunday. This is used for the time of day drop down for the rental end time if enabled]]></tooltip>
+                    <comment><![CDATA[In hh:mm:ss format]]></comment>
+                </field>
+                <field id="global_exclude_dates" translate="label tooltip comment" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Exclude Dates From Price or Calendar or Turnover]]></label>
+                    <tooltip>This can be used for holidays (exclude from calendar) or dates that you do not want to charge for (exclude from price)</tooltip>
+                    <comment><![CDATA[<b>Exclude from calendar:</b> Means it will not be selectable on the calendar.<br /><b>Exclude from price:</b> Means this date is not included in price calculation.<br /><b>Exclude from turnover:</b> if set to yes, this means these dates will not count as turnover time. Example: you have turnover time set to 1 day after and you have a rental from January 1 - 2. You have January 3 as a blockout date excluded from Turnover. So January 4 and 5 would be your turnover days (will not use January 3) and next available rental date is January 6.]]></comment>
+                    <backend_model>SalesIgniter\Rental\Model\Config\Backend\GlobalExcludeDates</backend_model>
+                    <frontend_model>SalesIgniter\Rental\Block\System\Config\Form\Field\GlobalExcludeDates</frontend_model>
+                </field>
+                <field id="disabled_days_week_start" translate="label" type="multiselect" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disabled Days of week for start date</label>
+                    <source_model>SalesIgniter\Rental\Model\Config\ExcludeDays</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="disabled_days_week_end" translate="label" type="multiselect" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disabled Days of week for end date</label>
+                    <source_model>SalesIgniter\Rental\Model\Config\ExcludeDays</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="disabled_days_week" translate="label" type="multiselect" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disabled Days of week for both start date and end date</label>
+                    <source_model>SalesIgniter\Rental\Model\Config\ExcludeDays</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="disabled_days_week_from" translate="label" type="multiselect" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Exclude disabled days of week from price, calendar, turnover</label>
+                    <source_model>SalesIgniter\Rental\Model\Config\ExcludeDaysFrom</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+
+            </group>
+            <group id="emails" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Emails</label>
+                <field id="return_reminder_enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Send Return Reminder Emails]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="return_reminder_days" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Days before rental is due to send return reminder]]></label>
+                    <validate>validate-number</validate>
+                </field>
+                <field id="return_reminder_template" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Return Reminder Template]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="return_enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Send Return Confirmation Emails]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="return_confirmation_template" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Return Confirmation Email Template]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="overdue_reminder_enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Send Overdue Reminder Emails]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="overdue_reminder_template" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Overdue Reminder Template]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <!-- extend reminders-->
+            </group>
+            <!--<group id="admin_email_report" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Admin Daily Email Report</label>
+                <field id="template" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Admin Email Report Template]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Send Admin Daily Emails]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="email_address" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Email addresses to send daily email report to]]></label>
+                </field>
+                <field id="include_late" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Show late returns in daily email report?]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="include_ship" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Show orders due to be shipped / checked out]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="include_return" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Show orders due to be returned]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>-->
+
+        </section>
+    </system>
+</config>

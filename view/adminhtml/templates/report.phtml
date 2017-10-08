@@ -1,0 +1,20 @@
+<?php /** @var \SalesIgniter\Rental\Block\Adminhtml\Report $block */ ?>
+<div class="report-container">
+	<div class="report-header">
+		<?php echo $block->getChildHtml('report.header') ?>
+	</div>
+	<div class="report-body">
+		<?php echo $block->getChildHtml('report.body') ?>
+	</div>
+	<div class="report-footer">
+		<?php echo $block->getChildHtml('report.footer') ?>
+	</div>
+</div>
+
+<script type="text/x-magento-init">
+{
+    "*": {
+        "salesigniter/report": <?php echo $block->getReportConfig() ?>
+    }
+}
+</script>

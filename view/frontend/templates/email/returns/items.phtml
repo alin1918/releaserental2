@@ -1,0 +1,48 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_return = $block->getReturn() ?>
+<?php $_order = $block->getOrder() ?>
+<?php if ($_return && $_order): ?>
+    <table class="email-items">
+        <thead>
+        <tr>
+            <th class="item-info">
+                <?= /* @escapeNotVerified */
+                __('Items'); ?>
+            </th>
+            <th class="item-sku">
+                <?= /* @escapeNotVerified */
+                __('SKU'); ?>
+            </th>
+            <th class="item-qty">
+                <?= /* @escapeNotVerified */
+                __('Qty Returned'); ?>
+            </th>
+            <!--<th class="item-subtotal">
+                <?= /* @escapeNotVerified */
+            __('Subtotal'); ?>
+            </th>-->
+        </tr>
+        </thead>
+        <?php foreach ($_return->getAllItems() as $_item): ?>
+            <?php
+            if ($_item->getParentItem()) {
+                continue;
+            }
+            ?>
+            <tbody>
+            <?= $block->getItemHtml($_item) ?>
+            </tbody>
+        <?php endforeach; ?>
+        <!--<tfoot class="order-totals">
+            <?= '';//$block->getChildHtml('invoice_totals')?>
+        </tfoot>-->
+    </table>
+<?php endif; ?>

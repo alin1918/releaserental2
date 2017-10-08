@@ -1,0 +1,30 @@
+<section class="admin__page-section order-view-rental-dates">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */
+            echo __('Rental Dates And Pickup/Drop Off Information') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-billing-address">
+            <?php /* Rental Dates */ ?>
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */
+                    echo __('Rental Dates') ?></span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <div
+                    class="order-rental-dates"><?php /** @var \SalesIgniter\Rental\Block\Adminhtml\Sales\Order\View\Info $block */
+                    echo $block->getRentalDates() ?></div>
+            </div>
+        </div>
+        <div class="admin__page-section-item order-shipping-address">
+            <?php /* Rental Dates */ ?>
+            <!--<div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */
+            echo __('Pickup/Drop Off Dates') ?></span>
+            </div>-->
+            <div class="admin__page-section-item-content">
+                <div class="order-rental-dates"><?php echo $block->getPickupRentalDates() ?></div>
+            </div>
+        </div>
+    </div>
+</section>

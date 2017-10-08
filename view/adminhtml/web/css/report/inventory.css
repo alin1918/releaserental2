@@ -1,0 +1,8 @@
+.report-inventory { position: relative; }
+
+.report-products { border-left: 1px solid #ccc; box-shadow: 5px 0px 15px -8px #000; }
+.report-products .product { padding: 5px; border-bottom: 1px solid #ccc; height: 40px; line-height: 28px; }
+.report-products .product .product-info { font-size: 14px; line-height: 9px; border-left: none; }
+.report-products .product .product-info small { font-size: 12px; line-height: 14px; display: block; }
+.report-products .product .product-quantity { text-align: center; border-left: none; }
+

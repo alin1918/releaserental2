@@ -1,0 +1,19 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ attr="value: $col.getValue($row())"
+ magento custom bindings
+-->
+
+
+<select multiple class="admin__control-serials"
+        data-bind="
+        suggestSerial: {options:{dataSource: $col.getSourceForSerial($row()), tokensMaxItems: $col.getQtyVal($row())}, storage: $col.setRowIndex($row()[$col.indexField])},
+        value: $col.setRowIndex($row()[$col.indexField]),
+        attr: {
+            id: 'id-' + $row()[$col.indexField]
+        }"
+/>
+

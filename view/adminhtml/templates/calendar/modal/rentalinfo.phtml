@@ -1,0 +1,29 @@
+<?php
+/** @var \SalesIgniter\Rental\Block\Adminhtml\Calendar\Modal\RentalInfo $block */
+?>
+<div class="row" style="margin-top:15px;">
+	<div class="col-xs-6">
+		<div class="row" style="border-bottom: 1px solid #ccc;margin-bottom: 5px;padding-bottom: 5px;">
+			<div class="col-xs-3"><?php echo __('Order Number') ?></div>
+			<div class="col-xs-9"><a href="<?php echo $block->getOrderUrl() ?>" target="_blank">#<?php echo $block->getOrderNumber() ?></a></div>
+		</div>
+		<div class="row" style="border-bottom: 1px solid #ccc;margin-bottom: 5px;padding-bottom: 5px;">
+			<div class="col-xs-3"><?php echo __('Rental Contact') ?></div>
+			<div class="col-xs-9"><a href="<?php echo $block->getCustomerUrl() ?>" target="_blank"><?php echo $block->getCustomerName() ?></a></div>
+		</div>
+	</div>
+	<div class="col-xs-6">
+		<div class="row" style="border-bottom: 1px solid #ccc;margin-bottom: 5px;padding-bottom: 5px;">
+			<div class="col-xs-4"><?php echo __('Start Date') ?></div>
+			<div class="col-xs-8"><?php echo $block->getStartDate() ?></div>
+		</div>
+		<div class="row" style="border-bottom: 1px solid #ccc;margin-bottom: 5px;padding-bottom: 5px;">
+			<div class="col-xs-4"><?php echo __('End Date') ?></div>
+			<div class="col-xs-8"><?php echo $block->getEndDate() ?></div>
+		</div>
+		<div class="row" style="border-bottom: 1px solid #ccc;margin-bottom: 5px;padding-bottom: 5px;">
+			<div class="col-xs-4"><?php echo __('End Date w/Turnover') ?></div>
+			<div class="col-xs-8"><?php echo $block->getEndDateWithTurnover() ?></div>
+		</div>
+	</div>
+</div>

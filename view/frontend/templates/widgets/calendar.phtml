@@ -1,0 +1,103 @@
+<?php /** @var $block SalesIgniter\Rental\Block\Widget\CalendarWidget */ ?>
+<?php
+//@codingStandardsIgnoreFile
+?>
+<?php
+$configHelper = $block->getCalendarHelper();
+$themeStyle = $configHelper->getThemeStyle();
+?>
+    <link rel="stylesheet" type="text/css"
+          href="<?php /* @escapeNotVerified */
+          echo $block->getViewFileUrl(
+              'SalesIgniter_Rental::css/datepicker/default/jquery-ui.theme.css'
+          ) ?>"
+    />
+    <link rel="stylesheet" type="text/css"
+          href="<?php /* @escapeNotVerified */
+          echo $block->getViewFileUrl(
+              'SalesIgniter_Rental::css/timepicker/jquery.timepicker.css'
+          ) ?>"
+    />
+
+<?php if ($themeStyle !== \SalesIgniter\Rental\Model\Config\ThemeStyle::DEFAULT_STYLE): ?>
+    <link rel="stylesheet" type="text/css"
+          href="<?php /* @escapeNotVerified */
+          echo $block->getViewFileUrl(
+              'SalesIgniter_Rental::css/datepicker/' . $themeStyle . '/jquery-ui.theme.css'
+          ) ?>"
+    />
+
+<?php endif; ?>
+
+<?php echo $block->getHtmlCalendar(); ?>
+    </div>
+    </div>
+<?php
+/**
+ *<td timestartvalue="07:00:00" timeendvalue="08:00:00" class="available">&nbsp;</td><td timestartvalue="08:00:00" timeendvalue="09:00:00" class="available">&nbsp;</td><td timestartvalue="09:00:00" timeendvalue="10:00:00" class="available">&nbsp;</td><td timestartvalue="10:00:00" timeendvalue="11:00:00" class="available">&nbsp;</td><td timestartvalue="11:00:00" timeendvalue="12:00:00" class="available">&nbsp;</td><td timestartvalue="12:00:00" timeendvalue="13:00:00" class="available">&nbsp;</td><td timestartvalue="13:00:00" timeendvalue="14:00:00" class="available">&nbsp;</td><td timestartvalue="14:00:00" timeendvalue="15:00:00" class="available">&nbsp;</td><td timestartvalue="15:00:00" timeendvalue="16:00:00" class="available">&nbsp;</td><td timestartvalue="16:00:00" timeendvalue="17:00:00" class="available">&nbsp;</td>
+ * todo move these into templates
+ */
+?>
+
+    <div id="button_template" style="display: none;">
+        <button type="button" title="<?php echo __('Go'); ?>" class="sirent-go action primary" style="display: none">
+            <span><?php echo __('Go'); ?></span>
+        </button>
+        <button type="button" title="<?php echo __('Change All'); ?>" class="sirent-changeall action primary">
+            <span><?php echo __('Change All'); ?></span>
+        </button>
+    </div>
+<?php if ($block->hasLegend()): ?>
+    <div id="legend_details_template" style="display: none;">
+        <div class="legend-detail-container">
+            <div class="legend-detail-header"><?php echo __('Legend') ?></div>
+
+            <table class="legend-detail-description">
+                <tbody>
+                <tr>
+                    <td class="legend-ico turnoverBefore"></td>
+                    <td class="description"><?php echo __('Turnover Before') ?></td>
+                    <td class="legend-ico turnoverAfter"></td>
+                    <td class="description"><?php echo __('Turnover After') ?></td>
+                    <td class="legend-ico legend-start-s"></td>
+                    <td class="description"><?php echo __('Send Date') ?></td>
+                    <td class="legend-ico selected-time"></td>
+                    <td class="description"><?php echo __('Selected') ?></td>
+                    <td class="legend-ico busy"></td>
+                    <td class="description"><?php echo __('Unavailable') ?></td>
+                    <td class="legend-ico legend-mail-s"></td>
+                    <td class="description"><?php echo __('Return Date') ?></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<?php endif; ?>
+    <div id="day_details_template" style="display: none">
+        <div class="daydetails day-detail-container">
+            <div class="day-detail-header">Day details</div>
+            <table class="day-detail">
+                <thead>
+                <tr class="table_head">
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="table_body">
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="day-detail-description">
+                <tbody>
+                <tr>
+                    <td class="busy ui-state-disabled"></td>
+                    <td class="description">Busy Time</td>
+                    <td class="available ui-state-default"></td>
+                    <td class="description">Available Time</td>
+                    <td class="selected-time ui-state-active"></td>
+                    <td class="description">Selected Time</td>
+                </tr>
+                </tbody>
+            </table>
+<?php
+/*end of file*/

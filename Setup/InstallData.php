@@ -1,0 +1,445 @@
+<?php
+
+namespace SalesIgniter\Rental\Setup;
+
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\ResourceModel\Eav\Attribute as CatalogAttribute;
+use Magento\Catalog\Setup\CategorySetupFactory;
+use Magento\Framework\Setup\InstallDataInterface;
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+
+class InstallData implements InstallDataInterface
+{
+    private $catalogSetupFactory;
+
+    public function __construct(CategorySetupFactory $categorySetupFactory)
+    {
+        $this->catalogSetupFactory = $categorySetupFactory;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
+    public function install(
+        ModuleDataSetupInterface $setup,
+        ModuleContextInterface $context
+    ) {
+        /** @var \Magento\Catalog\Setup\CategorySetup $catalogSetup */
+        $catalogSetup = $this->catalogSetupFactory->create(['setup' => $setup]);
+
+        // Add Rentals Tab To Product Edit for Rental Products
+        $entityTypeId = $catalogSetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
+        $attributeSetId = $catalogSetup->getDefaultAttributeSetId($entityTypeId);
+        $catalogSetup->addAttributeGroup($entityTypeId, $attributeSetId, 'Rental', 60);
+
+
+        /** Add Rental fields in order of Global (yes / no)  -  Number -  Type
+         *  These will go under the Rental tab
+         */
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_use_times', [
+            'label' => 'Show Time Of Day Drop Down For Start and End Date',
+            'group' => 'Rental',
+            'input' => 'boolean',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => '0',
+            'type' => 'int',
+            'sort_order' => 1
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_use_times_grid', [
+            'label' => 'Show Time Of Day Busy Times Grid On Product Page',
+            'group' => 'Rental',
+            'input' => 'boolean',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => '0',
+            'type' => 'int',
+            'sort_order' => 2
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_min_global', [
+            'label' => 'Use Global Config for Minimum Period',
+            'group' => 'Rental',
+            'input' => 'boolean',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => '1',
+            'type' => 'int',
+            'sort_order' => 10
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_min_number', [
+            'label' => 'Minimum Period',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => '1',
+            'type' => 'int',
+            'sort_order' => 11
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_min_type', [
+            'label' => 'Minimum Period Type',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => '1',
+            'type' => 'int',
+            'source' => 'SalesIgniter\Rental\Model\Attribute\Backend\PeriodType',
+            'sort_order' => 12
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_max_global', [
+            'label' => 'Use Global Config for Maximum Period',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => '1',
+            'type' => 'int',
+            'input' => 'boolean',
+            'sort_order' => 20
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_max_number', [
+            'label' => 'Maximum Period',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => '1',
+            'type' => 'int',
+            'sort_order' => 21
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_max_type', [
+            'label' => 'Maximum Period Type',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => '1',
+            'type' => 'int',
+            'source' => 'SalesIgniter\Rental\Model\Attribute\Backend\PeriodType',
+            'sort_order' => 22
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_turnover_before_global', [
+            'label' => 'Use Global Config for Turnover Before',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'int',
+            'input' => 'boolean',
+            'sort_order' => 30
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_turnover_before_number', [
+            'label' => 'Rental Turnover Before',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'int',
+            'sort_order' => 31
+        ]);
+
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_turnover_before_type', [
+            'label' => 'Rental Turnover Before Type',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'int',
+            'source' => 'SalesIgniter\Rental\Model\Attribute\Backend\PeriodType',
+            'sort_order' => 32
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_turnover_after_global', [
+            'label' => 'Use Global Config for Turnover After',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'int',
+            'input' => 'boolean',
+            'sort_order' => 40
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_turnover_after_number', [
+            'label' => 'Rental Turnover After',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'int',
+            'sort_order' => 41
+        ]);
+
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_turnover_after_type', [
+            'label' => 'Rental Turnover After Type',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'int',
+            'source' => 'SalesIgniter\Rental\Model\Attribute\Backend\PeriodType',
+            'sort_order' => 42
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_excluded_days_global', [
+            'label' => 'Use Global Config for Excluded Days of the Week',
+            'group' => 'Rental',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'int',
+            'input' => 'boolean',
+            'sort_order' => 50
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_excluded_days', [
+            'label' => 'Excluded Days of the Week',
+            'group' => 'Rental',
+            'input' => 'multiselect',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'text',
+            'source' => 'SalesIgniter\Rental\Model\Attribute\Backend\ExcludedDaysWeek',
+            'sort_order' => 51
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_has_shipping', [
+            'label' => 'Enable Shipping For This Product?',
+            'group' => 'Rental',
+            'input' => 'boolean',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 1,
+            'type' => 'int',
+            'sort_order' => 20
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_future_limit', [
+            'label' => 'Future Reservation Limit In Days (0 for no limit)',
+            'group' => 'Rental',
+            'input' => 'text',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 1,
+            'type' => 'int',
+            'sort_order' => 20
+        ]);
+
+        // No Tab Is Hidden From Input
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_inv_bydate_serialized', [
+            'label' => 'Inventory Serialized By Date',
+            'visible_on_front' => false,
+            'user_defined' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => '',
+            'type' => 'text',
+            'sort_order' => 20
+        ]);
+
+        // Advanced Pricing group
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_deposit_global', [
+            'label' => 'Use Global Config for Deposit?',
+            'group' => 'Prices',
+            'input' => 'boolean',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'int',
+            'sort_order' => 10
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_deposit', [
+            'label' => 'Deposit',
+            'group' => 'Prices',
+            'input' => 'price',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'decimal',
+            'sort_order' => 11
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_damage_waiver_global', [
+            'label' => 'Use Global Config for Damage Waiver Amount',
+            'note' => 'Either fixed amount or add % like 10% for percentage',
+            'group' => 'Prices',
+            'input' => 'boolean',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'int',
+            'sort_order' => 20
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_damage_waiver', [
+            'label' => 'Damage Waiver Amount',
+            'note' => 'Either fixed amount or add % like 10% for percentage',
+            'group' => 'Prices',
+            'input' => 'price',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'decimal',
+            'sort_order' => 21
+        ]);
+
+        // General Group
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_pricingtype', [
+            'label' => 'Pricing Type',
+            'group' => 'General',
+            'input' => 'select',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 1,
+            'type' => 'int',
+            'source' => 'SalesIgniter\Rental\Model\Attribute\Backend\PricingType',
+            'sort_order' => 5
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_price', [
+            'label' => 'Price',
+            'group' => 'General',
+            'input' => 'text',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'type' => 'decimal',
+            'source' => 'SalesIgniter\Rental\Model\Attribute\Backend\RentalPrice',
+            'sort_order' => 6
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_bundle_price_type', [
+            'label' => 'Bundle Price Type',
+            'group' => 'General',
+            'input' => 'text',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 1,
+            'type' => 'int',
+            'source' => 'SalesIgniter\Rental\Model\Attribute\Backend\BundlePriceType',
+            'sort_order' => 7
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_quantity', [
+            'label' => 'Qty',
+            'group' => 'General',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 1,
+            'type' => 'int',
+            'sort_order' => 7
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_rental_type', [
+            'label' => 'Rental Product Type',
+            'group' => 'General',
+            'input' => 'select',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'int',
+            'source' => 'SalesIgniter\Rental\Model\Attribute\Backend\RentalType',
+            'sort_order' => 8
+        ]);
+
+        // Advanced Inventory Group
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_serial_numbers_use', [
+            'label' => 'Use Serial Numbers?',
+            'group' => 'General',
+            'input' => 'boolean',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'int',
+            'sort_order' => 20
+        ]);
+
+        $catalogSetup->addAttribute(Product::ENTITY, 'sirent_serial_numbers', [
+            'label' => 'Serial Numbers',
+            'group' => 'General',
+            'input' => 'text',
+            'visible_on_front' => false,
+            'required' => false,
+            'global' => CatalogAttribute::SCOPE_STORE,
+            'apply_to' => 'sirent',
+            'default' => 0,
+            'type' => 'text',
+            'source' => 'SalesIgniter\Rental\Model\Attribute\Backend\SerialNumbers',
+            'sort_order' => 21
+        ]);
+    }
+    //
+    //test
+}

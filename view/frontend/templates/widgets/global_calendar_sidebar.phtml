@@ -1,0 +1,85 @@
+<?php /** @var $block SalesIgniter\Rental\Block\Widget\CalendarWidget */ ?>
+<?php
+/** @var SalesIgniter\Rental\Helper\Calendar $configHelper */
+//@codingStandardsIgnoreFile
+?>
+    <div class="block widget block-sirent-calendar">
+        <div class="block-title">
+            <strong><?php /* @escapeNotVerified */
+                echo __($block->getData('calendar_title')) ?></strong>
+        </div>
+        <?php $suffix = $block->getNameInLayout(); ?>
+        <div class="block-content-<?php /* @escapeNotVerified */
+        echo $suffix; ?>">
+            <?php
+            $configHelper = $this->helper('SalesIgniter\Rental\Helper\Calendar');
+            $themeStyle = $block->getData('calendar_style');
+            ?>
+            <link rel="stylesheet" type="text/css"
+                  href="<?php /* @escapeNotVerified */
+                  echo $block->getViewFileUrl('SalesIgniter_Rental::css/datepicker/default/jquery-ui.theme.css'
+                  ) ?>"
+            />
+            <link rel="stylesheet" type="text/css"
+                  href="<?php /* @escapeNotVerified */
+                  echo $block->getViewFileUrl(
+                      'SalesIgniter_Rental::css/timepicker/jquery.timepicker.css'
+                  ) ?>"
+            />
+
+            <?php if ($themeStyle !== \SalesIgniter\Rental\Model\Config\ThemeStyle::DEFAULT_STYLE): ?>
+                <link rel="stylesheet" type="text/css"
+                      href="<?php /* @escapeNotVerified */
+                      echo $block->getViewFileUrl('SalesIgniter_Rental::css/datepicker/' . $themeStyle . '/jquery-ui.theme.css'
+                      ) ?>"
+                />
+
+            <?php endif; ?>
+
+            <?php echo $block->getHtmlCalendar(); ?>
+        </div>
+    </div>
+<?php
+/**
+ *<td timestartvalue="07:00:00" timeendvalue="08:00:00" class="available">&nbsp;</td><td timestartvalue="08:00:00" timeendvalue="09:00:00" class="available">&nbsp;</td><td timestartvalue="09:00:00" timeendvalue="10:00:00" class="available">&nbsp;</td><td timestartvalue="10:00:00" timeendvalue="11:00:00" class="available">&nbsp;</td><td timestartvalue="11:00:00" timeendvalue="12:00:00" class="available">&nbsp;</td><td timestartvalue="12:00:00" timeendvalue="13:00:00" class="available">&nbsp;</td><td timestartvalue="13:00:00" timeendvalue="14:00:00" class="available">&nbsp;</td><td timestartvalue="14:00:00" timeendvalue="15:00:00" class="available">&nbsp;</td><td timestartvalue="15:00:00" timeendvalue="16:00:00" class="available">&nbsp;</td><td timestartvalue="16:00:00" timeendvalue="17:00:00" class="available">&nbsp;</td>
+ *
+ */
+/**
+ * todo move the templates so there are loaded by require
+ */
+?>
+    <div id="button_template" style="display: none;">
+        <button type="button" title="<?php echo __('GO'); ?>" class="sirent-go action primary">
+            <span><?php echo __('GO'); ?></span>
+        </button>
+    </div>
+    <div id="day_details_template" style="display: none">
+        <div class="daydetails day-detail-container">
+            <div class="day-detail-header">Day details</div>
+            <table class="day-detail">
+                <thead>
+                <tr class="table_head">
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="table_body">
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="day-detail-description">
+                <tbody>
+                <tr>
+                    <td class="busy ui-state-disabled"></td>
+                    <td class="description">Busy Time</td>
+                    <td class="available ui-state-default"></td>
+                    <td class="description">Available Time</td>
+                    <td class="selected-time ui-state-active"></td>
+                    <td class="description">Selected Time</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<?php
+/*end of file*/

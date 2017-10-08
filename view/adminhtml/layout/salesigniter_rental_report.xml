@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 SalesIgniter. All rights reserved.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="SalesIgniter_Rental::css/report.css" />
+	</head>
+	<update handle="styles"/>
+	<body>
+		<referenceContainer name="content">
+			<block
+				class="SalesIgniter\Rental\Block\Adminhtml\Report"
+				template="SalesIgniter_Rental::report.phtml"
+				name="salesigniter.report"
+			>
+				<block
+					class="SalesIgniter\Rental\Block\Adminhtml\Report\Header"
+					template="SalesIgniter_Rental::report/header.phtml"
+					name="report.header"
+				/>
+				<block
+					class="SalesIgniter\Rental\Block\Adminhtml\Report\Body"
+					template="SalesIgniter_Rental::report/body.phtml"
+					name="report.body"
+				/>
+				<block
+					class="SalesIgniter\Rental\Block\Adminhtml\Report\Footer"
+					template="SalesIgniter_Rental::report/footer.phtml"
+					name="report.footer"
+				/>
+			</block>
+		</referenceContainer>
+	</body>
+</page>

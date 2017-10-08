@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">fixeddates_form.fixeddates_form_data_source</item>
+            <item name="deps" xsi:type="string">fixeddates_form.fixeddates_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Predetermined Dates</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">fixeddates_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">SalesIgniter\Rental\Block\Adminhtml\FixedDates\Edit\BackButton</item>
+            <item name="delete" xsi:type="string">SalesIgniter\Rental\Block\Adminhtml\FixedDates\Edit\DeleteButton</item>
+            <item name="reset" xsi:type="string">SalesIgniter\Rental\Block\Adminhtml\FixedDates\Edit\ResetButton</item>
+            <item name="save" xsi:type="string">SalesIgniter\Rental\Block\Adminhtml\FixedDates\Edit\SaveButton</item>
+            <item name="save_and_continue" xsi:type="string">SalesIgniter\Rental\Block\Adminhtml\FixedDates\Edit\SaveAndContinueButton</item>
+        </item>
+    </argument>
+    <dataSource name="fixeddates_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">SalesIgniter\Rental\Ui\Component\Listing\DataProviders\SalesIgniter\FixedDates\Form</argument>
+            <argument name="name" xsi:type="string">fixeddates_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">name_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="salesigniter_rental/fixeddates/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="general">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string"/>
+            </item>
+        </argument>
+    </fieldset>
+</form>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="SalesIgniter_Rental::rental" title="Rental">
+                    <resource id="SalesIgniter_Rental::general" title="General">
+                        <resource id="SalesIgniter_Rental::manualedit" title="Manually Reserve Inventory"/>
+                        <resource id="SalesIgniter_Rental::fixeddates" title="Predetermined Dates"/>
+                        <resource id="SalesIgniter_Rental::settings" title="Settings"/>
+                    </resource>
+                    <resource id="SalesIgniter_Rental::rental_reservations" title="Send and Return">
+                        <resource id="SalesIgniter_Rental::send" title="Ship Items"/>
+                        <resource id="SalesIgniter_Rental::sendhistory" title="Send History"/>
+                        <resource id="SalesIgniter_Rental::returnhistory" title="Return History"/>
+                        <resource id="SalesIgniter_Rental::return" title="Return Items"/>
+                    </resource>
+                    <resource id="SalesIgniter_Rental::reports" title="Reports">
+                        <resource id="SalesIgniter_Rental::inventory" title="inventory"/>
+                        <resource id="SalesIgniter_Rental::serial" title="serial"/>
+                    </resource>
+                    <resource id="SalesIgniter_Rental::rentalcal" title="Rental Calendar by start/end or order"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,25 @@
+<?php
+/** @var \SalesIgniter\Rental\Block\Adminhtml\Report\SerialNumber\Body $block */
+?>
+<div class="report-inventory" data-role="report-panel" data-mage-init='{ "loader": { } }'>
+	<div class="row calendar-filter-container">
+		<div class="col-xs-12 filter-block"></div>
+	</div>
+	<div class="row calendar-pager-container">
+		<div class="col-xs-12 pager-block"></div>
+	</div>
+	<div class="row calendar-tools-container">
+		<div class="col-xs-3 calendar-tools-left text-left"></div>
+		<div class="col-xs-6 calendar-tools-center text-center"></div>
+		<div class="col-xs-3 calendar-tools-right text-right calendar-formats">
+			<button type="button" class="btn btn-calendar_tool" data-renderer_name="day">Day</button>
+			<button type="button" class="btn btn-calendar_tool" data-renderer_name="week">Week</button>
+			<button type="button" class="btn btn-calendar_tool __active" data-renderer_name="month">Month</button>
+			<!--<button type="button" class="btn btn-calendar_tool" data-renderer_name="list">List</button>-->
+		</div>
+	</div>
+	<div class="row report-main-content">
+		<div class="col-xs-4 col-m-4 col-l-4 col-xl-3 report-products"></div>
+		<div class="col-xs-8 col-m-8 col-l-8 col-xl-9 report-calendar"></div>
+	</div>
+</div>

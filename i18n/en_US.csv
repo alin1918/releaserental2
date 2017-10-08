@@ -1,0 +1,363 @@
+"Order Number","Order Number"
+Customer,Customer
+"Start Date w/Turnover","Start Date w/Turnover"
+"Start Date","Start Date"
+"End Date","End Date"
+"End Date w/Turnover","End Date w/Turnover"
+Quantity,Quantity
+Product,Product
+Price,Price
+Back,Back
+"Delete Reservation","Delete Reservation"
+"Are you sure you want to do this?","Are you sure you want to do this?"
+Reset,Reset
+"Save and Continue Edit","Save and Continue Edit"
+"Save Reservation","Save Reservation"
+"Start Date: ","Start Date: "
+"End Date: ","End Date: "
+"Disabled From","Disabled From"
+"Disabled To","Disabled To"
+"All Day","All Day"
+Repeat,Repeat
+"Exclude From","Exclude From"
+Add,Add
+None,None
+Daily,Daily
+Weekly,Weekly
+Monthly,Monthly
+Yearly,Yearly
+Calendar,Calendar
+Turnover,Turnover
+From,From
+To,To
+"Product does not exists","Product does not exists"
+"Dates were set","Dates were set"
+"Dates were not set","Dates were not set"
+Rental,Rental
+Reports,Reports
+"Rental > Calendar","Rental > Calendar"
+"All products must be simple product type","All products must be simple product type"
+"Products have been converted from simple to reservation","Products have been converted from simple to reservation"
+"All products must be reservation product type","All products must be reservation product type"
+"Products have been converted from reservation to simple","Products have been converted from reservation to simple"
+"The reservation has been deleted.","The reservation has been deleted."
+"We can't find a reservation to delete.","We can't find a reservation to delete."
+"Rental Reservations","Rental Reservations"
+"Edit Reservation","Edit Reservation"
+"New Reservation","New Reservation"
+Reservation,Reservation
+Edited,Edited
+"Manual Edit Reservation","Manual Edit Reservation"
+"Please correct the data sent.","Please correct the data sent."
+"Something went wrong while saving the page.","Something went wrong while saving the page."
+"Page Title","Page Title"
+"Store View","Store View"
+Status,Status
+"To apply changes you should fill in hidden required ""%1"" field","To apply changes you should fill in hidden required ""%1"" field"
+"You saved the page.","You saved the page."
+Inventory,Inventory
+"Rental > Reports > Inventory","Rental > Reports > Inventory"
+"Start Date W/Turnover","Start Date W/Turnover"
+"End Date W/Turnover","End Date W/Turnover"
+"Serial Number","Serial Number"
+"Rental > Reports > Serial Number","Rental > Reports > Serial Number"
+"Return Rentals","Return Rentals"
+"Some serials appeared to not match reservation. Please check again","Some serials appeared to not match reservation. Please check again"
+"A total of %1 item(s) have been returned.","A total of %1 item(s) have been returned."
+"Send Rentals","Send Rentals"
+"A total of %1 item(s) have been sent.","A total of %1 item(s) have been sent."
+"A total of %1 item(s) have not been sent.","A total of %1 item(s) have not been sent."
+Minute,Minute
+Hour,Hour
+Day,Day
+Week,Week
+Month,Month
+Year,Year
+"We found a duplicate website, tier price, customer group and quantity.","We found a duplicate website, tier price, customer group and quantity."
+"Group price must be a number greater than 0.","Group price must be a number greater than 0."
+"We found a duplicate serial number.","We found a duplicate serial number."
+"Per Product","Per Product"
+"For all","For all"
+Monday,Monday
+Tuesday,Tuesday
+Wednesday,Wednesday
+Thursday,Thursday
+Friday,Friday
+Saturday,Saturday
+Sunday,Sunday
+"Not Pro-Rated","Not Pro-Rated"
+Pro-Rated,Pro-Rated
+"Reservation (Calendar)","Reservation (Calendar)"
+Disabled,Disabled
+Available,Available
+Out,Out
+Maintenance,Maintenance
+Broken,Broken
+"Use Times With Grid","Use Times With Grid"
+"Use Times No Grid. All Day is reserved","Use Times No Grid. All Day is reserved"
+"Times Disabled","Times Disabled"
+"+ price/period","+ price/period"
+"Extra period: price","Extra period: price"
+"Hide additional price","Hide additional price"
+"Two inputs for start end dates","Two inputs for start end dates"
+"Always show","Always show"
+"Regular Calendar On Product Page","Regular Calendar On Product Page"
+"No Calendar On Product Page","No Calendar On Product Page"
+"Fixed Rental Lengths - Choose Start Date(RTRW)","Fixed Rental Lengths - Choose Start Date(RTRW)"
+"Fixed Rental Lengths - Start Date Is First Available Date","Fixed Rental Lengths - Start Date Is First Available Date"
+"Drop Down","Drop Down"
+"Radio Buttons","Radio Buttons"
+"Show only price points","Show only price points"
+"Show price for Selected Global Dates","Show price for Selected Global Dates"
+"Show price points And Price for Selected Global Dates","Show price points And Price for Selected Global Dates"
+"Left Column","Left Column"
+"Right Column","Right Column"
+"Shopping Cart","Shopping Cart"
+"Per Order","Per Order"
+ASC,ASC
+DESC,DESC
+Default,Default
+Start,Start
+Lightness,Lightness
+Darkness,Darkness
+Sunny,Sunny
+Redmond,Redmond
+"Le Frog","Le Frog"
+"Excite Bike","Excite Bike"
+"Swanky Purse","Swanky Purse"
+"Pepper Grinder","Pepper Grinder"
+Blitzer,Blitzer
+Cupertino,Cupertino
+Overcast,Overcast
+"Black Tie","Black Tie"
+"Dot Love","Dot Love"
+"Hot Sneaks","Hot Sneaks"
+"Custom Style 1","Custom Style 1"
+"Custom Style 2","Custom Style 2"
+"15 Minutes","15 Minutes"
+"30 Minutes","30 Minutes"
+"1 Hour","1 Hour"
+"Object with id ""%1"" does not exist.","Object with id ""%1"" does not exist."
+"Price for Selected Dates: ","Price for Selected Dates: "
+"Buyout: ","Buyout: "
+" Extra "," Extra "
+"if quantity is bigger than","if quantity is bigger than"
+and,and
+"if quantity is lower than","if quantity is lower than"
+"Price Excl. tax:","Price Excl. tax:"
+"Price Incl. tax:","Price Incl. tax:"
+"Price Excl. Tax:","Price Excl. Tax:"
+Pricing:,Pricing:
+"Discount: ","Discount: "
+"Next Available:","Next Available:"
+"Minimum Period:","Minimum Period:"
+"Maximum Period:","Maximum Period:"
+"Quantity is different than the number of serials returned","Quantity is different than the number of serials returned"
+"Start Date is disabled for the selected Dates","Start Date is disabled for the selected Dates"
+"End Date is disabled for the selected Dates","End Date is disabled for the selected Dates"
+"There are booked dates in between selected dates","There are booked dates in between selected dates"
+"There is not enough quantity for the selected dates","There is not enough quantity for the selected dates"
+"Please select start and end date first","Please select start and end date first"
+"You must have same dates for all products in cart","You must have same dates for all products in cart"
+"Selected Dates are disabled!","Selected Dates are disabled!"
+"Selected dates should be in the maximum period allowed!","Selected dates should be in the maximum period allowed!"
+"Selected dates should be in the minimum period allowed!","Selected dates should be in the minimum period allowed!"
+Rent,Rent
+Buyout,Buyout
+Return,Return
+Configure,Configure
+"Product with id ""%1"" does not contain required attribute ""%2"".","Product with id ""%1"" does not contain required attribute ""%2""."
+"Products ""%1"" and ""%2"" have the same set of attribute values.","Products ""%1"" and ""%2"" have the same set of attribute values."
+"Next Available Date: ","Next Available Date: "
+" No"," No"
+" Yes +%s"," Yes +%s"
+Edit,Edit
+"If set to yes shipping is disabled for this product","If set to yes shipping is disabled for this product"
+"Use Config Settings","Use Config Settings"
+"Use quantity and period. Format is like 1d = 1 day, 1w = 1 week, 1M = 1 month, 1m = 1 minute, 1h = 1 hour, 1y = 1 Year, 1s = 1 second. You can also use quantities other than 1 like 5d = 5 days","Use quantity and period. Format is like 1d = 1 day, 1w = 1 week, 1M = 1 month, 1m = 1 minute, 1h = 1 hour, 1y = 1 Year, 1s = 1 second. You can also use quantities other than 1 like 5d = 5 days"
+"Excluded Days of the week","Excluded Days of the week"
+"ALL GROUPS","ALL GROUPS"
+"All Websites","All Websites"
+"Reservation Price","Reservation Price"
+Website,Website
+"Customer Group","Customer Group"
+Period,Period
+"Price Additional","Price Additional"
+"Period Additional","Period Additional"
+"Qty Start","Qty Start"
+"Qty End","Qty End"
+"Excluded Dates for this specific product. 
+                When you do not want to include times in the dates check the all day checkbox.","Excluded Dates for this specific product. 
+                When you do not want to include times in the dates check the all day checkbox."
+"Excluded Dates","Excluded Dates"
+"Date From","Date From"
+"Date To","Date To"
+"Day of Week","Day of Week"
+"Repeat Period","Repeat Period"
+"Serial Numbers","Serial Numbers"
+Notes,Notes
+"Date Acquired","Date Acquired"
+"If set to yes Global Excluded Dates defined in config will be used","If set to yes Global Excluded Dates defined in config will be used"
+"If set to yes Serial Numbers are used. Serial numbers number should be equal to the qty","If set to yes Serial Numbers are used. Serial numbers number should be equal to the qty"
+"Rental Contact","Rental Contact"
+"per page","per page"
+"Previous page","Previous page"
+"of %1","of %1"
+"Next page","Next page"
+"Rental Dates And Pickup/Drop Off Information","Rental Dates And Pickup/Drop Off Information"
+"Rental Dates","Rental Dates"
+"Pickup/Drop Off Dates","Pickup/Drop Off Dates"
+"Add after","Add after"
+Delete,Delete
+GO,GO
+Legend,Legend
+"Turnover Before","Turnover Before"
+"Turnover After","Turnover After"
+"Send Date","Send Date"
+Selected,Selected
+Unavailable,Unavailable
+"Return Date","Return Date"
+SKU,SKU
+"%name,","%name,"
+"Thank you for your order from %store_name.","Thank you for your order from %store_name."
+"You can check the status of your order by <a href=""%account_url"">logging into your account</a>.","You can check the status of your order by <a href=""%account_url"">logging into your account</a>."
+"If you have questions about your order, you can email us at <a href=""mailto:%store_email"">%store_email</a>","If you have questions about your order, you can email us at <a href=""mailto:%store_email"">%store_email</a>"
+"or call us at <a href=""tel:%store_phone"">%store_phone</a>","or call us at <a href=""tel:%store_phone"">%store_phone</a>"
+"Our hours are <span class=""no-link"">%store_hours</span>.","Our hours are <span class=""no-link"">%store_hours</span>."
+"Your Invoice #%invoice_id for Order #%order_id","Your Invoice #%invoice_id for Order #%order_id"
+"Billing Info","Billing Info"
+"Shipping Info","Shipping Info"
+"Payment Method","Payment Method"
+"Shipping Method","Shipping Method"
+"Enter Valid Period","Enter Valid Period"
+"Enter valid period","Enter valid period"
+Select,Select
+"Sales Igniter","Sales Igniter"
+"Current Version Installed","Current Version Installed"
+"Current Version","Current Version"
+"Calendar Options","Calendar Options"
+"Theme Style","Theme Style"
+"How pricing will show on listing","How pricing will show on listing"
+"Selected dates on a product will be kept all over the site.","Selected dates on a product will be kept all over the site."
+"Max / Min Rental Period","Max / Min Rental Period"
+"Minimum Period","Minimum Period"
+"Format: 1d = 1 day, 1w = 1 week, 1M = 1 month, 1m = 1 minute, 1h = 1 hour, 1y = 1 Year, 1s = 1 second","Format: 1d = 1 day, 1w = 1 week, 1M = 1 month, 1m = 1 minute, 1h = 1 hour, 1y = 1 Year, 1s = 1 second"
+"Maximum Period","Maximum Period"
+"Show minimum and maximum rental period on product details page","Show minimum and maximum rental period on product details page"
+"Turnover Time and Rental Start Padding","Turnover Time and Rental Start Padding"
+"Show turnovers on calendar","Show turnovers on calendar"
+"Start date padding","Start date padding"
+"How long before a rental is started is the inventory not available for. This is to account for cleaning, shipping, etc. For example if rental starts on May 15 and this is set to 2 days, then the inventory will not be available for May 13 and 14","How long before a rental is started is the inventory not available for. This is to account for cleaning, shipping, etc. For example if rental starts on May 15 and this is set to 2 days, then the inventory will not be available for May 13 and 14"
+"How long after a rental is returned is it not available for. This is to account for cleaning, shipping, etc. For example if the rental ends on June 1 and turnover after is set to 2 days, then the inventory will not be available on June 2 and 3","How long after a rental is returned is it not available for. This is to account for cleaning, shipping, etc. For example if the rental ends on June 1 and turnover after is set to 2 days, then the inventory will not be available on June 2 and 3"
+"Reserve inventory without any invoice","Reserve inventory without any invoice"
+"Reserve inventory by Status","Reserve inventory by Status"
+"Reserve inventory starting with the send date","Reserve inventory starting with the send date"
+"Reserve inventory ending with return date","Reserve inventory ending with return date"
+"Reserve inventory until the item is returned in inventory","Reserve inventory until the item is returned in inventory"
+"Allow Overbooking for all products","Allow Overbooking for all products"
+"Admin is allowed to overbook all products","Admin is allowed to overbook all products"
+"If Admin is allowed to overbook then a warning will show if overbooking","If Admin is allowed to overbook then a warning will show if overbooking"
+Pricing,Pricing
+"Add to price calculation number","Add to price calculation number"
+"Category / Listing Page","Category / Listing Page"
+"Number of price points to show","Number of price points to show"
+"How many prices show on the product listing only applies to reservation type products that use rental pricing. For example if you set to 2, then the first 2 price period would show like:<br/>1 day $5<br/>1 week $10<br/>If you set to 3, then it would show 3 of the price periods.","How many prices show on the product listing only applies to reservation type products that use rental pricing. For example if you set to 2, then the first 2 price period would show like:<br/>1 day $5<br/>1 week $10<br/>If you set to 3, then it would show 3 of the price periods."
+"-1 means all price points","-1 means all price points"
+"Show next available date","Show next available date"
+"Sort Price List by Period","Sort Price List by Period"
+"Sort Price List Type","Sort Price List Type"
+"Show prices in table format on product view","Show prices in table format on product view"
+"Show buyout price on listing page","Show buyout price on listing page"
+"Hide time period numbers from product info page","Hide time period numbers from product info page"
+"Product Details Page","Product Details Page"
+"Additional time period display preference","Additional time period display preference"
+"Store Hours / Holidays / Blackout Dates","Store Hours / Holidays / Blackout Dates"
+"Time Increment On Time Of Day Drop Down Fields","Time Increment On Time Of Day Drop Down Fields"
+"How is time shown on calendar. If set to yes AM/PM is used.","How is time shown on calendar. If set to yes AM/PM is used."
+"Store Open Time","Store Open Time"
+"What time your store opens. This is used for the time of day drop down for rental start time if enabled","What time your store opens. This is used for the time of day drop down for rental start time if enabled"
+"In hh:mm:ss format","In hh:mm:ss format"
+"Store Close Time","Store Close Time"
+"What time your store closes. This is used for the time of day drop down for the rental end time if enabled","What time your store closes. This is used for the time of day drop down for the rental end time if enabled"
+"Store Open Time Monday","Store Open Time Monday"
+"What time your store opens on Monday. This is used for the time of day drop down for rental start time if enabled","What time your store opens on Monday. This is used for the time of day drop down for rental start time if enabled"
+"Store Close Time Monday","Store Close Time Monday"
+"What time your store closes Monday. This is used for the time of day drop down for the rental end time if enabled","What time your store closes Monday. This is used for the time of day drop down for the rental end time if enabled"
+"Store Open Time Tuesday","Store Open Time Tuesday"
+"What time your store opens Tuesday. This is used for the time of day drop down for rental start time if enabled","What time your store opens Tuesday. This is used for the time of day drop down for rental start time if enabled"
+"Store Close Time Tuesday","Store Close Time Tuesday"
+"Store Open Time Wednesday","Store Open Time Wednesday"
+"What time your store opens Wednesday. This is used for the time of day drop down for rental start time if enabled","What time your store opens Wednesday. This is used for the time of day drop down for rental start time if enabled"
+"Store Close Time Wednesday","Store Close Time Wednesday"
+"Store Open Time Thursday","Store Open Time Thursday"
+"What time your store opens Thursday. This is used for the time of day drop down for rental start time if enabled","What time your store opens Thursday. This is used for the time of day drop down for rental start time if enabled"
+"Store Close Time Thursday","Store Close Time Thursday"
+"What time your store closes Thursday. This is used for the time of day drop down for the rental end time if enabled","What time your store closes Thursday. This is used for the time of day drop down for the rental end time if enabled"
+"Store Open Time Friday","Store Open Time Friday"
+"What time your store opens Friday. This is used for the time of day drop down for rental start time if enabled","What time your store opens Friday. This is used for the time of day drop down for rental start time if enabled"
+"Store Close Time Friday","Store Close Time Friday"
+"What time your store closes Friday. This is used for the time of day drop down for the rental end time if enabled","What time your store closes Friday. This is used for the time of day drop down for the rental end time if enabled"
+"Store Open Time Saturday","Store Open Time Saturday"
+"What time your store opens Saturday. This is used for the time of day drop down for rental start time if enabled","What time your store opens Saturday. This is used for the time of day drop down for rental start time if enabled"
+"Store Close Time Saturday","Store Close Time Saturday"
+"What time your store closes Saturday. This is used for the time of day drop down for the rental end time if enabled","What time your store closes Saturday. This is used for the time of day drop down for the rental end time if enabled"
+"Store Open Time Sunday","Store Open Time Sunday"
+"What time your store opens Sunday. This is used for the time of day drop down for rental start time if enabled","What time your store opens Sunday. This is used for the time of day drop down for rental start time if enabled"
+"Store Close Time Sunday","Store Close Time Sunday"
+"What time your store closes Sunday. This is used for the time of day drop down for the rental end time if enabled","What time your store closes Sunday. This is used for the time of day drop down for the rental end time if enabled"
+"Exclude Dates From Price or Calendar or Turnover","Exclude Dates From Price or Calendar or Turnover"
+"This can be used for holidays (exclude from calendar) or dates that you do not want to charge for (exclude from price)","This can be used for holidays (exclude from calendar) or dates that you do not want to charge for (exclude from price)"
+"<b>Exclude from calendar:</b> Means it will not be selectable on the calendar.<br /><b>Exclude from price:</b> Means this date is not included in price calculation.<br /><b>Exclude from turnover:</b> if set to yes, this means these dates will not count as turnover time. Example: you have turnover time set to 1 day after and you have a rental from January 1 - 2. You have January 3 as a blockout date excluded from Turnover. So January 4 and 5 would be your turnover days (will not use January 3) and next available rental date is January 6.","<b>Exclude from calendar:</b> Means it will not be selectable on the calendar.<br /><b>Exclude from price:</b> Means this date is not included in price calculation.<br /><b>Exclude from turnover:</b> if set to yes, this means these dates will not count as turnover time. Example: you have turnover time set to 1 day after and you have a rental from January 1 - 2. You have January 3 as a blockout date excluded from Turnover. So January 4 and 5 would be your turnover days (will not use January 3) and next available rental date is January 6."
+"Disabled Days of week for start date","Disabled Days of week for start date"
+"Disabled Days of week for end date","Disabled Days of week for end date"
+"Disabled Days of week for both start date and end date","Disabled Days of week for both start date and end date"
+"Exclude disabled days of week from price, calendar, turnover","Exclude disabled days of week from price, calendar, turnover"
+Emails,Emails
+"Send Return Reminder Emails","Send Return Reminder Emails"
+"Days before rental is due to send return reminder","Days before rental is due to send return reminder"
+"Return Reminder Template","Return Reminder Template"
+"Send Return Confirmation Emails","Send Return Confirmation Emails"
+"Return Confirmation Email Template","Return Confirmation Email Template"
+"Rental Calendar","Rental Calendar"
+"Rental Calendar Widget","Rental Calendar Widget"
+"Select Dates","Select Dates"
+"Use Times","Use Times"
+"Category ID","Category ID"
+"Category ID. The GO button will ALWAYS redirect to this category","Category ID. The GO button will ALWAYS redirect to this category"
+Template,Template
+"Sidebar Template","Sidebar Template"
+"Shopping Cart Template","Shopping Cart Template"
+"Cache Lifetime (Seconds)","Cache Lifetime (Seconds)"
+"86400 by default, if not set. To refresh instantly, clear the Blocks HTML Output cache.","86400 by default, if not set. To refresh instantly, clear the Blocks HTML Output cache."
+"Dropoff / Pickup Dates","Dropoff / Pickup Dates"
+"Change product type","Change product type"
+"Simple to Reservation","Simple to Reservation"
+"Reservation to Simple","Reservation to Simple"
+"Total Inventory","Total Inventory"
+"Qty Booked","Qty Booked"
+"Qty Available","Qty Available"
+"Date Filter","Date Filter"
+ID,ID
+"Qty Ordered","Qty Ordered"
+"Ship Date","Ship Date"
+"Qty Returned","Qty Returned"
+"Serials Returned","Serials Returned"
+"Return items","Return items"
+"Are you sure you want to return selected items?","Are you sure you want to return selected items?"
+"Reserved Qty","Reserved Qty"
+"Shipped Qty","Shipped Qty"
+"Max Qty To Return","Max Qty To Return"
+"Order Id","Order Id"
+"Qty To Return","Qty To Return"
+Serial,Serial
+"Serials Shipped","Serials Shipped"
+"Qty Shipped","Qty Shipped"
+Send,Send
+"Send items","Send items"
+"Are you sure you wan't to send selected items?","Are you sure you wan't to send selected items?"
+"Max Qty To Ship","Max Qty To Ship"
+"Qty To Ship","Qty To Ship"
+"Reservation Information","Reservation Information"
+"Is From Order","Is From Order"
+"Add New Reservation","Add New Reservation"
+"Is Order","Is Order"

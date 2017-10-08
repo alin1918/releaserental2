@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 SalesIgniter. All rights reserved.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="SalesIgniter_Rental::css/report/inventory.css"/>
+	</head>
+	<update handle="salesigniter_rental_report"/>
+	<body>
+		<referenceBlock name="salesigniter.report">
+			<action method="setCode">
+				<argument name="code" xsi:type="string">inventory</argument>
+			</action>
+		</referenceBlock>
+		<referenceBlock name="report.header">
+			<block
+				class="SalesIgniter\Rental\Block\Adminhtml\Report\Inventory\Header"
+				template="SalesIgniter_Rental::report/inventory/header.phtml"
+			/>
+		</referenceBlock>
+		<referenceBlock name="report.body">
+			<block
+				class="SalesIgniter\Rental\Block\Adminhtml\Report\Inventory\Body"
+				template="SalesIgniter_Rental::report/inventory/body.phtml"
+			>
+				<block
+					class="SalesIgniter\Rental\Block\Adminhtml\Report\Inventory\Body\Products"
+					template="SalesIgniter_Rental::report/inventory/body/products.phtml"
+					name="report.inventory.products"
+				/>
+				<block
+					class="SalesIgniter\Rental\Block\Adminhtml\Report\Inventory\Body\Calendar"
+					template="SalesIgniter_Rental::report/inventory/body/calendar.phtml"
+					name="report.inventory.calendar"
+				/>
+			</block>
+		</referenceBlock>
+		<referenceBlock name="report.footer">
+			<block
+				class="SalesIgniter\Rental\Block\Adminhtml\Report\Inventory\Footer"
+				template="SalesIgniter_Rental::report/inventory/footer.phtml"
+			/>
+		</referenceBlock>
+	</body>
+</page>

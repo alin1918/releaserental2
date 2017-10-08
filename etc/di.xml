@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="SalesIgniter\Rental\Api\ReservationOrdersRepositoryInterface" type="SalesIgniter\Rental\Model\ReservationOrdersRepository"/>
+    <preference for="SalesIgniter\Rental\Api\StockManagementInterface" type="SalesIgniter\Rental\Model\StockManagement"/>
+    <preference for="SalesIgniter\Rental\Api\SerialNumberDetailsRepositoryInterface" type="SalesIgniter\Rental\Model\SerialNumberDetailsRepository"/>
+    <preference for="SalesIgniter\Rental\Api\Data\SerialNumberDetailsInterface" type="SalesIgniter\Rental\Model\SerialNumberDetails"/>
+    <preference for="SalesIgniter\Rental\Api\Data\SerialNumberDetailsSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <preference for="SalesIgniter\Rental\Api\InventoryGridRepositoryInterface" type="SalesIgniter\Rental\Model\InventoryGridRepository"/>
+    <preference for="SalesIgniter\Rental\Api\Data\InventoryGridInterface" type="SalesIgniter\Rental\Model\InventoryGrid"/>
+    <preference for="SalesIgniter\Rental\Api\Data\InventoryGridSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <preference for="SalesIgniter\Rental\Api\FixedRentalDatesRepositoryInterface" type="SalesIgniter\Rental\Model\FixedRentalDatesRepository"/>
+    <preference for="SalesIgniter\Rental\Api\Data\FixedRentalDatesInterface" type="SalesIgniter\Rental\Model\FixedRentalDates"/>
+    <preference for="SalesIgniter\Rental\Api\Data\FixedRentalDatesSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <preference for="SalesIgniter\Rental\Api\FixedRentalNamesRepositoryInterface" type="SalesIgniter\Rental\Model\FixedRentalNamesRepository"/>
+    <preference for="SalesIgniter\Rental\Api\Data\FixedRentalNamesInterface" type="SalesIgniter\Rental\Model\FixedRentalNames"/>
+    <preference for="SalesIgniter\Rental\Api\Data\FixedRentalNamesSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <type name="SalesIgniter\Rental\Model\Product\Type\Sirent">
+        <arguments>
+            <argument name="stockRegistry" xsi:type="object">Magento\CatalogInventory\Api\StockRegistryInterface\Proxy</argument>
+            <argument name="stockState" xsi:type="object">Magento\CatalogInventory\Api\StockStateInterface\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogInventory\Model\StockStateProvider">
+        <plugin name="stockStateCheck" type="SalesIgniter\Rental\Plugin\StockStateProvider\StockStateCheck"/>
+    </type>
+    <type name="Magento\CatalogInventory\Model\Stock\Item">
+        <plugin name="stockItem" type="SalesIgniter\Rental\Plugin\Stock\Item"/>
+    </type>
+    <type name="Magento\Bundle\Model\Product\Price">
+        <plugin name="changePrice" type="SalesIgniter\Rental\Plugin\Product\BundlePrice"/>
+    </type>
+    <type name="Magento\Catalog\Api\ProductRepositoryInterface">
+        <plugin name="sirentProductSaveOptions" type="SalesIgniter\Rental\Plugin\Product\AroundProductRepositorySave"/>
+    </type>
+    <!-- Plugin used to rename add to cart buttons to rent if specific conditions are meet-->
+    <type name="Magento\Framework\View\Element\Template">
+        <plugin name="FetchViewModifier" type="SalesIgniter\Rental\Plugin\Catalog\Template" sortOrder="60"/>
+    </type>
+    <type name="Magento\Framework\Pricing\Render\PriceBox">
+        <plugin name="renderPrices" type="SalesIgniter\Rental\Plugin\Pricing\Render\PriceBoxPlugin" sortOrder="60"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="sirentProduct" type="SalesIgniter\Rental\Plugin\Magento\Model\Product" sortOrder="10"/>
+    </type>
+    <type name="Magento\Framework\Pricing\Render">
+        <plugin name="renderPrices" type="SalesIgniter\Rental\Plugin\Pricing\RenderPlugin" sortOrder="60"/>
+    </type>
+    <!-- This plugin is very important for fpc because the session is removed and needs to be regenerated-->
+    <type name="Magento\Framework\View\Layout">
+        <plugin name="sirent-session-depersonalize" type="SalesIgniter\Rental\Plugin\Model\Layout\DepersonalizePlugin" sortOrder="60"/>
+    </type>
+    <virtualType name="SalesIgniter\Rental\Pricing\Price\Pool" type="Magento\Framework\Pricing\Price\Pool">
+        <arguments>
+            <argument name="prices" xsi:type="array">
+                <item name="regular_price" xsi:type="string">SalesIgniter\Rental\Pricing\Price\SirentRegularPrice</item>
+                <item name="final_price" xsi:type="string">SalesIgniter\Rental\Pricing\Price\FinalPrice</item>
+            </argument>
+            <argument name="target" xsi:type="object">Magento\Catalog\Pricing\Price\Pool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SalesIgniter\Rental\Pricing\Price\Collection" type="Magento\Framework\Pricing\Price\Collection">
+        <arguments>
+            <argument name="pool" xsi:type="object">SalesIgniter\Rental\Pricing\Price\Pool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\Pricing\PriceInfo\Factory">
+        <arguments>
+            <argument name="types" xsi:type="array">
+                <item name="sirent" xsi:type="array">
+                    <item name="infoClass" xsi:type="string">Magento\Framework\Pricing\PriceInfo\Base</item>
+                    <item name="prices" xsi:type="string">SalesIgniter\Rental\Pricing\Price\Collection</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="SirentFinalPriceResolver" type="SalesIgniter\Rental\Pricing\Price\SirentPriceResolver">
+        <arguments>
+            <argument name="priceResolver" xsi:type="object">SalesIgniter\Rental\Pricing\Price\FinalPriceResolver</argument>
+        </arguments>
+    </virtualType>
+    <type name="SalesIgniter\Rental\Pricing\Price\FinalPrice">
+        <arguments>
+            <argument name="priceResolver" xsi:type="object">SirentFinalPriceResolver</argument>
+        </arguments>
+    </type>
+    <virtualType name="SirentRegularPriceResolver" type="SalesIgniter\Rental\Pricing\Price\SirentPriceResolver">
+        <arguments>
+            <argument name="priceResolver" xsi:type="object">SalesIgniter\Rental\Pricing\Price\SirentRegularPriceResolver</argument>
+        </arguments>
+    </virtualType>
+    <type name="SalesIgniter\Rental\Pricing\Price\SirentRegularPrice">
+        <arguments>
+            <argument name="priceResolver" xsi:type="object">SirentRegularPriceResolver</argument>
+        </arguments>
+    </type>
+
+    <type name="\Magento\Bundle\Model\Product\Price">
+        <plugin name="salesigniter_rental__magento_bundle_model_product_price" type="SalesIgniter\Rental\Plugin\Bundle\Model\Product\Price"/>
+    </type>
+    <type name="\Magento\Sales\Api\OrderManagementInterface">
+        <plugin name="salesigniter_rental__magento_sales_api_ordermanagementinterface" type="SalesIgniter\Rental\Plugin\Sales\Api\OrderManagementInterface"/>
+    </type>
+    <type name="\Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="salesigniter_rental__magento_sales_api_orderrepositoryinterface" type="SalesIgniter\Rental\Plugin\Sales\Api\OrderRepositoryInterface"/>
+    </type>
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Product">
+        <plugin name="salesigniter_rental_magento_sales_block_adminhtml_order_create_search_grid_renderer_product" type="SalesIgniter\Rental\Plugin\Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Product"/>
+    </type>
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid">
+        <plugin name="salesigniter_rental_magento_order_create_tems_grid" type="SalesIgniter\Rental\Plugin\Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid"/>
+    </type>
+    <type name="Magento\Backend\Block\Widget\Context">
+        <plugin name="add_custom_button_sales_view" type="SalesIgniter\Rental\Plugin\Magento\Backend\Block\Widget\Context\AddSalesOrderButton" sortOrder="2"/>
+    </type>
+    <type name="Magento\Bundle\Model\ResourceModel\Selection\Collection">
+        <plugin name="rental_collection" type="SalesIgniter\Rental\Plugin\Magento\Bundle\Model\ResourceModel\Selection\Collection"/>
+    </type>
+    <!-- Import/Export -->
+    <type name="Magento\CatalogImportExport\Model\Export\RowCustomizer\Composite">
+        <arguments>
+            <argument name="customizers" xsi:type="array">
+                <item name="sirentProduct" xsi:type="string">SalesIgniter\Rental\Model\Export\RowCustomizer</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price">
+        <plugin name="salesigniter_rental_magento_configurableproduct_model_product_type_configurable_price" type="SalesIgniter\Rental\Plugin\Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price"/>
+    </type>
+    <type name="Magento\Checkout\Model\Cart">
+        <plugin name="interceptAddingProductToCart"
+                type="SalesIgniter\Rental\Plugin\Magento\Model\Checkout\Cart"
+                sortOrder="10"
+                disabled="false"/>
+    </type>
+
+</config>

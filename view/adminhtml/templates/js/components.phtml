@@ -1,0 +1,47 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php echo $block->getChildHtml() ?>
+<script>
+    require([
+        'jquery',
+        'mage/apply/main',
+        'mage/mage',
+        'mage/validation'
+    ], function ($, mage) {
+        'use strict';
+        /*
+         * This part  applies to global exclude dates only and applies the data-mage-init after Add button is clicked.
+         * The mouseup only event though it didn't worked, because the table row was not already created, so I added a timeout
+         * A better solution might exists but for now is not worth it.
+         *
+         * */
+
+        $.validator.addMethod(
+            'validate-rental-period', function (value) {
+                if (value === '') return true;
+                return (/[0-9]+[hmdwMy]{1}$/.test(value));
+            }, $.mage.__('Enter Valid Period'));
+
+        $('#row_salesigniter_rental_store_hours_global_exclude_dates .action-add').mouseup(function () {
+            setTimeout(function () {
+                    $(mage.apply);
+                    $('input[name^="groups[store_hours][fields][global_exclude_dates]"]').not(':checkbox').css('width', '200px');
+                }, 500
+            );
+        });
+        $('#salesigniter_rental_min_max_min_period').addClass('validate-rental-period');
+        $('#salesigniter_rental_min_max_max_period').addClass('validate-rental-period');
+        $('#salesigniter_rental_turnover_padding').addClass('validate-rental-period');
+        $('#salesigniter_rental_turnover_turnover_before').addClass('validate-rental-period');
+        $('#salesigniter_rental_turnover_turnover_after').addClass('validate-rental-period');
+        //todo add the rest of fields to checks
+        $('input[name^="groups[store_hours][fields][global_exclude_dates]"]').not(':checkbox').css('width', '200px');
+    });
+</script>

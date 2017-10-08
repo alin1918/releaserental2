@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_product_type_prepare_full_options">
+        <observer name="prepare_options_observer" instance="SalesIgniter\Rental\Observer\PrepareOptionsObserver"/>
+    </event>
+    <event name="sales_quote_item_qty_set_after">
+        <observer name="sirent_inventory" instance="SalesIgniter\Rental\Observer\QuantityValidatorObserver"/>
+    </event>
+    <event name="sales_order_item_cancel">
+        <observer name="sirent_cancel_order_item" instance="SalesIgniter\Rental\Observer\CancelOrderItemObserver"/>
+    </event>
+    <event name="sales_order_creditmemo_save_after">
+        <observer name="sirent_refund_order_item" instance="SalesIgniter\Rental\Observer\RefundOrderInventoryObserver"/>
+    </event>
+   <!-- <event name="sales_model_service_quote_submit_success">
+        <observer name="sirent_quote_submit_success_observer" instance="SalesIgniter\Rental\Observer\QuoteSubmitSuccess"/>
+    </event>-->
+    <!--
+     <event name="sales_quote_item_save_after">
+        <observer name="sales_quote_item_save_after_observer" instance="SalesIgniter\Rental\Observer\SalesQuoteItemSaveObserver"/>
+    </event>
+     <event name="sales_order_place_after">
+        <observer name="sirent_order_place_after" instance="SalesIgniter\Rental\Observer\SalesOrderAfterObserver"/>
+    </event>
+    <event name="sales_order_creditmemo_save_after">
+        <observer name="sirent_creditmemo_after" instance="SalesIgniter\Rental\Observer\RefundOrderInventoryObserver"/>
+    </event>-->
+    <!-- this event can be used instead of the update database setting.
+    <event name="sales_model_service_quote_submit_success">
+        <observer name="sirent_inventory" instance="SalesIgniter\Rental\Observer\ReindexQuoteInventoryObserver"/>
+    </event>-->
+    <!-- These events are not needed because inventory is updated in inventory_serialized
+    <event name="sales_model_service_quote_submit_before">
+        <observer name="sirent_inventory" instance="SalesIgniter\Rental\Observer\SubtractQuoteInventoryObserver"/>
+    </event>
+    <event name="sales_model_service_quote_submit_failure">
+        <observer name="sirent_inventory" instance="SalesIgniter\Rental\Observer\RevertQuoteInventoryObserver"/>
+    </event>
+    <event name="restore_quote">
+        <observer name="sirent_inventory" instance="SalesIgniter\Rental\Observer\RevertQuoteInventoryObserver"/>
+    </event>
+    -->
+
+    <!-- inventory events -->
+    <event name="sales_order_shipment_save_commit_after">
+        <observer name="salesigniter_rental_sales_order_shipment" instance="SalesIgniter\Rental\Observer\ShipmentSaveCommitted"/>
+    </event>
+    <event name="sales_order_invoice_pay">
+        <observer name="salesigniter_rental_sales_order_invoice_pay" instance="SalesIgniter\Rental\Observer\InvoicePay"/>
+    </event>
+    <event name="catalog_product_delete_after_done">
+        <observer name="salesigniter_rental_delete" instance="SalesIgniter\Rental\Observer\ProcessProductAfterDeleteEventObserver"/>
+    </event>
+    <event name="sales_order_delete_commit_after">
+        <observer name="salesigniter_rental_sales_orderdelete" instance="SalesIgniter\Rental\Observer\SalesOrderDeleteEventObserver"/>
+    </event>
+    <event name="checkout_cart_product_update_after">
+        <observer name="salesigniter_rental_bundle_item_price" instance="SalesIgniter\Rental\Observer\UpdateBundleItemPrice"/>
+    </event>
+    <event name="checkout_cart_product_add_after">
+        <observer name="salesigniter_rental_bundle_item_price2" instance="SalesIgniter\Rental\Observer\UpdateBundleItemPrice"/>
+    </event>
+
+</config>

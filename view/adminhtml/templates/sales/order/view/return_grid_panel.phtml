@@ -1,0 +1,11 @@
+<?php /** @var \SalesIgniter\Rental\Block\Adminhtml\Sales\Order\View\ReturnGridPanel $block */ ?>
+<div class="modalizerReturnPanel" style="display:none" data-mage-init="<?php
+echo $block->escapeHtml($this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode([
+    'modalizer' => [
+        'openerCssClass' => '.returnItemsButton',
+    ],
+]));
+?>">
+    <?php
+    echo $block->getReturnGrid() ?>
+</div>

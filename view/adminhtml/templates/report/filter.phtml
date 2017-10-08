@@ -1,0 +1,58 @@
+<div class="clearer"></div>
+<div class="row text-right" style="margin-bottom:15px;">
+	<div class="col-xs-12" style="padding-right:.75em;">
+		<button type="button" class="filter-toggle" style="-webkit-margin-end: 2px;">Show Filters</button>
+	</div>
+</div>
+<div class="filter-bar hidden">
+	<div class="row">
+		<div class="col-xs-12 col-m-3">
+			<fieldset>
+				<legend>Filter Results</legend>
+
+				<input type="text" name="filter[text]" class="admin__control-text" />
+			</fieldset>
+		</div>
+		<div class="col-xs-12 col-m-3">
+			<fieldset>
+				<legend>Filter Options</legend>
+
+				<div class="col-xs-6">
+					<div class="admin__actions-switch" data-role="switcher" style="display: block;width: 100%;margin-bottom:5px;">
+						<input id="filter_option_product_name" type="checkbox" name="filter[option][0]" value="product_name" class="admin__actions-switch-checkbox" />
+						<label for="filter_option_product_name" class="admin__actions-switch-label" style="font-size: .9em;width: 100%;">
+							<span class="admin__actions-switch-text">Product Name</span>
+						</label>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="admin__actions-switch" data-role="switcher" style="display: block;width: 100%;margin-bottom:5px;">
+						<input id="filter_option_product_sku" type="checkbox" name="filter[option][1]" value="product_sku" class="admin__actions-switch-checkbox" />
+						<label for="filter_option_product_sku" class="admin__actions-switch-label" style="font-size: .9em;width: 100%;">
+							<span class="admin__actions-switch-text">Product Sku</span>
+						</label>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+		<div class="col-xs-12 col-m-6">
+			<fieldset class="date-range">
+				<legend>Filter By Date Range</legend>
+
+				<div class="col-xs-5">
+					<input type="text" class="admin__control-text" placeholder="From Date" />
+				</div>
+				<div class="col-xs-2"></div>
+				<div class="col-xs-5">
+					<input type="text" class="admin__control-text" placeholder="To Date" />
+				</div>
+			</fieldset>
+		</div>
+	</div>
+	<div class="row text-right">
+		<div class="col-xs-12" style="padding-right:.75em;">
+			<button type="button" class="action-secondary btn-clear_filters" style="-webkit-margin-end: 2px;">Clear Filters</button>
+			<button type="button" class="action-primary btn-apply_filters" style="-webkit-margin-end: 2px;">Apply Filters</button>
+		</div>
+	</div>
+</div>

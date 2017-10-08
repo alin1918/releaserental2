@@ -1,0 +1,23 @@
+.report-calendar .body .date-column { height: 44px;line-height: 31px; }
+
+.report-serialnumber { position: relative; }
+
+.report-products .headings .product-action { border-left:none; }
+
+.report-products { border-left: 1px solid #ccc; box-shadow: 5px 0px 15px -8px #000; }
+.report-products .product { padding: 5px; border-bottom: 1px solid #ccc; height: 44px; line-height: 28px; }
+.report-products .product .product-info { font-size: 14px; line-height: 9px; border-left: none; }
+.report-products .product .product-info small { font-size: 12px; line-height: 14px; display: block; }
+.report-products .product .product-quantity { border-left: none; }
+
+.report-products .product .product-action button:after { font-family: 'Admin Icons';content: "\e628"; }
+.report-products .product .product-action button.open:after { font-family: 'Admin Icons';content: "\e62b"; }
+
+.report-products .serial-numbers { line-height: 28px;background: #f0f0f0;box-shadow: inset 0px 0px 30px -12px #000000; }
+.report-products .serial-numbers .serial-number { padding: 5px 20px; height: 44px;border-bottom: 1px solid #ccc; }
+
+.report-calendar .serial-numbers .serial-column:after { font-family: 'Admin Icons'; }
+.report-calendar .serial-numbers .serial-column.out:after { content: "\e632";color: #FF0000; }
+.report-calendar .serial-numbers .serial-column.available:after { content: "\e62d";color: #00FF00; }
+
+.product-action button { display:none; }

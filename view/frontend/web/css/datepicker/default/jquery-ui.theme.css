@@ -1,0 +1,352 @@
+/*.rental-buyout.tocart {
+    margin-top: 15px;
+}*/
+
+.pricing-ppr {
+    width: 250px;
+}
+
+.sirent-go {
+    margin-top: 15px;
+}
+
+.hiddenDates {
+    display: none !important;
+}
+
+input[name^="calendar_selector"] {
+    width: 80%;
+}
+
+.day-detail thead tr td {
+    text-align: center;
+    padding: 2px;
+    border-right: 1px dotted #cccccc
+}
+
+.day-detail tbody tr td {
+    border-top: 1px dotted #cccccc;
+    border-right: 1px dotted #cccccc
+}
+
+.day-detail tr td:last-child {
+    border-right: none
+}
+
+.day-detail {
+    background-color: #eeeeee;
+    border: 1px dotted #cccccc
+}
+
+.day-detail-description .busy {
+    width: 20px;
+}
+
+.day-detail-description .available {
+    width: 20px;
+}
+
+.day-detail-description .selected-time {
+    width: 20px;
+
+}
+
+.day-detail-description {
+    margin-top: 10px
+}
+
+.day-detail-description .description {
+    padding-left: 5px;
+    padding-right: 10px;
+    vertical-align: middle
+}
+
+.day-detail-container {
+    max-width: 500px;
+    width: 500px;
+    overflow: auto;
+}
+
+.day-detail-container .day-detail-header {
+    font-weight: bold
+}
+
+.legend-detail thead tr td {
+    text-align: center;
+    padding: 2px;
+    border-right: 1px dotted #cccccc
+}
+
+.legend-detail tbody tr td {
+    border-top: 1px dotted #cccccc;
+    border-right: 1px dotted #cccccc
+}
+
+.legend-detail tr td:last-child {
+    border-right: none
+}
+
+.legend-detail {
+    background-color: #eeeeee;
+    border: 1px dotted #cccccc
+}
+
+.legend-detail-description {
+    margin-top: 10px
+}
+
+.legend-detail-description .description {
+    padding-left: 5px;
+    padding-right: 10px;
+    vertical-align: middle
+}
+
+.legend-detail-container .legend-detail-header {
+    font-weight: bold
+}
+
+.legend-detail tr td.turnoverBefore {
+    background-color: red
+}
+
+.legend-detail tr td.turnoverAfter {
+    background-color: red
+}
+
+.legend-detail-description .turnoverBefore {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border: 1px dotted #cccccc;
+}
+
+.legend-detail-description .turnoverAfter {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border: 1px dotted #cccccc;
+}
+
+.turnoverBefore {
+    border: 0px solid #ffffff;
+    background: none !important;
+    background-color: red !important;
+    font-weight: normal;
+    color: #ffffff;
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+.turnoverAfter {
+    border: 0px solid #ffffff;
+    background: none !important;
+    background-color: red !important;
+    font-weight: normal;
+    color: #ffffff;
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+.legend-start {
+    border: 0px solid #ffffff;
+    background: none !important;
+    background-color: #ec0c60 !important;
+    font-weight: normal;
+    color: #ffffff !important;
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+.legend-selected {
+    border: 0px solid #ffffff;
+    background: none !important;
+    background-color: yellow !important;
+    font-weight: normal;
+    color: #ffffff !important;
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+.legend-selected-fix {
+    border: 0px solid #ffffff;
+    background: none !important;
+    background-color: yellow !important;
+    opacity: 0.5;
+    font-weight: normal;
+    color: #ffffff !important;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.legend-start-initial {
+    border: 0px solid #ffffff;
+    background: none !important;
+    background-color: red !important;
+    opacity: 0.5;
+    font-weight: normal;
+    color: #ffffff !important;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.legend-mail {
+    border: 0px solid #ffffff;
+    background: none !important;
+    background-image: url('images/legend-mail.png') !important;
+
+    font-weight: normal;
+    color: #ffffff;
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+.legend-start.ui-state-hover a, .legend-start.ui-state-hover a:hover, .legend-start.ui-state-hover a:link, .legend-start.ui-state-hover a:visited {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.legend-ico {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+.legend-start-s {
+    background: none !important;
+    background-color: #ec0c60 !important;
+}
+
+.legend-selected-s {
+    background: none !important;
+    background-color: yellow !important;
+}
+
+.legend-mail-s {
+
+    background-image: url('../legend-mails.png');
+}
+
+.legend-unavailable-s {
+    background: none !important;
+    background-color: #e2dddd !important;
+}
+
+.day-detail-container,
+.legend-detail-container {
+    margin-top: 15px;
+}
+
+.range-line.date input {
+    margin-top: 10px;
+}
+
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+    top: 7px !important;
+
+}
+
+.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {
+    background-color: transparent !important;
+    margin: 0 !important;
+    border: 0 !important;
+    top: 10% !important;
+    left: 10% !important;
+
+}
+
+.day-detail-container .available {
+    border: 1px solid #cfcfcf;
+    background: #ffffff;
+}
+
+.day-detail-container .busy, .legend-detail-description .busy {
+    opacity: .35;
+    filter: Alpha(Opacity=35);
+    border: 1px solid #cfcfcf;
+    background: #f9eae7;
+}
+
+.day-detail-container .selected-time, .legend-detail-description .selected-time {
+    border: 1px solid #cfcfcf;
+    background: #ffdf66;
+}
+
+#ui-datepicker-div .ui-widget-header .ui-icon {
+    background-image: url("images/ui-icons_d8e7f3_256x240.png");
+    width: 16px;
+    height: 16px;
+}
+
+#ui-datepicker-div .ui-icon-circle-triangle-e {
+    background-position: -48px -192px;
+}
+
+#ui-datepicker-div .ui-icon-circle-triangle-s {
+    background-position: -64px -192px;
+}
+
+#ui-datepicker-div .ui-icon-circle-triangle-w {
+    background-position: -80px -192px;
+}
+
+/* with multiple calendars */
+.ui-datepicker.ui-datepicker-multi {
+    width: auto !important;
+}
+
+.ui-datepicker-multi .ui-datepicker-group {
+    float: left;
+}
+
+.ui-datepicker-multi .ui-datepicker-group table {
+    width: 95%;
+    margin: 0 auto .4em;
+}
+
+.ui-datepicker-multi-2 .ui-datepicker-group {
+    width: 50%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.ui-datepicker-multi-3 .ui-datepicker-group {
+    width: 33.3%;
+}
+
+.ui-datepicker-multi-4 .ui-datepicker-group {
+    width: 25%;
+}
+
+.ui-datepicker-multi .ui-datepicker-group-last .ui-datepicker-header,
+.ui-datepicker-multi .ui-datepicker-group-middle .ui-datepicker-header {
+    border-left-width: 0;
+    padding-bottom: 10px;
+}
+
+.ui-datepicker-multi .ui-datepicker-buttonpane {
+    clear: left;
+}
+
+.ui-datepicker-row-break {
+    clear: both;
+    width: 100%;
+    font-size: 0;
+}
+.ui-datepicker-multi-2 .ui-datepicker-group .ui-datepicker-header {
+    padding-bottom: 10px;
+    min-height: 35px;
+}
+@media (max-width: 480px) {
+    .ui-datepicker-multi-2 .ui-datepicker-group {
+        width: 100%;
+    }
+
+}
+

@@ -1,0 +1,41 @@
+.text-left { text-align:left; }
+.text-center { text-align:center; }
+.text-right { text-align:right; }
+
+.__hover { background: rgba(0, 0, 0, .1); cursor: pointer; }
+.__active { background: rgba(0, 0, 0, .1); cursor: pointer; }
+
+.today { background: yellow; }
+
+.report-main-content { position: relative; }
+
+.loader { position: absolute; top: 0; left: 0; background: rgba(0, 0, 0, .3); width: 100%; height: 100%; }
+
+.calendar-tools-container { margin-top: 15px; background: #ccc; text-align: center; padding: 10px; }
+.calendar-tools-container button:hover,
+.calendar-tools-container button:focus,
+.calendar-tools-container button:active
+{ background: rgba(0, 0, 0, .1); }
+
+.headings div { border: 1px solid #ccc; border-width: 0 0 1px 1px; padding: 5px; font-weight: bold; }
+.headings div.product-info { text-align: left; border-left: none; }
+.headings div.product-quantity { border-left: none; text-align: center; }
+
+.report-calendar { border-right: 1px solid #ccc; overflow-x: auto; }
+.report-calendar .date-column { float: left;text-align: center; padding: 5px;border: 1px solid #ccc; border-width: 0 0 1px 1px; }
+.report-calendar .format-day .date-column { width: 100px; }
+.report-calendar .format-week .date-column { width: 200px; }
+.report-calendar .format-month .date-column { width: 50px; }
+.report-calendar .format-list .date-column { width: 300px; }
+
+.report-calendar .headings .date-column { font-weight: bold; }
+
+.report-calendar .body .date-column { font-size:16px;line-height: 29px;height:40px; }
+.report-calendar .body > div:after { content: "";clear:both;display:table; }
+
+.clearer { clear: both; display: table; }
+
+.filter-bar { margin-bottom: 15px; }
+.filter-bar fieldset { border: none; box-sizing: border-box; }
+.filter-bar fieldset legend { font-weight: bold; border-bottom: 3px inset #ccc; width: 100%; }
+.filter-bar fieldset input[type=text] { width: 100%; box-sizing: border-box; }

@@ -1,0 +1,88 @@
+<!--<div class="calendar-toolbar" style="text-align:right;">
+	<?php if ($this->getRequest()->getParam('turnover', 'false') == 'false'): ?>
+	<button type="button" onclick="setLocation('<?php echo $this->getUrl('*/*/*', ['_current' => true, 'turnover' => 'true']) ?>')">Use Turnover Date</button>
+	<?php else: ?>
+		<button type="button" onclick="setLocation('<?php echo $this->getUrl('*/*/*', ['_current' => true, 'turnover' => 'false']) ?>')">Do Not Use Turnover Date</button>
+	<?php endif; ?>
+</div>-->
+<div style="clear:both;display:table;margin-bottom:15px;"></div>
+<div id="calendar"></div>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'dropdown',
+        'css!css/fullcalendar/fullcalendar.min',
+        'moment',
+        'fullcalendar'
+    ], function ($) {
+        $(document).ready(function ($) {
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+
+            $('.calendar-toolbar .admin__action-dropdown-wrap').dropdown();
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay'
+                },
+                loading: function (isLoading, view) {
+                    if (isLoading) {
+                        $(document.body).trigger('processStart');
+                    }
+                    else {
+                        $(document.body).trigger('processStop');
+                    }
+                },
+                eventClick: function (data, event, view) {
+                    $.ajax({
+                        cache: false,
+                        url: '<?php echo $this->getUrl('*/*/getRentalModal', ['_current' => true]) ?>',
+                        data: {id: data.id},
+                        dataType: 'json',
+                        type: 'get',
+                        beforeSend: function () {
+                            $(document.body).trigger('processStart');
+                        },
+                        complete: function () {
+                            $(document.body).trigger('processStop');
+                        },
+                        success: function (data) {
+                            $('<div>' + data.html + '</div>').modal({
+                                title: data.title,
+                                autoOpen: true
+                            });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $('<div style="white-space: pre;overflow: auto;">' + jqXHR.responseText + '</div>').modal({
+                                title: textStatus,
+                                autoOpen: true
+                            });
+                        }
+                    });
+                },
+                editable: false,
+                events: {
+                    url: '<?php echo $this->getUrl('*/*/getRentals', ['_current' => true]) ?>',
+                    editable: false,
+                    startEditable: false,
+                    durationEditable: false,
+                    resourceEditable: false,
+                    rendering: '',
+                    overlap: false,
+                    constraint: 'businessHours'/*,
+                     color: '#000000',
+                     backgroundColor: 'blue',
+                     borderColor: 'red',
+                     textColor: '#ffffff'*/
+                }
+            });
+
+        });
+
+    });
+</script>

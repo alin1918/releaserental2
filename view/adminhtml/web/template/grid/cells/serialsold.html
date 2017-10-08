@@ -1,0 +1,20 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ attr="value: $col.getValue($row())"
+ magento custom bindings
+-->
+
+<!-- ko foreach: { data: $col.getInputNames($row()), as: 'inpNames'}  -->
+<input class="admin__control-serials"
+       data-bind="
+        suggestSerial: {options:{source: $col.getSourceForSerial($row())}, storage: $col.setRowIndex($row()[$col.indexField], inpNames)},
+        textInput: $col.setRowIndex($row()[$col.indexField], inpNames),
+        attr: {
+            id: 'id-' + $row()[$col.indexField] + '-'+inpNames
+        }"
+/>
+<!-- /ko -->
+

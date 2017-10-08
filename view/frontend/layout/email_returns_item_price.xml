@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="items">
+            <block class="SalesIgniter\Rental\Block\Emails\Returns\Items\DefaultItems" name="item_price" template="email/returns/items/price.phtml"/>
+        </referenceBlock>
+        <block class="SalesIgniter\Rental\Block\Emails\Returns\Items\DefaultRenderer" name="item_unit_price" template="email/returns/items/price/unit.phtml"/>
+        <block class="SalesIgniter\Rental\Block\Emails\Returns\Items\DefaultRenderer" name="item_row_total" template="email/returns/items/price/row.phtml"/>
+        <block class="SalesIgniter\Rental\Block\Emails\Returns\Items\DefaultRenderer" name="item_row_total_after_discount" template="email/returns/items/price/total_after_discount.phtml"/>
+    </body>
+</page>

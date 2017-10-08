@@ -1,0 +1,22 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ attr="value: $col.getValue($row())"
+ magento custom bindings
+
+ THE ONLY WAY TO GET THE COL/ROW INDEX IS BY EVENTS. THERE IS NO OTHER WAY.
+ AND I DON'T THINK IS BAD
+-->
+
+
+<input class="admin__control-serials"
+       data-bind="
+        value: tokenizeValue,
+        event: {change: $col.setRowIndex($row()[$col.indexField])},
+        attr: {
+            id: 'id-' + $row()[$col.indexField]
+        }"
+/>
+

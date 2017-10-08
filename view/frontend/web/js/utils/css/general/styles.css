@@ -1,0 +1,60 @@
+.priceTablePpr {
+    width: 70% !important;
+}
+
+.priceTablePpr tr {
+    font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #4f6b72;
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    border-top: 1px solid #C1DAD7;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 6px 6px 6px 12px;
+    background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+    width: 50px;
+}
+
+.priceTablePpr td {
+    border: 1px solid #C1DAD7;
+    background: #fff;
+    padding: 6px 6px 6px 12px;
+    color: #4f6b72;
+}
+
+.priceTablePpr .first {
+    border-top: 0px;
+    border-left: 0px;
+}
+
+.cart.table-wrapper .item-options dt:after {
+    content: '';
+}
+
+.product-block .product-item-details .price-box {
+    float: none;
+}
+
+.product-block .product-item-details .price-box .price {
+    display: inline-block;
+}
+
+.ppr-ul-list {
+    list-style: outside none none;
+    padding: 0;
+}
+
+.ppr-ul-list li {
+    margin: 0;
+}
+
+/*.sirent_calendar :after {
+    content: "";
+    display: table;
+    clear: both;
+}*/
+
+.box-tocart.update {
+    clear: both;
+}

@@ -1,0 +1,8 @@
+<div class="row headings format-month" data-bind="style: { width: getCalendarWidth() }, foreach: { data: getCalendarHeadings(), as: 'time' }">
+	<div class="date-column" data-bind="text: $root.displayDate('MM/DD', time)">&nbsp;</div>
+</div>
+<div class="row body format-month" data-bind="style: { width: getCalendarWidth() }">
+	<div data-bind="foreach: { data: $root.getCalendarContent(), as: 'result' }, attr: { 'data-row_idx': $index }">
+		<div class="date-column" data-bind="html: result.html, attr: { 'data-timestamp': result.timestamp }"></div>
+	</div>
+</div>

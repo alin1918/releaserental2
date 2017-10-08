@@ -1,0 +1,22 @@
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="sales_order_invoice_columns">
+        <column name="start_date" sortOrder="50" component="Magento_Ui/js/grid/columns/date" class="SalesIgniter\Rental\Ui\Component\Listing\Column\DateField">
+            <settings>
+                <label>Start Date</label>
+                <dataType>date</dataType>
+                <visible>true</visible>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <filter>dateRange</filter>
+            </settings>
+        </column>
+        <column name="end_date" sortOrder="60" component="Magento_Ui/js/grid/columns/date" class="SalesIgniter\Rental\Ui\Component\Listing\Column\DateField">
+            <settings>
+                <label>End Date</label>
+                <dataType>date</dataType>
+                <visible>true</visible>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <filter>dateRange</filter>
+            </settings>
+        </column>
+    </columns>
+</listing>

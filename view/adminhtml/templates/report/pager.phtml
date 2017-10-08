@@ -1,0 +1,114 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Pager template
+ *
+ * @see \Magento\Theme\Block\Html\Pager
+ */
+?>
+
+<?php if ($block->getCollection()->getSize()): ?>
+	<?php $PageSize = $block->getCollection()->getPageSize() ?>
+	<div class="admin__data-grid-pager-wrap">
+		<select
+			name="<?php /* @escapeNotVerified */
+			echo $block->getVarNameLimit() ?>"
+			id="page-limit"
+			class="admin__control-select"
+		>
+			<option
+				value="5"
+				<?php if ($PageSize == 5): ?>selected="selected"<?php endif; ?>
+			>5
+			</option>
+			<option
+				value="10"
+				<?php if ($PageSize == 10): ?>selected="selected"<?php endif; ?>
+			>10
+			</option>
+			<option
+				value="20"
+				<?php if ($PageSize == 20): ?>selected="selected"<?php endif; ?>
+			>20
+			</option>
+			<option
+				value="30"
+				<?php if ($PageSize == 30): ?>selected="selected"<?php endif; ?>
+			>30
+			</option>
+			<option
+				value="50"
+				<?php if ($PageSize == 50): ?>selected="selected"<?php endif; ?>
+			>50
+			</option>
+			<option
+				value="100"
+				<?php if ($PageSize == 100): ?>selected="selected"<?php endif; ?>
+			>100
+			</option>
+			<option
+				value="200"
+				<?php if ($PageSize == 200): ?>selected="selected"<?php endif; ?>
+			>200
+			</option>
+		</select>
+		<label
+			for="page-limit"
+			class="admin__control-support-text"
+		><?php /* @escapeNotVerified */
+			echo __('per page') ?></label>
+
+		<div class="admin__data-grid-pager">
+			<?php $_curPage = $block->getCollection()->getCurPage() ?>
+			<?php $_lastPage = $block->getCollection()->getLastPageNumber() ?>
+			<?php if ($_curPage > 1): ?>
+				<button class="action-previous"
+					type="button"
+					data-set_page="<?php /* @escapeNotVerified */
+					echo($_curPage - 1) ?>">
+					<span><?php /* @escapeNotVerified */
+						echo __('Previous page') ?></span>
+				</button>
+			<?php else: ?>
+				<button type="button" class="action-previous disabled"><span><?php /* @escapeNotVerified */
+						echo __('Previous page') ?></span></button>
+			<?php endif; ?>
+			<input type="text"
+				id="page-current"
+				name="<?php /* @escapeNotVerified */
+				echo $block->getVarNamePage() ?>"
+				value="<?php /* @escapeNotVerified */
+				echo $_curPage ?>"
+				class="admin__control-text"
+				<?php /* @escapeNotVerified */
+				echo $block->getUiId('current-page') ?> />
+			<label class="admin__control-support-text" for="page-current">
+				<?php /* @escapeNotVerified */
+				echo __('of %1', '<span>' . $block->getCollection()->getLastPageNumber() . '</span>') ?>
+			</label>
+			<?php if ($_curPage < $_lastPage): ?>
+				<button type="button"
+					title="<?php /* @escapeNotVerified */
+					echo __('Next page') ?>"
+					class="action-next"
+					data-set_page="<?php /* @escapeNotVerified */
+					echo($_curPage + 1) ?>">
+					<span><?php /* @escapeNotVerified */
+						echo __('Next page') ?></span>
+				</button>
+			<?php else: ?>
+				<button type="button" class="action-next disabled"><span><?php /* @escapeNotVerified */
+						echo __('Next page') ?></span></button>
+			<?php endif; ?>
+		</div>
+	</div>
+
+<?php endif ?>

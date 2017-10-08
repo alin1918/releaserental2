@@ -1,0 +1,126 @@
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <listingToolbar name="listing_top">
+        <massaction name="listing_massaction">
+            <action name="changeproducttype">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">changeproducttype</item>
+                        <item name="label" xsi:type="string" translate="true">Change product type</item>
+                    </item>
+                </argument>
+                <argument name="actions" xsi:type="array">
+                    <item name="0" xsi:type="array">
+                        <item name="type" xsi:type="string">simpletoreservation</item>
+                        <item name="label" xsi:type="string" translate="true">Simple to Reservation</item>
+                        <item name="url" xsi:type="url" path="salesigniter_rental/catalog/convertproducttype">
+                            <param name="convertoption">simpletoreservation</param>
+                        </item>
+                    </item>
+                    <item name="1" xsi:type="array">
+                        <item name="type" xsi:type="string">reservationtosimple</item>
+                        <item name="label" xsi:type="string" translate="true">Reservation to Simple</item>
+                        <item name="url" xsi:type="url" path="salesigniter_rental/catalog/convertproducttype">
+                            <param name="convertoption">reservationtosimple</param>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+        <!--<filters name="listing_filters">
+            <filterRange name="sirent_date" class="SalesIgniter\Rental\Ui\Component\Listing\DataProviders\SalesIgniter\Product\DateRange">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="provider" xsi:type="string">${ $.parentName }</item>
+                        <item name="dataScope" xsi:type="string">sirent_date</item>
+                        <item name="caption" xsi:type="string" translate="true">Date Filter</item>
+                        <item name="label" xsi:type="string" translate="true">Date Filter</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                    </item>
+                </argument>
+                <filterDate name="from" class="SalesIgniter\Rental\Ui\Component\Listing\DataProviders\SalesIgniter\Product\Date">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="dataScope" xsi:type="string">from</item>
+                            <item name="caption" xsi:type="string" translate="true">From</item>
+                            <item name="label" xsi:type="string" translate="true">From</item>
+                        </item>
+                    </argument>
+                </filterDate>
+                <filterDate name="to" class="SalesIgniter\Rental\Ui\Component\Listing\DataProviders\SalesIgniter\Product\Date">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="dataScope" xsi:type="string">to</item>
+                            <item name="caption" xsi:type="string" translate="true">To</item>
+                            <item name="label" xsi:type="string" translate="true">To</item>
+
+                        </item>
+                    </argument>
+                </filterDate>
+            </filterRange>
+        </filters>-->
+    </listingToolbar>
+    <columns name="product_columns" class="Magento\Catalog\Ui\Component\Listing\Columns">
+        <column name="qty" class="SalesIgniter\Rental\Ui\Component\Listing\Column\Qty">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Total Inventory</item>
+                    <item name="sortOrder" xsi:type="number">75</item>
+                </item>
+            </argument>
+        </column>
+        <column name="qty_booked" class="SalesIgniter\Rental\Ui\Component\Listing\Column\QtyBooked">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <!--<item name="filter" xsi:type="string">textRange</item>-->
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="filterable" xsi:type="boolean">false</item>
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Qty Booked</item>
+                    <item name="sortOrder" xsi:type="number">76</item>
+                </item>
+            </argument>
+        </column>
+        <!-- these 2 columns should be get from a table sirental_inventory-->
+        <column name="qty_available" class="SalesIgniter\Rental\Ui\Component\Listing\Column\QtyAvailable">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <!--<item name="filter" xsi:type="string">textRange</item>-->
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="filterable" xsi:type="boolean">false</item>
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Qty Available</item>
+                    <item name="sortOrder" xsi:type="number">77</item>
+                </item>
+            </argument>
+        </column>
+        <column name="start_date"><!--this column is just used as a hack to put there the date filter for qty_booked. check addfielstrategies and addfilterstrategies-->
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Date Filter</item>
+                    <item name="sortOrder" xsi:type="number">175</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="component" xsi:type="string">SalesIgniter_Rental/js/grid/columns/hiddenlabel</item>
+                    <item name="headerTmpl" xsi:type="string">SalesIgniter_Rental/grid/columns/hiddencolumn</item>
+                    <item name="bodyTmpl" xsi:type="string">SalesIgniter_Rental/grid/columns/hiddenhtml</item>
+                </item>
+            </argument>
+        </column>
+        <column name="price" class="SalesIgniter\Rental\Ui\Component\Listing\Column\Price">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Price</item>
+                    <item name="sortOrder" xsi:type="number">75</item>
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                </item>
+            </argument>
+        </column>
+    </columns>
+
+</listing>

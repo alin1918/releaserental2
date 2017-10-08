@@ -1,0 +1,10 @@
+<?php /** @var $block \SalesIgniter\Rental\Block\Adminhtml\Sales\Order\Shipment\Serials */ ?>
+<select multiple class="shipment-item-serials" data-mage-init="<?php
+echo $block->escapeHtml($this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode([
+    'tokenizer' => [
+        'dataSource' => $block->getSuggestSerialsUrl(),
+        'tokensMaxItems' => $block->getQtyValue(),
+    ],
+]));
+?>"
+        name="serial[<?php echo $block->getItemId(); ?>]"/>

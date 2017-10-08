@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="quote_request_create_add_product_before">
+		<observer name="quote_request_observer" instance="SalesIgniter\Rental\Observer\QuoteRequest\Create\AddProductBefore"/>
+	</event>
+	<event name="quote_request_create_update_product_before">
+		<observer name="quote_request_observer" instance="SalesIgniter\Rental\Observer\QuoteRequest\Create\UpdateProductBefore"/>
+	</event>
+</config>

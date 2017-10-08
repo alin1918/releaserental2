@@ -1,0 +1,81 @@
+<?php /** @var \SalesIgniter\Rental\Block\Adminhtml\Report\SerialNumber\Modal\Date $block */ ?>
+<div>
+	<div class="order-view-account-information">
+		<div class="admin__page-section-item order-information">
+			<div class="admin__page-section-item-title">
+				<span class="title"><?php /* @escapeNotVerified */ echo __('Order Information') ?></span>
+			</div>
+			<div class="admin__page-section-item-content">
+				<table class="admin__table-secondary order-information-table">
+					<tr>
+						<th><?php /* @escapeNotVerified */ echo __('Order Number') ?></th>
+						<td><a href="<?php echo $block->getOrderViewUrl() ?>" target="_blank">#<?php /* @escapeNotVerified */ echo $block->getOrderIncrementId() ?></a></td>
+					</tr>
+					<tr>
+						<th><?php /* @escapeNotVerified */ echo __('Order Date') ?></th>
+						<td><?php /* @escapeNotVerified */ echo $block->getOrderAdminDate() ?></td>
+					</tr>
+					<?php if ($block->getOrderAdminDate() != $block->getOrderStoreDate()):?>
+						<tr>
+							<th><?php /* @escapeNotVerified */ echo __('Order Date (%1)', $block->getTimezoneForStore()) ?></th>
+							<td><?php /* @escapeNotVerified */ echo $block->getOrderStoreDate() ?></td>
+						</tr>
+					<?php endif;?>
+					<tr>
+						<th><?php /* @escapeNotVerified */ echo __('Order Status') ?></th>
+						<td><span id="order_status"><?php /* @escapeNotVerified */ echo $block->getOrderStatusLabel() ?></span></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="admin__page-section-item order-account-information">
+			<?php /* Account Information */?>
+			<div class="admin__page-section-item-title">
+				<span class="title"><?php /* @escapeNotVerified */ echo __('Customer Information') ?></span>
+			</div>
+			<div class="admin__page-section-item-content">
+				<table class="admin__table-secondary order-account-information-table">
+					<tr>
+						<th><?php /* @escapeNotVerified */ echo __('Name') ?></th>
+						<td>
+							<?php if ($_customerUrl = $block->getCustomerViewUrl()) : ?>
+								<a href="<?php /* @escapeNotVerified */ echo $_customerUrl ?>" target="_blank">
+									<span><?php echo $block->getCustomerName() ?></span>
+								</a>
+							<?php else: ?>
+								<?php echo $block->getCustomerName() ?>
+							<?php endif; ?>
+						</td>
+					</tr>
+					<tr>
+						<th><?php /* @escapeNotVerified */ echo __('Email') ?></th>
+						<td><a href="mailto:<?php echo $block->getCustomerEmail() ?>"><?php echo $block->getCustomerEmail() ?></a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div style="clear:both;display:table;margin:15px;"></div>
+	<div>
+		<div class="admin__page-section-item order-billing-address">
+			<?php /* Billing Address */?>
+			<div class="admin__page-section-item-title">
+				<span class="title"><?php /* @escapeNotVerified */ echo __('Billing Address') ?></span>
+			</div>
+			<address class="admin__page-section-item-content"><?php /* @escapeNotVerified */ echo $block->getOrderAddressHtml('billing'); ?></address>
+		</div>
+		<?php if (!$block->getOrder()->getIsVirtual()): ?>
+			<div class="admin__page-section-item order-shipping-address">
+				<?php /* Shipping Address */ ?>
+				<div class="admin__page-section-item-title">
+					<span class="title"><?php /* @escapeNotVerified */ echo __('Shipping Address') ?></span>
+				</div>
+				<address class="admin__page-section-item-content"><?php /* @escapeNotVerified */ echo $block->getOrderAddressHtml('shipping'); ?></address>
+			</div>
+		<?php endif; ?>
+	</div>
+	<div style="clear:both;display:table;margin:15px;"></div>
+	<div>
+		<?php echo $block->getOrderProductsGridHtml() ?>
+	</div>
+</div>

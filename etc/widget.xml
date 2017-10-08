@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="calendar_widget" class="SalesIgniter\Rental\Block\Widget\CalendarWidget">
+        <label translate="true">Rental Calendar</label>
+        <description translate="true">Rental Calendar Widget</description>
+        <parameters>
+            <parameter name="calendar_title" xsi:type="text" visible="true">
+                <label translate="true">Text Above Calendar</label>
+                <description translate="true">For example: "Select Dates Below"</description>
+            </parameter>
+            <parameter name="calendar_use_times" xsi:type="select" visible="true"
+                       source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Use Times</label>
+
+            </parameter>
+            <parameter name="category_to_go" xsi:type="text" visible="true">
+                <label translate="true">Category ID</label>
+                <description translate="true">Category ID. The GO button will ALWAYS redirect to this category</description>
+            </parameter>
+            <parameter name="calendar_style" xsi:type="select" visible="true" sort_order="50"
+                       source_model="SalesIgniter\Rental\Model\Config\ThemeStyle">
+                <label translate="true">Theme Style</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="sidebar_block" value="SalesIgniter_Rental::widgets/global_calendar_sidebar.phtml" selected="true">
+                        <label translate="true">Main Template</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="cache_lifetime" xsi:type="text" visible="true">
+                <label translate="true">Cache Lifetime (Seconds)</label>
+                <description translate="true">86400 by default, if not set. To refresh instantly, clear the Blocks HTML Output cache.</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

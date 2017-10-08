@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="salesigniter_rental_admin_email_report_template" label="Admin Email Report" file="admin_report.html" type="html" module="SalesIgniter_Rental" area="frontend"/>
+    <template id="salesigniter_rental_emails_return_confirmation_template" label="Return Confirmation" file="return_confirmation.html" type="html" module="SalesIgniter_Rental" area="frontend"/>
+    <template id="salesigniter_rental_emails_return_reminder_template" label="Return Reminder" file="return_reminder.html" type="html" module="SalesIgniter_Rental" area="frontend"/>
+    <template id="salesigniter_rental_emails_overdue_reminder_template" label="Overdue Reminder" file="overdue_reminder.html" type="html" module="SalesIgniter_Rental" area="frontend"/>
+</config>

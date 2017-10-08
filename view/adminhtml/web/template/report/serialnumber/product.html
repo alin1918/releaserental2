@@ -1,0 +1,21 @@
+<div class="row headings">
+	<div class="col-xs-8 product-info">Product</div>
+	<div class="col-xs-2 product-quantity">QTY</div>
+	<div class="col-xs-2 product-action">&nbsp;</div>
+</div>
+<div class="row body" data-bind="foreach: { data: products, as: 'Product' }">
+	<div class="row product" data-bind="attr: { 'data-row_idx': $index }">
+		<div class="col-xs-8 product-info">
+			<p data-bind="text: Product.getName()"></p>
+			<small>
+				<span><!-- ko i18n: 'SKU' --><!-- /ko -->: </span>
+				<span data-bind="text: Product.getSku()"></span>
+			</small>
+		</div>
+		<div class="col-xs-2 product-quantity text-center" data-bind="text: Product.getRentalQuantity()"></div>
+		<div class="col-xs-2 product-action text-center"><button type="button"></button></div>
+	</div>
+	<div class="row serial-numbers" data-bind="attr: { 'data-product_id': Product.getId() }, foreach: { data: Product.getSerialNumbers(), as: 'SerialNumber' }">
+		<div class="col-xs-12 serial-number" data-bind="text: SerialNumber.getNumber()"></div>
+	</div>
+</div>
