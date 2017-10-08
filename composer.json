@@ -1,5 +1,5 @@
 {
-  "name": "salesigniter/module-rental",
+  "name": "kjavitz/releaserental2",
   "description": "Salesigniter Rental Extension for Magento 2",
   "type": "magento2-module",
   "version": "1.0.20171005",
