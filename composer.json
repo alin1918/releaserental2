@@ -1,5 +1,5 @@
 {
-  "name": "kjavitz/releaserental2",
+  "name": "salesigniter/releaserental2",
   "description": "Salesigniter Rental Extension for Magento 2",
   "type": "magento2-module",
   "version": "1.0.20171005",
@@ -8,10 +8,8 @@
     "AFL-3.0"
   ],
   "require": {
-    "php": "~5.5.0|~5.6.0|~7.0.0",
-    "kjavitz/releaserentalcontract2": "*",
-    "kjavitz/releasecommon2": "*",
-    "kjavitz/releasemaintenance2": "*",
+    "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0",
+    "salesigniter/releasecommon2": "*",
     "league/period": "^3.2",
     "anahkiasen/underscore-php": "^2.0",
     "querypath/QueryPath": ">=3.0.0",
