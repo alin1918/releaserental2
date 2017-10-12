@@ -8,9 +8,8 @@ namespace SalesIgniter\Rental\Model\Config\Backend;
 
 use Magento\Config\Model\Config\Backend\Serialized\ArraySerialized;
 use Magento\Framework\App\ObjectManager;
-use Magento\Framework\Serialize\Serializer\Json;
 
-class GlobalExcludeDates extends ArraySerialized
+class GlobalExcludeDates extends \Magento\Framework\App\Config\Value
 {
     /**
      * @var \SalesIgniter\Rental\Helper\Calendar
@@ -26,10 +25,6 @@ class GlobalExcludeDates extends ArraySerialized
      */
     private $storeManager;
 
-    /**
-     * @var Json
-     */
-    private $serializer;
 
     /**
      * Serialized constructor.
@@ -42,7 +37,6 @@ class GlobalExcludeDates extends ArraySerialized
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null           $resourceCollection
      * @param array                                                        $data
-     * @param Json|null                                                    $serializer
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -52,13 +46,12 @@ class GlobalExcludeDates extends ArraySerialized
         \SalesIgniter\Rental\Helper\Data $helperRental,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        array $data = [],
-        Json $serializer = null
+        array $data = []
     ) {
-        $this->serializer = $serializer ?: ObjectManager::getInstance()->get(Json::class);
         parent::__construct($context, $registry, $config, $cacheTypeList, $resource, $resourceCollection, $data);
         $this->helperRental = $helperRental;
     }
+
 
     /**
      * @throws \InvalidArgumentException
@@ -86,6 +79,8 @@ class GlobalExcludeDates extends ArraySerialized
         }
     }
 
+
+
     public function beforeSave()
     {
         $values = $this->getValue();
@@ -102,6 +97,15 @@ class GlobalExcludeDates extends ArraySerialized
         }
         $this->setValue($values);
 
-        return parent::beforeSave();
+        $value = $this->getValue();
+        if (is_array($value)) {
+            unset($value['__empty']);
+        }
+        $this->setValue($value);
+        if (is_array($this->getValue())) {
+            $this->setValue($this->helperRental->serialize($this->getValue()));
+        }
+        parent::beforeSave();
+        return $this;
     }
 }
