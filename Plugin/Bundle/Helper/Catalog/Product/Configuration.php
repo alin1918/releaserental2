@@ -78,7 +78,7 @@ class Configuration
                         $this->registry->register('start_date', $dates->getStartDate());
                         $this->registry->register('end_date', $dates->getEndDate());
                     }
-                    $returnValue = $selectionProduct->getFinalPrice($selectionProduct->getQty());
+                    $returnValue = $selectionProduct->getQty() * $selectionProduct->getFinalPrice($selectionProduct->getQty());
                     if ($hasDates === false) {
                         $this->registry->unregister('start_date');
                         $this->registry->unregister('end_date');

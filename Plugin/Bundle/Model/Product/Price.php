@@ -49,6 +49,9 @@ class Price
      *
      * @return float|mixed
      *
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \LogicException
+     * @throws \Exception
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function aroundGetTotalBundleItemsPrice(
@@ -87,6 +90,8 @@ class Price
      *
      * @return float
      *
+     * @throws \LogicException
+     * @throws \Exception
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \RuntimeException
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -122,7 +127,7 @@ class Price
                         $this->registry->register('start_date', $dates->getStartDate());
                         $this->registry->register('end_date', $dates->getEndDate());
                     }
-                    $returnValue = $selectionProduct->getFinalPrice($selectionQty);
+                    $returnValue = $selectionQty * $selectionProduct->getFinalPrice($selectionQty);
                     if ($hasDates === false) {
                         $this->registry->unregister('start_date');
                         $this->registry->unregister('end_date');

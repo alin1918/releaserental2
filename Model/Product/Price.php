@@ -92,8 +92,10 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      *
      * @return int
      *
+     * @throws \InvalidArgumentException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \LogicException
+     * @throws \Exception
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getFinalPrice($qty, $product)
@@ -103,9 +105,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
             $endDate = $this->registry->registry('end_date');
         } elseif ($product->hasCustomOptions()) {
             $buyRequest = $this->helperCalendar->prepareBuyRequest($product);
-            $dates = $this->helperCalendar->getDatesFromBuyRequest(
-                $buyRequest, $product
-            );
+            $dates = $this->helperCalendar->getDatesFromBuyRequest($buyRequest, $product);
             if ($dates->getIsBuyout()) {
                 $isBuyout = true;
             } else {
@@ -117,7 +117,11 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
             $endDate = $this->helperCalendar->getGlobalDates('to');
         }
 
-        $finalPrice = isset($startDate) && isset($endDate) ? $this->priceCalculations->calculatePrice($product->getId(), $startDate, $endDate, $qty) : self::NO_DATES_PRICE;
+        if (isset($startDate) && isset($endDate)) {
+            $finalPrice = $this->priceCalculations->calculatePrice($product->getId(), $startDate, $endDate, 1);
+        } else {
+            $finalPrice = self::NO_DATES_PRICE;
+        }
         if (isset($isBuyout)) {
             $finalPrice = $this->priceCalculations->calculateBuyoutPrice($product->getId());
         }

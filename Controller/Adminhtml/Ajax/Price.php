@@ -148,7 +148,7 @@ class Price extends \Magento\Framework\App\Action\Action
             //$store = $this->getCurrentStore();
 
             //$regularPrice = $product->getPriceInfo()->getPrice('regular_price');
-            $finalPrice = $product->getFinalPrice($qty);
+            $finalPrice = $qty * $product->getFinalPrice($qty);
             list($finalPrice, $finalPriceSpecial, $finalPriceTax, $finalPriceSpecialTax) = $this->priceCalculations->getAllPricesValues($product, $finalPrice);
             $stockManagement = $this->stockManagement;
             $availableQty = $stockManagement->getAvailableQuantity($product, $startDate, $endDate);
