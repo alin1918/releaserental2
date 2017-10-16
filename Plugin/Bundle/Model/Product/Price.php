@@ -42,6 +42,30 @@ class Price
     }
 
     /**
+     * Return product base price.
+     *
+     * @param \Magento\Bundle\Model\Product\Price $subject
+     * @param \Closure                            $proceed
+     * @param \Magento\Catalog\Model\Product      $product
+     *
+     * @return float
+     *
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function aroundGetPrice(
+        \Magento\Bundle\Model\Product\Price $subject,
+        \Closure $proceed,
+        $product)
+    {
+        $returnValue = $proceed($product);
+        if ($this->helperRental->isRentalType($product)) {
+            return $product->getData('price');
+        }
+
+        return $returnValue;
+    }
+
+    /**
      * @param \Magento\Bundle\Model\Product\Price $subject
      * @param \Closure                            $proceed
      * @param                                     $product

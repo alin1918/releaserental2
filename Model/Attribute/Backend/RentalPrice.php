@@ -9,7 +9,7 @@ namespace SalesIgniter\Rental\Model\Attribute\Backend;
 use Magento\Catalog\Api\Data\ProductInterface;
 
 /**
- * Catalog product rental price backend attribute model
+ * Catalog product rental price backend attribute model.
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
@@ -18,30 +18,29 @@ use Magento\Catalog\Api\Data\ProductInterface;
  */
 class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
-
     /**
-     * Catalog helper
+     * Catalog helper.
      *
      * @var \Magento\Catalog\Helper\Data
      */
     protected $_helper;
 
     /**
-     * Store manager
+     * Store manager.
      *
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * Currency factory
+     * Currency factory.
      *
      * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
-     * Core config model
+     * Core config model.
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
@@ -63,21 +62,21 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
     protected $metadataPool;
 
     /**
-     * Catalog product type
+     * Catalog product type.
      *
      * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_catalogProductType;
 
     /**
-     * Catalog product attribute backend rentalprice
+     * Catalog product attribute backend rentalprice.
      *
      * @var \SalesIgniter\Rental\Model\ResourceModel\Price
      */
     protected $_productRentalPrice;
 
     /**
-     * Website currency codes and rates
+     * Website currency codes and rates.
      *
      * @var array
      */
@@ -114,7 +113,7 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
     }
 
     /**
-     * Retrieve resource instance
+     * Retrieve resource instance.
      *
      * @return \SalesIgniter\Rental\Model\ResourceModel\Price
      */
@@ -124,7 +123,7 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
     }
 
     /**
-     * Get additional unique fields
+     * Get additional unique fields.
      *
      * @param array $objectArray
      *
@@ -137,17 +136,17 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
     }
 
     /**
-     * Error message when duplicates
+     * Error message when duplicates.
      *
      * @return \Magento\Framework\Phrase
      */
     protected function _getDuplicateErrorMessage()
     {
-        return __('We found a duplicate website, tier price, customer group and quantity.');
+        return __('We found a duplicate website, tier price, customer group and quantity rental.');
     }
 
     /**
-     * Returns whether the value is greater than, or equal to, zero
+     * Returns whether the value is greater than, or equal to, zero.
      *
      * @param mixed $value
      *
@@ -157,15 +156,17 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
     {
         $value = $this->_localeFormat->getNumber($value);
         $isNegative = $value < 0;
+
         return !$isNegative;
     }
 
     /**
-     * Validate group price data
+     * Validate group price data.
      *
      * @param \Magento\Catalog\Model\Product $object
      *
      * @throws \Magento\Framework\Exception\LocalizedException
+     *
      * @return \Magento\Framework\Phrase|bool
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -174,7 +175,7 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
     {
         $attribute = $this->getAttribute();
         $priceRows = $object->getData($attribute->getName());
-        $priceRows = array_filter((array)$priceRows);
+        $priceRows = array_filter((array) $priceRows);
 
         if (empty($priceRows)) {
             return true;
@@ -250,7 +251,7 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
     }
 
     /**
-     * Retrieve websites currency rates and base currency codes
+     * Retrieve websites currency rates and base currency codes.
      *
      * @return array
      */
@@ -282,11 +283,12 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
                 }
             }
         }
+
         return $this->_rates;
     }
 
     /**
-     * Whether group price value fixed or percent of original price
+     * Whether group price value fixed or percent of original price.
      *
      * @param \Magento\Catalog\Model\Product\Type\Price $priceObject
      *
@@ -299,7 +301,7 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
     }
 
     /**
-     * Prepare group prices data for website
+     * Prepare group prices data for website.
      *
      * @param array  $priceData
      * @param string $productTypeId
@@ -334,7 +336,7 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
     }
 
     /**
-     * Assign group prices to product data
+     * Assign group prices to product data.
      *
      * @param \Magento\Catalog\Model\Product $object
      *
@@ -368,7 +370,7 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
         $object->setData($this->getAttribute()->getName(), $data);
         $object->setOrigData($this->getAttribute()->getName(), $data);
 
-        $valueChangedKey = $this->getAttribute()->getName() . '_changed';
+        $valueChangedKey = $this->getAttribute()->getName().'_changed';
         $object->setOrigData($valueChangedKey, 0);
         $object->setData($valueChangedKey, 0);
 
@@ -376,7 +378,7 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
     }
 
     /**
-     * Get resource model instance
+     * Get resource model instance.
      *
      * @return \Magento\Catalog\Model\ResourceModel\Product\Attribute\Backend\GroupPrice\AbstractGroupPrice
      */
@@ -394,11 +396,12 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
             $this->metadataPool = \Magento\Framework\App\ObjectManager::getInstance()
                 ->get('Magento\Framework\EntityManager\MetadataPool');
         }
+
         return $this->metadataPool;
     }
 
     /**
-     * By default attribute value is considered non-scalar that can be stored in a generic way
+     * By default attribute value is considered non-scalar that can be stored in a generic way.
      *
      * @return bool
      */
@@ -408,7 +411,7 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
     }
 
     /**
-     * After Save Attribute manipulation
+     * After Save Attribute manipulation.
      *
      * @param \Magento\Catalog\Model\Product $object
      *
@@ -448,11 +451,11 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
             if ($this->getAttribute()->isScopeGlobal() && $data['website_id'] > 0) {
                 continue;
             }
-            if (!$isGlobal && (int)$data['website_id'] == 0) {
+            if (!$isGlobal && (int) $data['website_id'] == 0) {
                 continue;
             }
 
-            $key++;
+            ++$key;
 
             $useForAllGroups = $data['customer_group_id'] == $this->_groupManagement->getAllCustomersGroup()->getId();
             $customerGroupId = !$useForAllGroups ? $data['customer_group_id'] : 0;
@@ -486,7 +489,7 @@ class RentalPrice extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
         }
 
         if ($isChanged) {
-            $valueChangedKey = $this->getAttribute()->getName() . '_changed';
+            $valueChangedKey = $this->getAttribute()->getName().'_changed';
             $object->setData($valueChangedKey, 1);
         }
 

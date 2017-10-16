@@ -114,6 +114,7 @@ class AroundProductRepositorySave
         }
 
         $options = [];
+
         if (!$hasOptions && $this->helperRental->isRentalType($product)) {
             $options = [
                 [
@@ -206,8 +207,17 @@ class AroundProductRepositorySave
             $stockItem = $this->stockRegistry->getStockItem($product->getId());
             $stockItem->setManageStock(false);
             $stockItem->setIsInStock(true);
+            if ($this->helperRental->isRentalType($product)) {
+                $product->setPriceType(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED);
+                $product->setPrice(0);
+            }
+            $subject->save($product);
+        } elseif ($this->helperRental->isRentalType($product) && $this->helperRental->isBundle($product)) {
+            $product->setPriceType(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED);
+            $product->setPrice(0);
             $subject->save($product);
         }
+
         return $result;
     }
 

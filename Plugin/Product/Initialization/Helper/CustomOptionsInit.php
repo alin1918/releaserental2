@@ -8,7 +8,7 @@ use Magento\Framework\App\RequestInterface;
 class CustomOptionsInit
 {
     /**
-     * @var \SalesIgniter\Rental\Helper\Data $_helperRental
+     * @var \SalesIgniter\Rental\Helper\Data
      */
     protected $_helperRental;
     /**
@@ -36,13 +36,14 @@ class CustomOptionsInit
     }
 
     /**
-     * Adds start and end date custom options to product form
+     * Adds start and end date custom options to product form.
      *
      * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $subject
      * @param \Magento\Catalog\Model\Product                                      $product
      * @param array                                                               $productData
      *
      * @return \Magento\Catalog\Model\Product
+     *
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
@@ -92,14 +93,17 @@ class CustomOptionsInit
         }
 
         if (isset($productData['sirent_rental_type']) && $this->_helperRental->isRentalType($product, $productData['sirent_rental_type'])) {
+            $productData['price_type'] = \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED;
+            $productData['price'] = '0';
             $productData['quantity_and_stock_status']['is_in_stock'] = 1;
             $productData['quantity_and_stock_status']['manage_stock'] = 0;
         }
+
         return [$product, $productData];
     }
 
     /**
-     * Do not remove custom options for bundles with dynamic pricing (we make a backup)
+     * Do not remove custom options for bundles with dynamic pricing (we make a backup).
      *
      * To be called before bundle initialization
      *
@@ -125,7 +129,6 @@ class CustomOptionsInit
 
     /**
      * @param array $productData
-     *
      * @param       $optionTitle
      * @param       $optionType
      *
@@ -160,6 +163,7 @@ class CustomOptionsInit
             'title' => $optionTitle,
             'type' => $optionType,
         ];
+
         return $productData;
     }
 }
