@@ -9,8 +9,8 @@ define([
     'jquery',
     'mage/translate',
     'mage/backend/suggest',
-    'css!css/tokenize/bootstrap',
-    'css!css/tokenize/tokenize2',
+    'css!css/tokenize/bootstrap.min',
+    'css!css/tokenize/tokenize2.min',
     'tokenize'
 ], function (ko, _, $, $t) {
     'use strict';

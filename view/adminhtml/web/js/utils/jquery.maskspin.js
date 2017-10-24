@@ -5,7 +5,7 @@
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module. Aliases for jQuery.js and Spin.js
-        define(['jquery', 'spin', 'css!css/spin/loadmask'], factory);
+        define(['jquery', 'spin', 'css!css/spin/loadmask.min'], factory);
     } else {
         factory(jQuery);
     }

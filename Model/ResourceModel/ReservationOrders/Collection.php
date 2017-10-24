@@ -2,7 +2,6 @@
 
 namespace SalesIgniter\Rental\Model\ResourceModel\ReservationOrders;
 
-//
 //use \Magento\Eav\Api\AttributeRepositoryInterface;
 
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
@@ -14,9 +13,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
     /**
      * Constructor
-     * Configures collection
-     *
-     * @return void
+     * Configures collection.
      */
     protected function _construct()
     {
@@ -24,29 +21,40 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     }
 
     /**
-     * adding email to customer name column
+     * adding email to customer name column.
      */
     protected function _initSelect()
     {
         parent::_initSelect();
+        $filterSubSelect = $this->getSelect()->getConnection()->select();
+        $filterSubSelect->from(
+            ['cpev' => $this->getTable('catalog_product_entity_varchar')],
+            ['value as name']
+        )->joinLeft(
+            ['ea' => $this->getTable('eav_attribute')],
+            'cpev.attribute_id = ea.attribute_id',
+            []
+        )->where(
+            'ea.attribute_code = ?', 'name'
+        )->where(
+            'cpev.entity_id = main_table.product_id'
+        )->limit(1);
+
+        $columnExpression = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\DB\Sql\ColumnValueExpressionFactory')->create([
+            'expression' => '('.$filterSubSelect->__toString().')',
+        ]);
+        $this->getSelect()->columns(['name' => $columnExpression]);
         $this->getSelect()->joinLeft(
             ['ot' => $this->getTable('sales_order')],
             'main_table.order_id = ot.entity_id',
             ['increment_id']
         );
-        $this->getSelect()->joinLeft(
-            ['oti' => $this->getTable('sales_order_item')],
-            'main_table.order_item_id = oti.item_id',
-            ['name']
-        );
-
-        //$this->getSelect()->columns('CONCAT(ce.firstname," <",ce.email,">") as firstname');
-
+        
         return $this;
     }
 
     /**
-     * Checks if there are still items to ship for the reservation order
+     * Checks if there are still items to ship for the reservation order.
      *
      * @return $this
      */
@@ -55,11 +63,12 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $this->getSelect()->where('(main_table.parent_id <> 0) AND  
                (main_table.qty_shipped > 0 AND main_table.qty_returned = 0)
         ');
+
         return $this;
     }
 
     /**
-     * Checks if there are still items to ship for the reservation order
+     * Checks if there are still items to ship for the reservation order.
      *
      * @return $this
      */
@@ -68,11 +77,12 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $this->getSelect()->where('(main_table.parent_id <> 0) AND  
                (main_table.qty_shipped > 0)
         ');
+
         return $this;
     }
 
     /**
-     * Checks if there are still items to return for the reservation order
+     * Checks if there are still items to return for the reservation order.
      *
      * @return $this
      */
@@ -81,11 +91,12 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $this->getSelect()->where('(main_table.parent_id <> 0) AND  
                (main_table.qty_returned > 0)
         ');
+
         return $this;
     }
 
     /**
-     * Checks if there are still items to ship for the reservation order
+     * Checks if there are still items to ship for the reservation order.
      *
      * @return $this
      */
@@ -94,11 +105,12 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $this->getSelect()->where('(main_table.qty-main_table.qty_cancel > 0)AND (main_table.parent_id = 0) AND  
                ((main_table.qty - main_table.qty_cancel) - main_table.qty_shipped > 0 OR main_table.qty_shipped = 0)
         ');
+
         return $this;
     }
 
     /**
-     * Checks main reservations
+     * Checks main reservations.
      *
      * @return $this
      */
@@ -110,7 +122,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     }
 
     /**
-     * Checks if there are still items to return for the reservation order
+     * Checks if there are still items to return for the reservation order.
      *
      * @return $this
      */
@@ -123,7 +135,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     }
 
     /**
-     * Checks main reservations
+     * Checks main reservations.
      *
      * @return $this
      */
@@ -135,7 +147,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     }
 
     /**
-     * Checks if there are still items to return for the reservation order
+     * Checks if there are still items to return for the reservation order.
      *
      * @param $orderId
      *
@@ -149,7 +161,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     }
 
     /**
-     * Checks if there are still items to return for the reservation order
+     * Checks if there are still items to return for the reservation order.
      *
      * @param $resOrderId
      *
@@ -163,7 +175,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     }
 
     /**
-     * Add shipment
+     * Add shipment.
      *
      * @return $this
      */
@@ -173,6 +185,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             ['shipment_item_table' => $this->getTable('sales_shipment_item')],
             'main_table.shipment_item_id = shipment_item_table.entity_id'
         );
+
         return $this;
     }
 }

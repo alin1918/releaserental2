@@ -8,7 +8,7 @@ define([
     'underscore',
     'jquery',
     'mage/translate',
-    'css!css/select2/select2',
+    'css!css/select2/select2.min',
     'select2'
 ], function (ko, _, $, $t) {
     'use strict';

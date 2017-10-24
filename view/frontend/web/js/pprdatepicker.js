@@ -2431,10 +2431,20 @@
                     if (event.originalEvent !== undefined) {
                         this.options.hasSelectedManually = 1;
                     }
+                    if ($(this.options.isConfigurableSelector).length > 0) {
+                        Logger1.get('Errorm').warn('here');
+                        //Logger1.get('Debugm').debug(self);
+
+                        $productForm.trigger('updateProductSummary');
+                    }
+
+                    Logger1.get('Errorm').warn('here2');
 
                 }, self));
                 $productForm.on('updateProductSummary', $.proxy(function (event, config) {
                     if (this.options.hasSelectedManually === 1) {
+                        Logger1.get('Errorm').warn('here3');
+
                         this._updateTimePickerInventory(true);
                         this.options.hasSelectedManually = 0;
                     }

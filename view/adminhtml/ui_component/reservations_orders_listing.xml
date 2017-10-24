@@ -37,7 +37,6 @@
         </argument>
         <!--<bookmark name="bookmarks"/> coomented for some reason when used is not allowing select column-->
         <columnsControls name="columns_controls"/>
-        <filterSearch name="fulltext"/>
         <filters name="listing_filters"/>
         <massaction name="listing_massaction">
             <action name="delete">
@@ -111,14 +110,6 @@
                 </item>
             </argument>
         </column>
-        <column name="order_increment_id">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">textRange</item>
-                    <item name="label" xsi:type="string" translate="true">Order ID</item>
-                </item>
-            </argument>
-        </column>
         <column name="start_date" class="SalesIgniter\Rental\Ui\Component\Listing\Column\Date">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -154,11 +145,22 @@
                 </item>
             </argument>
         </column>
-        <column name="name" class="SalesIgniter\Common\Ui\Component\Listing\Column\Product">
+        <column name="order_id" class="SalesIgniter\Common\Ui\Component\Listing\Column\Order">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Order Id</item>
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+                </item>
+            </argument>
+        </column>
+        <column name="name">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
                     <item name="label" xsi:type="string" translate="true">Product</item>
+                    <item name="sorting" xsi:type="string">asc</item>
                 </item>
             </argument>
         </column>

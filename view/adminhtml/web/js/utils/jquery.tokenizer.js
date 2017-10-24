@@ -12,8 +12,8 @@
     if (typeof define === 'function' && define.amd) {
         define([
             'jquery',
-            'css!css/tokenize/bootstrap',
-            'css!css/tokenize/tokenize2',
+            'css!css/tokenize/bootstrap.min',
+            'css!css/tokenize/tokenize2.min',
             'tokenize'
         ], factory);
     } else {

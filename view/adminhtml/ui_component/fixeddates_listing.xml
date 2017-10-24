@@ -37,7 +37,6 @@
         </argument>
         <!--<bookmark name="bookmarks"/> coomented for some reason when used is not allowing select column-->
         <columnsControls name="columns_controls"/>
-        <filterSearch name="fulltext"/>
         <filters name="listing_filters"/>
         <massaction name="listing_massaction">
             <argument name="data" xsi:type="array">

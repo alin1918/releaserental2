@@ -221,7 +221,7 @@ class Template
     private function _appendFrontendGeneralStyles(&$dom)
     {
         $html = '<script>
-            require(["css!css/general/styles"], function(){
+            require(["css!css/general/styles.min"], function(){
                 
             });
             </script>';
