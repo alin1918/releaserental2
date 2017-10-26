@@ -457,39 +457,11 @@
         return attachHandlersOriginal.call(this, inst);
     };
 
-    /**
-     datePickerPrototype._doMouseUp = function (td) {
-        var id = $(td).closest('._has-datepicker').attr('id');
-        var inst = this._getInst($('#' + id)[0]);
-        var fromObj = inst.settings.fromObj,
-            toObj = inst.settings.toObj;
-        var picker = (inst.settings.showsTime ? 'datetimepicker' : 'datetimepicker');
-        var alwaysShow = inst.settings.alwaysShow;
-        var fromDate = fromObj[picker]('getDate'),
-            toDate = toObj[picker]('getDate');
-        if (alwaysShow) {
-            var fromDateNoTime = $.datepicker._getDateNoTime(fromDate);
-            var toDateNoTime = $.datepicker._getDateNoTime(toDate);
-
-            while (fromDateNoTime.getTime() < toDateNoTime) {
-                var elem = $('#' + id).find('td[itimetd="' + fromDateNoTime.getTime() + '"]');
-                elem.addClass('legend-selected-fix');
-                fromDateNoTime.setDate(fromDateNoTime.getDate() + 1);
-            }
-        }
-    };
-     */
-
     /* Update the datepicker when hovering over a date.
      @param  td         (element) the current cell
      @param  id         (string) the ID of the datepicker instance
      @param  timestamp  (number) the timestamp for this date */
     datePickerPrototype._doMouseOver = function (td, inst) {
-
-        //var id = $(td).closest('._has-datepicker').attr('id');
-        //if (typeof id === 'undefined') {
-        //  id = $(td).closest('#ui-datepicker-div').attr('id');
-        //}
         var id = inst.id.replace(/\\\\/g, "\\");
 
         $(td).addClass($.datepicker._dayOverClass);
@@ -501,6 +473,9 @@
 
         var turnoverAfterValue = $.datepicker._get(inst, 'turnoverAfter');
         turnoverAfterValue = parseInt(turnoverAfterValue / 1440);
+
+        var hasLegend = $.datepicker._get(inst, 'hasLegend');
+
         if (!hasLegend) {
             turnoverAfterValue = 0;
             turnoverBeforeValue = 0;
@@ -798,26 +773,26 @@
 
         if (showTimeSelect) {
             //here we check if from date or todate
-            if (!timeNoGrid) {
-                if (currentDate && datePickerPrototype._compareDateTimeObj(today, currentDate, false) === 0) {
-                    disabledTimeRanges = $.datepicker._disableTimeRangesPerDate((currentDate ? currentDate : ''), storeHours, ampm, timeFormat, bookedDates, disableDates, firstTimeAvailable, currentQuantity, availableQuantity);
-                } else {
-                    if (currentDate && !isFrom && fromDate) {
-                        if (datePickerPrototype._compareDateTimeObj(currentDate, fromDate, false) === 0) {
-                            var minimumTime = datePickerPrototype._getTimeFromDate(fromDate, timeFormat);
-                            if (minimumPeriod >= 1440) {
-                                minimumPeriod = (fromDate.getTime() - $.datepicker._getDateNoTime(fromDate).getTime()) / 3600000 - 60;
-                            }
-                            minimumTime = datePickerPrototype._addSubtractTime(minimumTime, timeFormat, minimumPeriod);
-                            disabledTimeRanges = $.datepicker._disableTimeRangesPerDate((currentDate ? currentDate : ''), storeHours, ampm, timeFormat, bookedDates, disableDates, minimumTime, currentQuantity, availableQuantity);
-                        } else {
-                            disabledTimeRanges = $.datepicker._disableTimeRangesPerDate((currentDate ? currentDate : ''), storeHours, ampm, timeFormat, bookedDates, disableDates, 'none', currentQuantity, availableQuantity);
+            //if (!timeNoGrid) {
+            if (currentDate && datePickerPrototype._compareDateTimeObj(today, currentDate, false) === 0) {
+                disabledTimeRanges = $.datepicker._disableTimeRangesPerDate((currentDate ? currentDate : ''), storeHours, ampm, timeFormat, bookedDates, disableDates, firstTimeAvailable, currentQuantity, availableQuantity);
+            } else {
+                if (currentDate && !isFrom && fromDate) {
+                    if (datePickerPrototype._compareDateTimeObj(currentDate, fromDate, false) === 0) {
+                        var minimumTime = datePickerPrototype._getTimeFromDate(fromDate, timeFormat);
+                        if (minimumPeriod >= 1440) {
+                            minimumPeriod = (fromDate.getTime() - $.datepicker._getDateNoTime(fromDate).getTime()) / 3600000 - 60;
                         }
+                        minimumTime = datePickerPrototype._addSubtractTime(minimumTime, timeFormat, minimumPeriod);
+                        disabledTimeRanges = $.datepicker._disableTimeRangesPerDate((currentDate ? currentDate : ''), storeHours, ampm, timeFormat, bookedDates, disableDates, minimumTime, currentQuantity, availableQuantity);
                     } else {
                         disabledTimeRanges = $.datepicker._disableTimeRangesPerDate((currentDate ? currentDate : ''), storeHours, ampm, timeFormat, bookedDates, disableDates, 'none', currentQuantity, availableQuantity);
                     }
+                } else {
+                    disabledTimeRanges = $.datepicker._disableTimeRangesPerDate((currentDate ? currentDate : ''), storeHours, ampm, timeFormat, bookedDates, disableDates, 'none', currentQuantity, availableQuantity);
                 }
             }
+            //}
             var onChangeTime = $.datepicker._get(dp_inst, 'onChangeTime');
             if (ampm) {
                 timeFormatNew = 'h:i a';
@@ -1758,6 +1733,13 @@
             this.options.toObj[this._picker()]('option', 'availableQuantity', self.options.availableQuantity);
             this.options.fromObj[this._picker()]('option', 'minimumPeriod', self.options.minimumPeriod);
             this.options.toObj[this._picker()]('option', 'minimumPeriod', self.options.minimumPeriod);
+            this.options.fromObj[this._picker()]('option', 'turnoverBefore', self.options.turnoverBefore);
+            this.options.toObj[this._picker()]('option', 'turnoverBefore', self.options.turnoverBefore);
+            this.options.fromObj[this._picker()]('option', 'turnoverAfter', self.options.turnoverAfter);
+            this.options.toObj[this._picker()]('option', 'turnoverAfter', self.options.turnoverAfter);
+            this.options.fromObj[this._picker()]('option', 'maximumPeriod', self.options.maximumPeriod);
+            this.options.toObj[this._picker()]('option', 'maximumPeriod', self.options.maximumPeriod);
+
         },
         _onfixedLengthChanged: function (self, val) {
             self.options.fixedRentalLength = parseInt(val);
@@ -2313,7 +2295,7 @@
             }
         },
         _updatesTimePicker: function (type) {
-            if (this.options.showTime && !this.options.timeNoGrid) {
+            if (this.options.showTime) {
                 var idTimepicker, id, selectedTimeAsDate, inst;
                 if (type == 'from') {
                     inst = $.datepicker._getInst(this.options.fromObj[0]);
@@ -2432,19 +2414,12 @@
                         this.options.hasSelectedManually = 1;
                     }
                     if ($(this.options.isConfigurableSelector).length > 0) {
-                        Logger1.get('Errorm').warn('here');
-                        //Logger1.get('Debugm').debug(self);
-
                         $productForm.trigger('updateProductSummary');
                     }
-
-                    Logger1.get('Errorm').warn('here2');
 
                 }, self));
                 $productForm.on('updateProductSummary', $.proxy(function (event, config) {
                     if (this.options.hasSelectedManually === 1) {
-                        Logger1.get('Errorm').warn('here3');
-
                         this._updateTimePickerInventory(true);
                         this.options.hasSelectedManually = 0;
                     }

@@ -44,6 +44,8 @@
         //$('.accordion .config .label span[data-config-scope]').css('width', '150px')
         //$('.accordion .config select[type="time"]').css('width', '100px');
         $('.accordion .config .label').css('word-break', 'inherit');
+        $('.admin__scope-old select:not([multiple])').css('max-width', '200px');
+        $('.admin__scope-old select[multiple], .admin__scope-old select[size]').css('height', '100px');
         //todo add the rest of fields to checks
         $('input[name^="groups[store_hours][fields][global_exclude_dates]"]').not(':checkbox').css('width', '200px');
     });

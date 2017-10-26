@@ -46,6 +46,8 @@
             </inventory>
             <price>
                 <grid_points>1</grid_points>
+                <price_as_table_product_view>0</price_as_table_product_view>
+                <hide_time_periods_numbers>0</hide_time_periods_numbers>
             </price>
             <deposit_damage>
                 <damagewaiver_order_or_product>order</damagewaiver_order_or_product>
@@ -65,9 +67,7 @@
                 <sort_list_price_type>1</sort_list_price_type>
                 <price_points>3</price_points>
                 <next_available_date>0</next_available_date>
-                <price_as_table_product_view>0</price_as_table_product_view>
                 <show_buyout_price>0</show_buyout_price>
-                <hide_time_periods_numbers>0</hide_time_periods_numbers>
             </listing>
             <details>
                 <price_points>-1</price_points>

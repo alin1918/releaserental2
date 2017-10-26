@@ -2144,7 +2144,7 @@
             }
         },
         _updatesTimePicker: function (type) {
-            if (this.options.showTime && !this.options.timeNoGrid) {
+            if (this.options.showTime) {
                 var idTimepicker, id, selectedTimeAsDate, inst;
                 if (type == 'from') {
                     inst = $.datepicker._getInst(this.options.fromObj[0]);

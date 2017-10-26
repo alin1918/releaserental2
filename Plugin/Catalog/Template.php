@@ -87,7 +87,7 @@ class Template
         if ($this->helperCalendar->globalDatesPricingOnListing() !== GlobalDatesPricingOnListing::NORMAL) {
             /** @var \SalesIgniter\Rental\Block\Footer\Pricingppr $block */
             $block = $this->layout->createBlock('\SalesIgniter\Rental\Block\Footer\Pricingppr');
-            $dom->append($block->toHtml());
+            $dom->append($this->cleanHtml($block->toHtml()));
         }
     }
 
@@ -148,14 +148,14 @@ class Template
 
         $isBundle = $dom->find('.fieldset-bundle-options')->first();
         if ($hasStartEndDate && $isBundle->length === 0) {
-            $html = html5qp($this->getCalendar());
+            $html = $this->cleanHtml($this->getCalendar());
             $dom->find('.date')->first()->parent()->append($html);
             $isChanged = true;
         }
         if (!$hasStartEndDate && $isBundle->length === 0) {
             $bundleFields = $dom->find('.bundle-info')->first();
             if (is_object($bundleFields)) {
-                $html = html5qp($this->getCalendar());
+                $html = $this->cleanHtml($this->getCalendar());
                 $bundleFields->append($html);
                 $isChanged = true;
             }
@@ -193,7 +193,7 @@ class Template
      */
     private function _appendCalendarAdmin(&$dom)
     {
-        $html = html5qp($this->getCalendar(\Magento\Framework\App\Area::AREA_ADMINHTML));
+        $html = $this->cleanHtml($this->getCalendar(\Magento\Framework\App\Area::AREA_ADMINHTML));
         $dom->prepend($html);
     }
 
@@ -209,7 +209,7 @@ class Template
                 
             });
             </script>';
-        $html = html5qp($html);
+        $html = $this->cleanHtml($html);
         $dom->append($html);
     }
 
@@ -225,7 +225,7 @@ class Template
                 
             });
             </script>';
-        $html = html5qp($html);
+        $html = $this->cleanHtml($html);
         $dom->append($html);
     }
 
@@ -272,6 +272,13 @@ class Template
             $this->_appendFrontendGeneralStyles($domHtml);
             $isChanged = true;
         }
+    }
+
+    private function cleanHtml($html)
+    {
+        $htmlCleaned = html5qp('<div class="si_generated_div">'.$html.'</div>');
+
+        return $htmlCleaned->find('div.si_generated_div')->first()->innerHTML();
     }
 
     /**
@@ -333,8 +340,9 @@ class Template
         if ($this->_helperRental->isPaymentResponse()) {
             return $html;
         }
-        $domHtml = html5qp('<div>'.$html.'</div>');
+        $domHtmlModified = html5qp('<div class="si_generated_local">'.$html.'</div>');
         $isChanged = false;
+        $domHtml = $domHtmlModified->find('div.si_generated_local')->first();
         $this->renameButtonsOnListingAndProductPage($fileName, $domHtml, $isChanged);
 
         $this->hideCustomOptions($subject, $domHtml, $isChanged);
@@ -348,7 +356,7 @@ class Template
 
         //todo for shipment view show serials. check regex https://simple-regex.com/build/580477fa34714
         if ($isChanged) {
-            return $domHtml->html();
+            return $domHtml->innerHTML();
         } else {
             return $html;
         }
@@ -362,7 +370,7 @@ class Template
      *
      * @throws \RuntimeException
      */
-    private function _removeStartEndDatesPerItem(&$dom, &$isChanged)
+    private function _removeStartEndDatesPerItem($dom, &$isChanged)
     {
         $dateField = $dom->find('dl')->first();
         if (is_object($dateField) && $dateField->hasClass('item-options')) {
@@ -385,12 +393,12 @@ class Template
      *
      * @return string
      */
-    private function _addDatesInfo(&$dom)
+    private function _addDatesInfo($dom)
     {
         if ($this->helperCalendar->isSameDayOrder()) {
             /** @var \SalesIgniter\Rental\Block\Adminhtml\Sales\Order\View\Info $block */
             $block = $this->layout->createBlock('\SalesIgniter\Rental\Block\Adminhtml\Sales\Order\View\Info');
-            $html = html5qp($block->toHtml());
+            $html = $this->cleanHtml($block->toHtml());
             $dom->append($html);
         }
     }
@@ -400,12 +408,12 @@ class Template
      *
      * @return string
      */
-    private function _addReturnGridPanel(&$dom)
+    private function _addReturnGridPanel($dom)
     {
 
         /** @var \SalesIgniter\Rental\Block\Adminhtml\Sales\Order\View\ReturnGridPanel $block */
         $block = $this->layout->createBlock('\SalesIgniter\Rental\Block\Adminhtml\Sales\Order\View\ReturnGridPanel');
-        $html = html5qp($block->toHtml());
+        $html = $this->cleanHtml($block->toHtml());
         $dom->prepend($html);
     }
 
@@ -415,12 +423,12 @@ class Template
      *
      * @return string
      */
-    private function _addDatesInfoEmail(&$dom, $order = null)
+    private function _addDatesInfoEmail($dom, $order = null)
     {
         if ($this->helperCalendar->isSameDayOrder($order)) {
             /** @var \SalesIgniter\Rental\Block\Adminhtml\Sales\Order\View\InfoEmail $block */
             $block = $this->layout->createBlock('\SalesIgniter\Rental\Block\Adminhtml\Sales\Order\View\InfoEmail', '', ['data' => ['hasOrder' => $order]]);
-            $html = html5qp($block->toHtml());
+            $html = $this->cleanHtml($block->toHtml());
             $dom->prepend($html);
         }
     }
@@ -433,7 +441,7 @@ class Template
      *
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function _addSerialsInput(&$node, &$isChanged)
+    private function _addSerialsInput($node, &$isChanged)
     {
         /*
          * Because is using PHP 7 we will wait on implementing this. But still is easier to use and should be adopted
@@ -459,7 +467,7 @@ class Template
                     'serial_select_'.$product['order_item_id'],
                     ['data' => ['product_id' => $product['product_id'], 'item_id' => $product['order_item_id'], 'qty_value' => $product['qty']]]
                 );
-                $html = html5qp($block->toHtml());
+                $html = $this->cleanHtml($block->toHtml());
                 $node->parents()->eq(0)->append($html);
                 $isChanged = true;
             }
@@ -482,7 +490,7 @@ class Template
      *
      * @internal param $html
      */
-    protected function renameButtonsOnListingAndProductPage($fileName, &$domHtml, &$isChanged)
+    protected function renameButtonsOnListingAndProductPage($fileName, $domHtml, &$isChanged)
     {
         if ($this->_helperRental->isFrontend() &&
             (strpos($fileName, 'addtocart.phtml') !== false ||
@@ -502,7 +510,7 @@ class Template
      * @throws \InvalidArgumentException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function renameButtonsOnProductPage(&$dom, &$isChanged)
+    private function renameButtonsOnProductPage($dom, &$isChanged)
     {
         if ($this->coreRegistry->registry('current_product')) {
             $product = $this->coreRegistry->registry('current_product');
@@ -537,7 +545,7 @@ class Template
      * @param $dom
      * @param $isChanged
      */
-    private function renameButtonsOnListing(&$dom, &$isChanged)
+    private function renameButtonsOnListing($dom, &$isChanged)
     {
         /** @var \QueryPath\DOMQuery $priceBoxs */
         $priceBoxs = $dom->find('.pricing-ppr');
@@ -574,7 +582,7 @@ class Template
      *
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function addCalendarAdmin($subject, &$domHtml, &$isChanged)
+    private function addCalendarAdmin($subject, $domHtml, &$isChanged)
     {
         if (($this->_helperRental->isBackendAdminOrderEdit() &&
                 $subject->getNameInLayout() === 'items') ||
@@ -599,7 +607,7 @@ class Template
      * @param $domHtml
      * @param $isChanged
      */
-    private function orderViewUpdate($subject, &$domHtml, &$isChanged)
+    private function orderViewUpdate($subject, $domHtml, &$isChanged)
     {
         if ($subject->getNameInLayout() === 'sales_order_edit-return_order-button' && $this->_helperRental->isBackend()) {
             $this->_addReturnGridPanel($domHtml);
@@ -614,7 +622,7 @@ class Template
      *
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function modifyShipPage($subject, &$domHtml, &$isChanged)
+    private function modifyShipPage($subject, $domHtml, &$isChanged)
     {
         if ($subject->getNameInLayout() === 'order_items' && $this->_helperRental->isBackend()) {
             $nodes = $domHtml->find('.col-qty input');
@@ -622,20 +630,5 @@ class Template
                 $this->_addSerialsInput($node, $isChanged);
             }
         }
-    }
-
-    /**
-     * @param \QueryPath\DOMQuery $button
-     *
-     * @return string|\QueryPath\DOMQuery
-     */
-    private function getOuterHtml($button)
-    {
-
-        /** @var \QueryPath\DOMQuery $myDiv */
-        $myDiv = new \QueryPath\DOMQuery('<div></div>');
-        $myDiv->append($button->cloneAll());
-
-        return $myDiv->innerHTML5();
     }
 }

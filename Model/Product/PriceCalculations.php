@@ -214,7 +214,7 @@ class PriceCalculations
     public function priceAsTable()
     {
         return (bool) $this->scopeConfig->getValue(
-            'salesigniter_rental/listing/price_as_table_product_view',
+            'salesigniter_rental/price/price_as_table_product_view',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }
@@ -457,10 +457,8 @@ class PriceCalculations
             $qtyText = $this->getQtyLimitHtml($price);
             $typeText = $this->helperCalendar->getTextForType($price['period']);
             $priceDescription = '';
-
-            list($daysRow, $priceExclTaxRow, $priceInclTaxRow, $html) =
-                $this->getDaysAndPricesHtml($priceDescription, $typeText, $priceVal, $qtyText, $priceValInclTax, $html, $priceAdditionalHtml);
-
+            $this->getDaysAndPricesHtml($priceDescription, $typeText, $priceVal, $qtyText, $priceValInclTax, $html, $priceAdditionalHtml, $daysRow, $priceInclTaxRow, $priceExclTaxRow);
+            //$daysRow[] = $dayRow;
             ++$listedPricePoints;
         }
 
@@ -720,15 +718,18 @@ class PriceCalculations
      * @param $priceValInclTax
      * @param $html
      * @param $priceAdditionalHtml
+     * @param $daysRow
+     * @param $priceInclTaxRow
+     * @param $priceExclTaxRow
      *
      * @return array
      */
-    private function getDaysAndPricesHtml($priceDescription, $typeText, $priceVal, $qtyText, $priceValInclTax, $html, $priceAdditionalHtml)
+    private function getDaysAndPricesHtml($priceDescription, $typeText, $priceVal, $qtyText, $priceValInclTax, &$html, $priceAdditionalHtml, &$daysRow, &$priceInclTaxRow, &$priceExclTaxRow)
     {
         //if ($this->priceAsTable()) {
-        $daysRow = [];
-        $priceExclTaxRow = [];
-        $priceInclTaxRow = [];
+        //$daysRow = [];
+        //$priceExclTaxRow = [];
+        //$priceInclTaxRow = [];
         //}
         if ($this->_taxHelper->displayBothPrices()) {
             if ($this->priceAsTable()) {
@@ -1440,9 +1441,12 @@ class PriceCalculations
      */
     public function calculatePrice($productId, $fromDate, $toDate, $qty)
     {
-        if ($this->helperCalendar->useTimes($productId, true)) {
+        if ($this->helperCalendar->useTimes($productId, true, true)) {
             $fromDate = $this->helperDate->getCloneDate($fromDate);
             $toDate = $this->helperDate->getCloneDate($toDate);
+            if ($this->helperDate->compareDates($fromDate, $toDate) === 0) {
+                $toDate = $toDate->add(new \DateInterval('PT23H59M'));
+            }
         }
         /*
          * date si modified for adding to price, might interfere with special dates prices because it modifies end date. This case is rare

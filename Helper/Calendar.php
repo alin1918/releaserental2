@@ -696,13 +696,14 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $minimumPeriod = $this->helperRental->getAttribute($product, 'sirent_min');
         }
-        if ((int) $minimumPeriod === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+
+        if ($minimumPeriod === '' || (int) $minimumPeriod === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $minimumPeriod = $this->getMinimumPeriod($product, true);
         }
         if (!$minimumPeriod || $minimumPeriod === '') {
             $minimumPeriod = '0d';
         }
-        if ($minimumPeriod === '0d' && $this->useTimes($product) === false && (int) $this->getHotelMode($product) === 1) {
+        if ($minimumPeriod === '0d' && $product !== null && $this->useTimes($product) === false && (int) $this->getHotelMode($product) === 1) {
             $minimumPeriod = '1d';
         }
 
@@ -728,7 +729,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $maximumPeriod = $this->helperRental->getAttribute($product, 'sirent_max');
         }
 
-        if ((int) $maximumPeriod === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($maximumPeriod === '' || (int) $maximumPeriod === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $maximumPeriod = $this->getMaximumPeriod($product, true);
         }
         if (!$maximumPeriod || $maximumPeriod === '') {
@@ -756,10 +757,10 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $turnoverBefore = $this->helperRental->getAttribute($product, 'sirent_turnover_before');
         }
-
-        if ((int) $turnoverBefore === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($turnoverBefore === '' || (int) $turnoverBefore === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $turnoverBefore = $this->getTurnoverBefore($product, true);
         }
+
         if (!$turnoverBefore || $turnoverBefore === '') {
             $turnoverBefore = '0d';
         }
@@ -786,7 +787,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $turnoverAfter = $this->helperRental->getAttribute($product, 'sirent_turnover_after');
         }
 
-        if ((int) $turnoverAfter === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($turnoverAfter === '' || (int) $turnoverAfter === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $turnoverAfter = $this->getTurnoverAfter($product, true);
         }
         if (!$turnoverAfter || $turnoverAfter === '') {
@@ -815,7 +816,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $padding = $this->helperRental->getAttribute($product, 'sirent_padding');
         }
 
-        if ((int) $padding === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($padding === '' || (int) $padding === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $padding = $this->getPadding($product, true);
         }
         if (!$padding || $padding === '') {
@@ -844,7 +845,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $fixedLength = $this->helperRental->getAttribute($product, 'sirent_fixed_length');
         }
 
-        if ((int) $fixedLength === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($fixedLength === '' || (int) $fixedLength === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $fixedLength = $this->getFixedLength($product, true);
         }
         if (!$fixedLength || $fixedLength === '') {
@@ -873,7 +874,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $fixedType = $this->helperRental->getAttribute($product, 'sirent_fixed_type');
         }
 
-        if ((int) $fixedType === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($fixedType === '' || (int) $fixedType === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $fixedType = $this->getFixedOptions($product, true);
         }
         if (!$fixedType || $fixedType === '') {
@@ -951,7 +952,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $futureLimit = $this->helperRental->getAttribute($product, 'sirent_future_limit');
         }
-        if ((int) $futureLimit === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($futureLimit === '' || (int) $futureLimit === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $futureLimit = $this->getFutureLimit($product, true);
         }
         if (!$futureLimit || $futureLimit === '') {
@@ -992,7 +993,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $alwaysShow = $this->helperRental->getAttribute($product, 'sirent_always_show');
         }
-        if ((int) $alwaysShow === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($alwaysShow === '' || (int) $alwaysShow === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $alwaysShow = $this->getAlwaysShow($product, true);
         }
         if (!$alwaysShow || $alwaysShow === '') {
@@ -1039,7 +1040,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $hotelMode = $this->helperRental->getAttribute($product, 'sirent_hotel_mode');
         }
-        if ((int) $hotelMode === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($hotelMode === '' || (int) $hotelMode === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $hotelMode = $this->getHotelMode($product, true);
         }
         if (!$hotelMode || $hotelMode === '') {
@@ -1069,7 +1070,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $disableShipping = $this->helperRental->getAttribute($product, 'sirent_disable_shipping');
         }
-        if ((int) $disableShipping === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($disableShipping === '' || (int) $disableShipping === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $disableShipping = $this->getDisabledShipping($product, true);
         }
         if (!$disableShipping || $disableShipping === '') {
@@ -1098,7 +1099,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $allowOverbooking = $this->helperRental->getAttribute($product, 'sirent_allow_overbooking');
         }
 
-        if ((int) $allowOverbooking === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($allowOverbooking === '' || (int) $allowOverbooking === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $allowOverbooking = $this->allowOverbooking($product, true);
         }
         if (!$allowOverbooking || $allowOverbooking === '') {
@@ -1141,7 +1142,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $damageWaiver = $this->helperRental->getAttribute($product, 'sirent_damage_waiver');
         }
-        if ((int) $damageWaiver === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ($damageWaiver === '' || (int) $damageWaiver === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $damageWaiver = $this->getDamageWaiver($product, true);
         }
         if (!$damageWaiver || $damageWaiver === '') {
@@ -1301,12 +1302,13 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @param \Magento\Catalog\Model\Product|int $product
      * @param bool                               $checkGrid
+     * @param bool                               $fromPricing
      *
      * @return bool
      *
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function useTimes($product, $checkGrid = false)
+    public function useTimes($product, $checkGrid = false, $fromPricing = false)
     {
         if ($product === null) {
             return false;
@@ -1319,7 +1321,11 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         if (!$checkGrid) {
             return (int) $priceType > 0;
         } else {
-            return (int) $priceType === 2;
+            if (!$fromPricing) {
+                return (int) $priceType === 2 || (int) $priceType === 3;
+            } else {
+                return (int) $priceType === 2;
+            }
         }
     }
 
@@ -1352,27 +1358,33 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      * @param $hasTimes
      *
      * @return \DateTime|null
+     *
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function getDate($type, $buyRequest, $product, $hasTimes)
+    private function getDate($type, $buyRequest, $product)
     {
         /** @var array $calendarSelector */
         $calendarSelector = [];
         if (array_key_exists('calendar_selector', $buyRequest)) {
             $calendarSelector = $buyRequest['calendar_selector'];
         }
-        //if (null !== $product) {
-        //$hasTimes = $this->useTimes($product);
-        //}
 
         /*todo check this part might introduce a bug*/
         //if (array_key_exists('calendar_use_times', $buyRequest)) {
         //$hasTimes = $buyRequest['calendar_use_times'] === '1';
         //}
-        $hasTimes = true;
         $newDate = null;
         if (array_key_exists($type, $calendarSelector) && $calendarSelector[$type] !== '') {
+
             /* @var \DateTime $startDate */
-            $newDate = $this->convertDateToUTC($calendarSelector[$type], $hasTimes, $calendarSelector['locale']);
+            $newDate = $this->convertDateToUTC($calendarSelector[$type], true, $calendarSelector['locale']);
+            $hasTimes = false;
+            if (null !== $product) {
+                $hasTimes = $this->useTimes($product, true, true);
+            }
+            if ($hasTimes) {
+                $newDate = $this->dateHelper->getCloneDate($newDate);
+            }
         }
 
         return $newDate;
@@ -1394,16 +1406,24 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getDatesFromBuyRequest($buyRequest, $product = null, $hasTimes = false)
     {
+        /*
+         * We can modify the dates here. The dates are already setup into custom options
+         * These values are the working values. So for when times with grid full day I can change it here
+         * so into db the values for start end date are full day.
+         */
         $dates = new \Magento\Framework\DataObject();
 
         if (is_object($buyRequest)) {
             /** @var array $buyRequest */
             $buyRequest = $this->helperRental->unserialize($buyRequest->getValue());
         }
-        $startDate = $this->getDate('from', $buyRequest, $product, $hasTimes);
-        $endDate = $this->getDate('to', $buyRequest, $product, $hasTimes);
-        $startDateWithTurnover = $this->getDate('turnover_from', $buyRequest, $product, $hasTimes);
-        $endDateWithTurnover = $this->getDate('turnover_to', $buyRequest, $product, $hasTimes);
+        $startDate = $this->getDate('from', $buyRequest, $product);
+        $endDate = $this->getDate('to', $buyRequest, $product);
+        if ($this->dateHelper->compareDates($startDate, $endDate) === 0) {
+            $endDate = $endDate->add(new \DateInterval('PT23H59M'));
+        }
+        $startDateWithTurnover = $this->getDate('turnover_from', $buyRequest, $product);
+        $endDateWithTurnover = $this->getDate('turnover_to', $buyRequest, $product);
 
         if (isset($buyRequest['is_buyout'])) {
             $dates->setIsBuyout(1);
@@ -1683,7 +1703,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
     public function hideTimePeriodNumbers()
     {
         return (bool) $this->scopeConfig->getValue(
-            'salesigniter_rental/listing/hide_time_periods_numbers',
+            'salesigniter_rental/price/hide_time_periods_numbers',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }

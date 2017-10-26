@@ -163,7 +163,14 @@
                     <source_model>SalesIgniter\Rental\Model\Config\SpecialPricingRules</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
-
+                <field id="hide_time_periods_numbers" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Hide time period numbers from price points</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="price_as_table_product_view" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show prices in table format</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
             <group id="listing" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Category / Listing Page</label>
@@ -186,16 +193,8 @@
                     <label>Sort Price List Type</label>
                     <source_model>SalesIgniter\Rental\Model\Config\PriceType</source_model>
                 </field>
-                <field id="price_as_table_product_view" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Show prices in table format on product view</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
                 <field id="show_buyout_price" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show buyout price on listing page</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="hide_time_periods_numbers" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Hide time period numbers from product info page</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>

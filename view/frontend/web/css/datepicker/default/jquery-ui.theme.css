@@ -92,13 +92,14 @@ input[name^="calendar_selector"] {
 }
 
 .legend-detail-description {
-    margin-top: 10px
+    margin-top: 5px
 }
 
 .legend-detail-description .description {
     padding-left: 5px;
-    padding-right: 10px;
-    vertical-align: middle
+    padding-right: 5px;
+    vertical-align: middle;
+    font-size: 10px;
 }
 
 .legend-detail-container .legend-detail-header {
@@ -114,15 +115,15 @@ input[name^="calendar_selector"] {
 }
 
 .legend-detail-description .turnoverBefore {
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
     background-color: red;
     border: 1px dotted #cccccc;
 }
 
 .legend-detail-description .turnoverAfter {
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
     background-color: red;
     border: 1px dotted #cccccc;
 }
@@ -196,12 +197,10 @@ input[name^="calendar_selector"] {
 .legend-mail {
     border: 0px solid #ffffff;
     background: none !important;
-    background-image: url('images/legend-mail.png') !important;
-
+    background-color: #60b9ec !important;
     font-weight: normal;
     color: #ffffff;
     text-align: center;
-
     vertical-align: middle;
 }
 
@@ -211,11 +210,11 @@ input[name^="calendar_selector"] {
 }
 
 .legend-ico {
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 .legend-start-s {
@@ -229,8 +228,8 @@ input[name^="calendar_selector"] {
 }
 
 .legend-mail-s {
-
-    background-image: url('../legend-mails.png');
+    background: none !important;
+    background-color: #60b9ec !important;
 }
 
 .legend-unavailable-s {
@@ -339,10 +338,12 @@ input[name^="calendar_selector"] {
     width: 100%;
     font-size: 0;
 }
+
 .ui-datepicker-multi-2 .ui-datepicker-group .ui-datepicker-header {
     padding-bottom: 10px;
     min-height: 35px;
 }
+
 @media (max-width: 480px) {
     .ui-datepicker-multi-2 .ui-datepicker-group {
         width: 100%;
