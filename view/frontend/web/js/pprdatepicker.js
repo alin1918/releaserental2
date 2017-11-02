@@ -1382,10 +1382,16 @@
             priceBox = priceBox.filter(function (index, elem) {
                 return !$(elem).find('.minimal-price').length;
             });
-
-            if (typeof priceBox.priceBox('option').priceConfig !== 'undefined') {
-                var priceFormat = (priceBox.priceBox('option').priceConfig && priceBox.priceBox('option').priceConfig.priceFormat) || {},
-                    priceTemplate = mageTemplate(priceBox.priceBox('option').priceTemplate),
+            var magePriceBox;
+            if (priceBox.data('magePriceBox')) {
+                magePriceBox = priceBox.data('magePriceBox');
+            }
+            if (magePriceBox &&
+                magePriceBox['options'] &&
+                magePriceBox['options']['priceConfig']
+            ) {
+                var priceFormat = (magePriceBox['options']['priceConfig'] && magePriceBox['options']['priceConfig']['priceFormat']) || {},
+                    priceTemplate = mageTemplate(magePriceBox['options']['priceTemplate']),
                     priceCode = 'finalPrice',
                     priceCodeBase = 'basePrice',
                     finalPrice = {};
@@ -1943,6 +1949,8 @@
         _updateTimePickerInventory: function (updatePriceAfter) {
             var self = this,
                 dataFormSerialized;
+            Logger1.get('Errorm').warn('here');
+
             dataFormSerialized = this._getFormSerialization();
             if (typeof updatePriceAfter === 'undefined') {
                 updatePriceAfter = false;
@@ -1998,7 +2006,6 @@
                     dataFormSerialized = $productForm.serializeArray();
                     calendarSerialized = this.element.find('[name^="calendar_selector"]').serializeArray();
                     dataFormSerialized = _.union(dataFormSerialized, calendarSerialized);
-
                     var startDateFromWidget = this.element.find('[name="calendar_selector[from]"]').val();
                     var endDateFromWidget = this.element.find('[name="calendar_selector[to]"]').val();
                     $productForm.find('[name="calendar_selector[from]"]').val(startDateFromWidget);
@@ -2007,27 +2014,32 @@
                     dataFormSerialized = this.element.find(':input').serializeArray();
                 }
             }
-            if ($productForm.data('magePriceBundle') &&
-                $productForm.priceBundle('option') &&
-                $productForm.priceBundle('option').optionConfig
+            var magePriceBundle;
+            if ($productForm.data('magePriceBundle')) {
+                magePriceBundle = $productForm.data('magePriceBundle');
+            }
+            if (magePriceBundle &&
+                magePriceBundle['options'] &&
+                magePriceBundle['options']['optionConfig']
             ) {
-                var configArray = $productForm.priceBundle('option').optionConfig.selected;
-                var configOptionsArray = $productForm.priceBundle('option').optionConfig.options;
-                if (_.isArray(configArray)) {
+                var configArray = magePriceBundle['options']['optionConfig']['selected'];
+                var configOptionsArray = magePriceBundle['options']['optionConfig']['options'];
+                if (_.isObject(configArray)) {
                     dataFormSerialized = _.filter(dataFormSerialized, function (elems) {
                         return elems.name.indexOf('bundle_option[') === -1;
                     });
+
                     _.each(configArray, function (element, index, list) {
-                        if (_.isArray(element) && _.size(element) > 0) {
+                        if (_.isObject(element) && _.size(element) > 0) {
                             _.each(element, function (elem, subindex, list) {
-                                if (typeof configOptionsArray[index].selections[elem] !== 'undefined') {
+                                if (typeof configOptionsArray[index]['selections'][elem] !== 'undefined') {
                                     dataFormSerialized.push({
-                                        'name': 'bundle_option[' + index + '][' + configOptionsArray[index].selections[elem].optionId + ']',
+                                        'name': 'bundle_option[' + index + '][' + configOptionsArray[index]['selections'][elem]['optionId'] + ']',
                                         'value': elem
                                     });
                                     dataFormSerialized.push({
-                                        'name': 'bundle_option_qty[' + index + '][' + configOptionsArray[index].selections[elem].optionId + ']',
-                                        'value': configOptionsArray[index].selections[elem].qty
+                                        'name': 'bundle_option_qty[' + index + '][' + configOptionsArray[index]['selections'][elem]['optionId'] + ']',
+                                        'value': configOptionsArray[index]['selections'][elem]['qty']
                                     })
                                 }
                             });

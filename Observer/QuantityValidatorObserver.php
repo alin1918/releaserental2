@@ -140,6 +140,7 @@ class QuantityValidatorObserver implements ObserverInterface
      *
      * @return bool
      *
+     * @throws \InvalidArgumentException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \LogicException
@@ -154,7 +155,11 @@ class QuantityValidatorObserver implements ObserverInterface
             if ($quoteItem->getParentItem()) {
                 continue;
             }
-            $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItem);
+            if ($quoteItem->getParentItem()) {
+                $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItem->getParentItem());
+            } else {
+                $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItem);
+            }
             $dates = $this->calendarHelper->getDatesFromBuyRequest(
                 $buyRequest, $quoteItem->getProduct()
             );
@@ -167,7 +172,11 @@ class QuantityValidatorObserver implements ObserverInterface
                     if ($quoteItemNew->getParentItem()) {
                         continue;
                     }
-                    $buyRequestNew = $this->calendarHelper->prepareBuyRequest($quoteItemNew);
+                    if ($quoteItemNew->getParentItem()) {
+                        $buyRequestNew = $this->calendarHelper->prepareBuyRequest($quoteItemNew->getParentItem());
+                    } else {
+                        $buyRequestNew = $this->calendarHelper->prepareBuyRequest($quoteItemNew);
+                    }
                     $datesNew = $this->calendarHelper->getDatesFromBuyRequest(
                         $buyRequestNew, $quoteItemNew->getProduct()
                     );
@@ -201,6 +210,7 @@ class QuantityValidatorObserver implements ObserverInterface
      *
      * @return array
      *
+     * @throws \InvalidArgumentException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \LogicException
@@ -230,8 +240,13 @@ class QuantityValidatorObserver implements ObserverInterface
                 if ($productObj->getId() !== $quoteItemObj->getProduct()->getId()) {
                     continue;
                 }
+                if ($quoteItemObj->getParentItem()) {
+                    $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItemObj->getParentItem());
+                } else {
+                    $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItemObj);
+                }
                 $datesConfigure = $this->calendarHelper->getDatesFromBuyRequest(
-                    $quoteItemObj->getOptionByCode('info_buyRequest'), $productObj
+                    $buyRequest, $productObj
                 );
                 $updatedInventory = $this->productStock->getUpdatedInventory(
                     $quoteItemObj->getProduct()->getId(),
@@ -255,7 +270,11 @@ class QuantityValidatorObserver implements ObserverInterface
             if ($productObj->getId() !== $quoteItem->getProduct()->getId()) {
                 continue;
             }
-            $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItemObj);
+            if ($quoteItemObj->getParentItem()) {
+                $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItemObj->getParentItem());
+            } else {
+                $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItemObj);
+            }
             $dates = $this->calendarHelper->getDatesFromBuyRequest(
                 $buyRequest, $productObj
             );
@@ -283,6 +302,7 @@ class QuantityValidatorObserver implements ObserverInterface
      *
      * @return $this
      *
+     * @throws \InvalidArgumentException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \LogicException
      * @throws \Magento\Framework\Exception\LocalizedException

@@ -516,6 +516,8 @@ class Template
             $product = $this->coreRegistry->registry('current_product');
             if ($this->_helperRental->isRentalType($product->getId())) {
                 $buttons = $dom->find('.tocart');
+
+                /** @var \QueryPath\DOMQuery $button */
                 foreach ($buttons as $button) {
                     $dataType = $this->_helperRental->isBuyout($product->getId()) ? 'rental-buyout' : '';
                     /** @var \QueryPath\DOMQuery $span */
@@ -523,10 +525,10 @@ class Template
                     $span->text(__('Rent'));
 
                     if ($dataType == 'rental-buyout') {
-                        $button->parent()->append($button);
-                        /** @var \QueryPath\DOMQuery $newButton */
-                        $newButton = $button->next()->next();
+                        $newButton = clone $button;
+                        /* @var \QueryPath\DOMQuery $newButton */
                         $newButton->attr('title', 'Buyout');
+                        $button->removeAttr('xmlns');
                         $newButton->attr('name', 'is_buyout');
                         $newButton->addClass('rental-buyout');
                         if ($newButton->find('span')->first()->length > 0) {
@@ -534,6 +536,8 @@ class Template
                         } else {
                             $newButton->text(__('Buyout'));
                         }
+
+                        $button->parent()->append($newButton);
                     }
                     $isChanged = true;
                 }

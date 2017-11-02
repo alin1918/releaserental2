@@ -486,7 +486,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isBuyout($product)
     {
         $buyoutEnabled = $this->getAttribute($product, 'sirent_enable_buyout');
-
         return (bool) $buyoutEnabled;
     }
 

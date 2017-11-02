@@ -212,7 +212,7 @@ class AroundProductRepositorySave
                 $product->setPrice(0);
             }
             $subject->save($product);
-        } elseif ($this->helperRental->isRentalType($product) && $this->helperRental->isBundle($product)) {
+        } elseif ($this->helperRental->isRentalType($product) && $this->helperRental->isBundle($product) && (int) $this->helperRental->getAttribute($product, 'price_type') !== \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
             $product->setPriceType(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED);
             $product->setPrice(0);
             $subject->save($product);
