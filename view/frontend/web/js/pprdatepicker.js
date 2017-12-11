@@ -1864,12 +1864,13 @@
              * To Object initialization
              */
             this.options.fromObj[this._picker()]('option', 'minDate', $.datepicker.parseDateTime("yy-mm-dd", "HH:mm:ss", this.options.firstDateAvailable));
-            if (this.options.fromDateInitial != '') {
+
+            if (this.options.fromDateInitial != '' && this.options.firstDateAvailable === 0) {
                 var newFromDate = $.datepicker.parseDateTime("yy-mm-dd", "HH:mm:ss", this.options.fromDateInitial);
                 this.options.fromDateInitial = newFromDate;
                 this.options.fromObj[this._picker()]('setDate', newFromDate);
             }
-            if (this.options.toDateInitial != '') {
+            if (this.options.toDateInitial != '' && this.options.firstDateAvailable === 0) {
                 var newToDate = $.datepicker.parseDateTime("yy-mm-dd", "HH:mm:ss", this.options.toDateInitial);
                 this.options.toDateInitial = newToDate;
                 this.options.toObj[this._picker()]('setDate', newToDate);

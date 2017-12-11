@@ -49,16 +49,6 @@ class Template
         $this->helperCalendar = $helperCalendar;
     }
 
-    private function removeHtmlTags($html)
-    {
-        //$html = preg_replace("/<html[^>]+\>/i", '', $html);
-        $html = str_replace('<html>', '', $html);
-        $html = str_replace('</html>', '', $html);
-        // $html = str_replace('<!DOCTYPE html>', '', $html);
-        // $html = str_replace('<br></br>', '<br />', $html);
-        return $html;
-    }
-
     /**
      * @param $domHtml
      * @param $isChanged
@@ -243,11 +233,11 @@ class Template
     private function hideCustomOptions($subject, &$domHtml, &$isChanged)
     {
         if (($subject->getNameInLayout() === 'product.info.options.wrapper' &&
-                $this->_helperRental->isFrontend() &&
-                $this->_helperRental->isRentalType($this->coreRegistry->registry('current_product'))) ||
-            ($subject->getNameInLayout() === 'bundle.summary' &&
-                $this->_helperRental->isFrontend() &&
-                $this->_helperRental->isRentalType($this->coreRegistry->registry('current_product')))
+               $this->_helperRental->isFrontend() &&
+               $this->_helperRental->isRentalType($this->coreRegistry->registry('current_product'))) ||
+             ($subject->getNameInLayout() === 'bundle.summary' &&
+               $this->_helperRental->isFrontend() &&
+               $this->_helperRental->isRentalType($this->coreRegistry->registry('current_product')))
         ) {
             $this->_hideStartEndCustomOptions($domHtml, $isChanged);
         }
@@ -308,10 +298,10 @@ class Template
         }
 
         if ($this->_helperRental->isBackend() &&
-            $this->helperCalendar->isSameDayOrder() &&
-            ($subject->getNameInLayout() === 'order_items' ||
-                $subject->getNameInLayout() === 'shipment_items' ||
-                $subject->getNameInLayout() === 'creditmemo_items')
+             $this->helperCalendar->isSameDayOrder() &&
+             ($subject->getNameInLayout() === 'order_items' ||
+               $subject->getNameInLayout() === 'shipment_items' ||
+               $subject->getNameInLayout() === 'creditmemo_items')
         ) {
             $this->_removeStartEndDatesPerItem($domHtml, $isChanged);
         }
@@ -340,7 +330,10 @@ class Template
         if ($this->_helperRental->isPaymentResponse()) {
             return $html;
         }
-        $domHtmlModified = html5qp('<div class="si_generated_local">'.$html.'</div>');
+        $scripts = $this->Translate_DoHTML_GetScripts($html);
+        $myhtml = $scripts['body'];
+        // $myhtml = $html;
+        $domHtmlModified = html5qp('<div class="si_generated_local">'.$myhtml.'</div>');
         $isChanged = false;
         $domHtml = $domHtmlModified->find('div.si_generated_local')->first();
         $this->renameButtonsOnListingAndProductPage($fileName, $domHtml, $isChanged);
@@ -356,7 +349,8 @@ class Template
 
         //todo for shipment view show serials. check regex https://simple-regex.com/build/580477fa34714
         if ($isChanged) {
-            return $domHtml->innerHTML();
+            return $this->Translate_DoHTML_SetScripts($domHtml->innerHTML(), $scripts['scripts']);
+            //return $domHtml->innerHTML();
         } else {
             return $html;
         }
@@ -465,7 +459,13 @@ class Template
                 $block = $this->layout->createBlock(
                     '\SalesIgniter\Rental\Block\Adminhtml\Sales\Order\Shipment\Serials',
                     'serial_select_'.$product['order_item_id'],
-                    ['data' => ['product_id' => $product['product_id'], 'item_id' => $product['order_item_id'], 'qty_value' => $product['qty']]]
+                    [
+                        'data' => [
+                            'product_id' => $product['product_id'],
+                            'item_id' => $product['order_item_id'],
+                            'qty_value' => $product['qty'],
+                        ],
+                    ]
                 );
                 $html = $this->cleanHtml($block->toHtml());
                 $node->parents()->eq(0)->append($html);
@@ -493,8 +493,8 @@ class Template
     protected function renameButtonsOnListingAndProductPage($fileName, $domHtml, &$isChanged)
     {
         if ($this->_helperRental->isFrontend() &&
-            (strpos($fileName, 'addtocart.phtml') !== false ||
-                strpos($fileName, 'list.phtml') !== false)
+             (strpos($fileName, 'addtocart.phtml') !== false ||
+               strpos($fileName, 'list.phtml') !== false)
         ) {
             $this->_renameButtons($domHtml, $isChanged);
         }
@@ -589,10 +589,10 @@ class Template
     private function addCalendarAdmin($subject, $domHtml, &$isChanged)
     {
         if (($this->_helperRental->isBackendAdminOrderEdit() &&
-                $subject->getNameInLayout() === 'items') ||
-            ($this->_helperRental->isBackend() &&
-                $subject->getNameInLayout() === 'product.composite.fieldset.options.js' &&
-                $this->_helperRental->isRentalType($this->coreRegistry->registry('current_product')))
+               $subject->getNameInLayout() === 'items') ||
+             ($this->_helperRental->isBackend() &&
+               $subject->getNameInLayout() === 'product.composite.fieldset.options.js' &&
+               $this->_helperRental->isRentalType($this->coreRegistry->registry('current_product')))
         ) {
             $this->_appendCalendarAdmin($domHtml);
             $isChanged = true;
@@ -634,5 +634,23 @@ class Template
                 $this->_addSerialsInput($node, $isChanged);
             }
         }
+    }
+
+    private function Translate_DoHTML_GetScripts($body)
+    {
+        $res = array();
+        if (preg_match_all('/<script\b[^>]*>([\s\S]*?)<\/script>/m', $body, $matches) && is_array($matches) && isset($matches[0])) {
+            foreach ($matches[0] as $key => $match) {
+                $res[ '<!-- __SCRIPTBUGFIXER_PLACEHOLDER'.$key.'__ -->' ] = $match;
+            }
+            $body = str_ireplace(array_values($res), array_keys($res), $body);
+        }
+
+        return array('body' => $body, 'scripts' => $res);
+    }
+
+    private function Translate_DoHTML_SetScripts($body, $scripts)
+    {
+        return str_ireplace(array_keys($scripts), array_values($scripts), $body);
     }
 }
