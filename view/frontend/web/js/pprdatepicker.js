@@ -1640,12 +1640,15 @@
 
         },
         _updateRentButtonState: function (price, priceWithTax) {
+            if (this.options.sirentProductId == 0) {
+                return;
+            }
             var $productForm = this.element.closest(this.options.selectorForms);
             if ($productForm.length === 0) {
                 $productForm = $('body').find(this.options.selectorForms).first();
             }
 
-            var rentButton = $(this.options.buttonsSelector, $productForm).not('.rental-buyout');
+            var rentButton = $productForm.find(this.options.buttonsSelector).not('.rental-buyout');
             if (price <= 0) {
                 rentButton.prop('disabled', true);
             } else {
@@ -1745,7 +1748,6 @@
             this.options.toObj[this._picker()]('option', 'turnoverAfter', self.options.turnoverAfter);
             this.options.fromObj[this._picker()]('option', 'maximumPeriod', self.options.maximumPeriod);
             this.options.toObj[this._picker()]('option', 'maximumPeriod', self.options.maximumPeriod);
-
         },
         _onfixedLengthChanged: function (self, val) {
             self.options.fixedRentalLength = parseInt(val);
@@ -1976,13 +1978,15 @@
                 success: function (res) {
                     $('body').trigger('processStop');
                     _.extend(self.options, res);
+                    if (self.options.sirentProductId > 0) {
 
-                    if (res.pricingPpr !== false) {
-                        var $product = $(self.options.selectorProduct),
-                            priceBox = $product.find(self.options.selectorProductPrice),
-                            pricePpr = priceBox.find(self.options.pricePprSelector);
-                        if (pricePpr.length > 0) {
-                            pricePpr.html(res.pricingPpr);
+                        if (res.pricingPpr !== false) {
+                            var $product = $(self.options.selectorProduct),
+                                priceBox = $product.find(self.options.selectorProductPrice),
+                                pricePpr = priceBox.find(self.options.pricePprSelector);
+                            if (pricePpr.length > 0) {
+                                pricePpr.html(res.pricingPpr);
+                            }
                         }
                     }
                     self._initCalendar();
@@ -2335,6 +2339,9 @@
             }
         },
         _resetPickers: function (isDisabled) {
+            if (this.options.sirentProductId == 0) {
+                return;
+            }
             if (typeof isDisabled === 'undefined') {
                 isDisabled = false;
             }
@@ -2377,7 +2384,6 @@
             myLogger.setLevel(Logger1.WARN);
             var myLogger1 = Logger1.get('Debugm');
             myLogger1.setLevel(Logger1.DEBUG);
-
             // selector of parental block of prices and swatches (need to know where to seek for price block)
             this.options.selectorProduct = '.product-info-main, .bundle-options-container';
             // selector of price wrapper (need to know where set price)
@@ -2394,23 +2400,21 @@
                 $productForm = $('body').find(this.options.selectorForms).first();
             }
             if ($productForm.length > 0) {
-                var optionsInput = $(this.options.attributesSelector, $productForm),
-                    customOptionsInput = $(this.options.optionsSelector, $productForm),
-                    isBundle = $(this.options.isBundleSelector, $productForm).length > 0,
-                    qtyInput = $(this.options.qtyFieldSelector, $productForm);
+                var optionsInput = $productForm.find(this.options.attributesSelector),
+                    customOptionsInput = $productForm.find(this.options.optionsSelector),
+                    isBundle = $productForm.find(this.options.isBundleSelector).length > 0,
+                    qtyInput = $productForm.find(this.options.qtyFieldSelector);
                 this.options.currentQuantity = parseInt(qtyInput.val());
                 var self = this;
-                var buyoutButton = $(this.options.buttonsSelector, $productForm).filter('.rental-buyout').first();
-                var rentButton = $(this.options.buttonsSelector, $productForm).not('.rental-buyout').first();
+                var buyoutButton = $productForm.find(this.options.buttonsSelector).filter('.rental-buyout').first();
+                var rentButton = $productForm.find(this.options.buttonsSelector).not('.rental-buyout').first();
                 buyoutButton.on('mousedown', function () {
                     $productForm.append('<input type="hidden" class="is_buyout" name="is_buyout" value="1"/>');
                 });
 
                 rentButton.on('mousedown', function () {
-                    $('.is_buyout', $productForm).remove();
+                    $productForm.find('.is_buyout').remove();
                 });
-                //document.onreadystatechange = function () {
-                //if (document.readyState === "complete") {
                 customOptionsInput.on('change', $.proxy(function (event) {
                     if (event.originalEvent !== undefined) {
                         //this._updateTimePickerInventory();
@@ -2422,15 +2426,25 @@
                     }
 
                 }, self));
-                optionsInput.on('change', $.proxy(function (event) {
-                    if (event.originalEvent !== undefined) {
-                        this.options.hasSelectedManually = 1;
-                    }
-                    if ($(this.options.isConfigurableSelector).length > 0) {
-                        $productForm.trigger('updateProductSummary');
-                    }
+                var myInt = setInterval(getOptions, 50);
 
-                }, self));
+                function getOptions() {
+                    optionsInput = $productForm.find(self.options.attributesSelector);
+                    if (optionsInput.length > 0) {
+                        optionsInput.on('change', $.proxy(function (event) {
+                            if (event.originalEvent !== undefined || event.isTrigger === 3) {
+                                this.options.hasSelectedManually = 1;
+                            }
+                            if ($(this.options.isConfigurableSelector).length > 0) {
+                                $productForm.trigger('updateProductSummary');
+                            }
+
+                        }, self));
+                        clearInterval(myInt);
+                    }
+                }
+
+
                 $productForm.on('updateProductSummary', $.proxy(function (event, config) {
                     if (this.options.hasSelectedManually === 1) {
                         this._updateTimePickerInventory(true);

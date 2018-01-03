@@ -2,7 +2,7 @@
   "name": "salesigniter/releaserental2",
   "description": "Salesigniter Rental Extension for Magento 2",
   "type": "magento2-module",
-  "version": "1.0.20171024",
+  "version": "1.0.20180101",
   "license": [
     "OSL-3.0",
     "AFL-3.0"
@@ -13,6 +13,7 @@
     "league/period": "^3.2",
     "anahkiasen/underscore-php": "^2.0",
     "querypath/QueryPath": ">=3.0.0",
+    "ivopetkov/html5-dom-document-php": "^0.5.7",
     "magento/magento-composer-installer": "*"
   },
   "autoload": {

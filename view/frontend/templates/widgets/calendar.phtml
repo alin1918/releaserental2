@@ -4,66 +4,66 @@
 ?>
 <?php
 $configHelper = $block->getCalendarHelper();
-$themeStyle = $configHelper->getThemeStyle();
+$themeStyle   = $configHelper->getThemeStyle();
 ?>
 <link rel="stylesheet" type="text/css"
       href="<?php /* @escapeNotVerified */
-          echo $block->getViewFileUrl(
-              'SalesIgniter_Rental::css/datepicker/default/jquery-ui.theme.css'
-          ) ?>"
+      echo $block->getViewFileUrl(
+	      'SalesIgniter_Rental::css/datepicker/default/jquery-ui.theme.css'
+      ) ?>"
 />
 <link rel="stylesheet" type="text/css"
       href="<?php /* @escapeNotVerified */
-          echo $block->getViewFileUrl(
-              'SalesIgniter_Rental::css/timepicker/jquery.timepicker.css'
-          ) ?>"
+      echo $block->getViewFileUrl(
+	      'SalesIgniter_Rental::css/timepicker/jquery.timepicker.css'
+      ) ?>"
 />
 
-<?php if ($themeStyle !== \SalesIgniter\Rental\Model\Config\ThemeStyle::DEFAULT_STYLE): ?>
-<link rel="stylesheet" type="text/css"
-      href="<?php /* @escapeNotVerified */
-          echo $block->getViewFileUrl(
-              'SalesIgniter_Rental::css/datepicker/'.$themeStyle.'/jquery-ui.theme.css'
-          ) ?>"
-/>
+<?php if ( $themeStyle !== \SalesIgniter\Rental\Model\Config\ThemeStyle::DEFAULT_STYLE ): ?>
+    <link rel="stylesheet" type="text/css"
+          href="<?php /* @escapeNotVerified */
+	      echo $block->getViewFileUrl(
+		      'SalesIgniter_Rental::css/datepicker/' . $themeStyle . '/jquery-ui.theme.css'
+	      ) ?>"
+    />
 
 <?php endif; ?>
 
 <?php echo $block->getHtmlCalendar(); ?>
 
 <div id="button_template" style="display: none;">
-    <button type="button" title="<?php echo __('Go'); ?>" class="sirent-go action primary" style="display: none">
-        <span><?php echo __('Go'); ?></span>
+    <button type="button" title="<?php echo __( 'Go' ); ?>" class="sirent-go action primary" style="display: none">
+        <span><?php echo __( 'Go' ); ?></span>
     </button>
-    <button type="button" title="<?php echo __('Change All'); ?>" class="sirent-changeall action primary">
-        <span><?php echo __('Change All'); ?></span>
+    <button type="button" title="<?php echo __( 'Change All' ); ?>" class="sirent-changeall action primary">
+        <span><?php echo __( 'Change All' ); ?></span>
     </button>
 </div>
-<?php if ($block->hasLegend()): ?>
-<div id="legend_details_template" style="display: none;">
-    <div class="legend-detail-container">
-        <div class="legend-detail-header"><?php echo __('Legend') ?></div>
+<?php if ( $block->hasLegend() ): ?>
+    <div id="legend_details_template" style="display: none;">
+        <div class="legend-detail-container">
+            <div class="legend-detail-header"><?php echo __( 'Legend' ) ?></div>
 
-        <table class="legend-detail-description">
-            <tbody>
-            <tr>
-                <td class="legend-ico turnoverBefore"></td>
-                <td class="description"><?php echo __('Turnover Before') ?></td>
-                <td class="legend-ico turnoverAfter"></td>
-                <td class="description"><?php echo __('Turnover After') ?></td>
-                <td class="legend-ico legend-start-s"></td>
-                <td class="description"><?php echo __('Send Date') ?></td>
-                <td class="legend-ico selected-time"></td>
-                <td class="description"><?php echo __('Selected') ?></td>
-                <td class="legend-ico busy"></td>
-                <td class="description"><?php echo __('Unavailable') ?></td>
-                <td class="legend-ico legend-mail-s"></td>
-                <td class="description"><?php echo __('Return Date') ?></td>
-            </tr>
-            </tbody>
-        </table>
+            <table class="legend-detail-description">
+                <tbody>
+                <tr>
+                    <td class="legend-ico turnoverBefore"></td>
+                    <td class="description"><?php echo __( 'Turnover Before' ) ?></td>
+                    <td class="legend-ico turnoverAfter"></td>
+                    <td class="description"><?php echo __( 'Turnover After' ) ?></td>
+                    <td class="legend-ico legend-start-s"></td>
+                    <td class="description"><?php echo __( 'Send Date' ) ?></td>
+                    <td class="legend-ico selected-time"></td>
+                    <td class="description"><?php echo __( 'Selected' ) ?></td>
+                    <td class="legend-ico busy"></td>
+                    <td class="description"><?php echo __( 'Unavailable' ) ?></td>
+                    <td class="legend-ico legend-mail-s"></td>
+                    <td class="description"><?php echo __( 'Return Date' ) ?></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 <?php endif; ?>
 <div id="day_details_template" style="display: none">
     <div class="daydetails day-detail-container">
@@ -91,3 +91,6 @@ $themeStyle = $configHelper->getThemeStyle();
             </tr>
             </tbody>
         </table>
+    </div>
+</div>
+
