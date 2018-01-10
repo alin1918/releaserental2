@@ -1371,7 +1371,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper {
 		}
 		$startDate = $this->getDate( 'from', $buyRequest, $product );
 		$endDate   = $this->getDate( 'to', $buyRequest, $product );
-		if ( $this->dateHelper->compareDates( $startDate, $endDate ) === 0 ) {
+		if ( $endDate !== null && $this->dateHelper->compareDates( $startDate, $endDate ) === 0 ) {
 			$endDate = $endDate->add( new \DateInterval( 'PT23H59M' ) );
 		}
 		$startDateWithTurnover = $this->getDate( 'turnover_from', $buyRequest, $product );

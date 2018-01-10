@@ -158,9 +158,9 @@ class QuantityValidatorObserver implements ObserverInterface {
 				$buyRequest = $this->calendarHelper->prepareBuyRequest( $quoteItem );
 			}
 			try {
-			$dates = $this->calendarHelper->getDatesFromBuyRequest(
-				$buyRequest, $quoteItem->getProduct()
-			);
+				$dates = $this->calendarHelper->getDatesFromBuyRequest(
+					$buyRequest, $quoteItem->getProduct()
+				);
 			} catch ( \Exception $e ) {
 				continue;
 			}
@@ -179,9 +179,9 @@ class QuantityValidatorObserver implements ObserverInterface {
 						$buyRequestNew = $this->calendarHelper->prepareBuyRequest( $quoteItemNew );
 					}
 					try {
-					$datesNew = $this->calendarHelper->getDatesFromBuyRequest(
-						$buyRequestNew, $quoteItemNew->getProduct()
-					);
+						$datesNew = $this->calendarHelper->getDatesFromBuyRequest(
+							$buyRequestNew, $quoteItemNew->getProduct()
+						);
 					} catch ( \Exception $e ) {
 						continue;
 					}
