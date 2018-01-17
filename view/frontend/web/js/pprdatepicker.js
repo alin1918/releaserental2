@@ -1865,15 +1865,17 @@
             /**
              * To Object initialization
              */
-            this.options.fromObj[this._picker()]('option', 'minDate', $.datepicker.parseDateTime("yy-mm-dd", "HH:mm:ss", this.options.firstDateAvailable));
+            var firstDateAvailable = $.datepicker.parseDateTime("yy-mm-dd", "HH:mm:ss", this.options.firstDateAvailable);
+            this.options.fromObj[this._picker()]('option', 'minDate', firstDateAvailable);
+            var newFromDate = $.datepicker.parseDateTime("yy-mm-dd", "HH:mm:ss", this.options.fromDateInitial);
+            var newToDate = $.datepicker.parseDateTime("yy-mm-dd", "HH:mm:ss", this.options.toDateInitial);
+            if (this.options.fromDateInitial != '' && (this.options.firstDateAvailable === 0 || $.datepicker._compareDateTimeObj(firstDateAvailable, newFromDate, false) === -1)) {
 
-            if (this.options.fromDateInitial != '' && this.options.firstDateAvailable === 0) {
-                var newFromDate = $.datepicker.parseDateTime("yy-mm-dd", "HH:mm:ss", this.options.fromDateInitial);
                 this.options.fromDateInitial = newFromDate;
                 this.options.fromObj[this._picker()]('setDate', newFromDate);
             }
-            if (this.options.toDateInitial != '' && this.options.firstDateAvailable === 0) {
-                var newToDate = $.datepicker.parseDateTime("yy-mm-dd", "HH:mm:ss", this.options.toDateInitial);
+            if (this.options.toDateInitial != '' && (this.options.firstDateAvailable === 0 || $.datepicker._compareDateTimeObj(firstDateAvailable, newToDate, false) === -1)) {
+
                 this.options.toDateInitial = newToDate;
                 this.options.toObj[this._picker()]('setDate', newToDate);
                 this.options.toObj[this._picker()]('option', 'minDate', newFromDate);

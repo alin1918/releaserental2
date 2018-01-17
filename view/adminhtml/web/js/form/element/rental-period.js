@@ -35,6 +35,10 @@ define([
                 this.value('0d');
                 isValid = true;
             }
+            if (!isValid && (this.index === 'price') && value === '') {
+                this.value('0');
+                isValid = true;
+            }
             message = '';
             if (!isValid) {
                 message = !this.disabled() && this.visible() ? $.mage.__('Enter valid period') : '';
