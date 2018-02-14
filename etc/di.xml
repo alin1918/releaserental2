@@ -115,6 +115,13 @@
     <type name="Magento\Bundle\Model\ResourceModel\Selection\Collection">
         <plugin name="rental_collection" type="SalesIgniter\Rental\Plugin\Magento\Bundle\Model\ResourceModel\Selection\Collection"/>
     </type>
+    <preference for="Magento\Bundle\Pricing\Price\BundleSelectionPrice" type="SalesIgniter\Rental\Plugin\Magento\Bundle\Pricing\Price\BundleSelectionPrice" />
+
+    <!--A plugin won't work because there has no access to protected properties. This rigidness of Magento is where it lacks on customization.
+    Yes in terms of correctness it may be good.
+    <type name="Magento\Bundle\Pricing\Price\BundleSelectionPrice">
+        <plugin name="bundle_selection_price" type="SalesIgniter\Rental\Plugin\Magento\Bundle\Pricing\Price\BundleSelectionPrice"/>
+    </type>-->
     <!-- Import/Export -->
     <type name="Magento\CatalogImportExport\Model\Export\RowCustomizer\Composite">
         <arguments>
