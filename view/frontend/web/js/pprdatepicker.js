@@ -1881,6 +1881,7 @@
                 this.options.toObj[this._picker()]('option', 'minDate', newFromDate);
                 this._selectStartDateFieldset();
             }
+
             //if (self.options.updatePriceAfter) {
             // self.options.updatePriceAfter = false;
 
@@ -1939,11 +1940,6 @@
                 $('#' + this.options.from.id).parent().parent().find('.ui-datepicker-trigger').hide();
                 $('#' + this.options.to.id).parent().hide();
             }
-            if (self._checkIntervalValid()) {
-                self._updatePricing();
-            } else {
-                self._resetPickers();
-            }
         },
         /**
          * Updates booked dates via ajax is used for when
@@ -1989,6 +1985,89 @@
                             if (pricePpr.length > 0) {
                                 pricePpr.html(res.pricingPpr);
                             }
+                        }
+                        var $productForm = self.element.closest(self.options.selectorForms);
+                        if ($productForm.length === 0) {
+                            $productForm = $('body').find(self.options.selectorForms).first();
+                        }
+                        if ($productForm.length > 0) {
+                            var optionsInput = $productForm.find(self.options.attributesSelector),
+                                customOptionsInput = $productForm.find(self.options.optionsSelector),
+                                isBundle = $productForm.find(self.options.isBundleSelector).length > 0,
+                                qtyInput = $productForm.find(self.options.qtyFieldSelector);
+                            self.options.currentQuantity = parseInt(qtyInput.val());
+                            self.options.hasSelectedManually = 1;
+                            var buyoutButton = $productForm.find(self.options.buttonsSelector).filter('.rental-buyout').first();
+                            var rentButton = $productForm.find(self.options.buttonsSelector).not('.rental-buyout').first();
+                            buyoutButton.on('mousedown', function () {
+                                $productForm.append('<input type="hidden" class="is_buyout" name="is_buyout" value="1"/>');
+                            });
+
+                            rentButton.on('mousedown', function () {
+                                $productForm.find('.is_buyout').remove();
+                            });
+                            customOptionsInput.on('change', $.proxy(function (event) {
+
+                                //self._updateTimePickerInventory();
+                                if (self._checkIntervalValid()) {
+                                    self._updatePricing();
+                                } else {
+                                    self._resetPickers();
+                                }
+
+
+                            }, self));
+                            // var myInt = setInterval(getOptions, 50);
+
+                            // function getOptions() {
+                            optionsInput = $productForm.find(self.options.attributesSelector);
+                            if (optionsInput.length > 0) {
+                                optionsInput.on('change', $.proxy(function (event) {
+                                    //if (event.originalEvent !== undefined || event.isTrigger === 3) {
+                                    //self.options.hasSelectedManually = 1;
+                                    //}
+                                    if ($(self.options.isConfigurableSelector).length > 0) {
+                                        $productForm.trigger('updateProductSummary');
+                                    }
+
+                                }, self));
+                                //clearInterval(myInt);
+                            }
+                            //}
+
+
+                            $productForm.on('updateProductSummary', $.proxy(function (event, config) {
+                                if (self.options.hasSelectedManually === 1) {
+                                    self._updateTimePickerInventory(true);
+                                    self.options.hasSelectedManually = 0;
+                                }
+
+                            }, self));
+                            qtyInput.on('change', $.proxy(function (event) {
+                                //if (event.originalEvent !== undefined) {
+                                self.options.currentQuantity = parseInt(qtyInput.val());
+                                self.options.fromObj[self._picker()]('option', 'currentQuantity', self.options.currentQuantity);
+                                self.options.toObj[self._picker()]('option', 'currentQuantity', self.options.currentQuantity);
+                                if (self.options.currentQuantity > self.options.availableQuantity) {
+                                    if (self.options.currentQuantity === 1 && isBundle) {
+                                        self._resetPickers();
+                                    } else {
+                                        self._resetPickers(true);
+                                    }
+                                } else {
+                                    if (self._checkIntervalValid()) {
+                                        self._updatePricing();
+                                    } else {
+                                        self._resetPickers(false);
+                                    }
+                                }
+                                //}
+
+                            }, self));
+                            //}
+                            //}
+
+
                         }
                     }
                     self._initCalendar();
@@ -2397,89 +2476,6 @@
             this.options.selectorForms = '#product_addtocart_form, [data-role=tocart-form], .form.map.checkout';
             this.options.currentQuantity = -1;
             this.options.oldDates = '';
-            var $productForm = this.element.closest(this.options.selectorForms);
-            if ($productForm.length === 0) {
-                $productForm = $('body').find(this.options.selectorForms).first();
-            }
-            if ($productForm.length > 0) {
-                var optionsInput = $productForm.find(this.options.attributesSelector),
-                    customOptionsInput = $productForm.find(this.options.optionsSelector),
-                    isBundle = $productForm.find(this.options.isBundleSelector).length > 0,
-                    qtyInput = $productForm.find(this.options.qtyFieldSelector);
-                this.options.currentQuantity = parseInt(qtyInput.val());
-                var self = this;
-                var buyoutButton = $productForm.find(this.options.buttonsSelector).filter('.rental-buyout').first();
-                var rentButton = $productForm.find(this.options.buttonsSelector).not('.rental-buyout').first();
-                buyoutButton.on('mousedown', function () {
-                    $productForm.append('<input type="hidden" class="is_buyout" name="is_buyout" value="1"/>');
-                });
-
-                rentButton.on('mousedown', function () {
-                    $productForm.find('.is_buyout').remove();
-                });
-                customOptionsInput.on('change', $.proxy(function (event) {
-                    if (event.originalEvent !== undefined) {
-                        //this._updateTimePickerInventory();
-                        if (this._checkIntervalValid()) {
-                            this._updatePricing();
-                        } else {
-                            this._resetPickers();
-                        }
-                    }
-
-                }, self));
-                var myInt = setInterval(getOptions, 50);
-
-                function getOptions() {
-                    optionsInput = $productForm.find(self.options.attributesSelector);
-                    if (optionsInput.length > 0) {
-                        optionsInput.on('change', $.proxy(function (event) {
-                            if (event.originalEvent !== undefined || event.isTrigger === 3) {
-                                this.options.hasSelectedManually = 1;
-                            }
-                            if ($(this.options.isConfigurableSelector).length > 0) {
-                                $productForm.trigger('updateProductSummary');
-                            }
-
-                        }, self));
-                        clearInterval(myInt);
-                    }
-                }
-
-
-                $productForm.on('updateProductSummary', $.proxy(function (event, config) {
-                    if (this.options.hasSelectedManually === 1) {
-                        this._updateTimePickerInventory(true);
-                        this.options.hasSelectedManually = 0;
-                    }
-
-                }, self));
-                qtyInput.on('change', $.proxy(function (event) {
-                    if (event.originalEvent !== undefined) {
-                        this.options.currentQuantity = parseInt(qtyInput.val());
-                        this.options.fromObj[this._picker()]('option', 'currentQuantity', this.options.currentQuantity);
-                        this.options.toObj[this._picker()]('option', 'currentQuantity', this.options.currentQuantity);
-                        if (this.options.currentQuantity > this.options.availableQuantity) {
-                            if (this.options.currentQuantity === 1 && isBundle) {
-                                this._resetPickers();
-                            } else {
-                                this._resetPickers(true);
-                            }
-                        } else {
-                            if (this._checkIntervalValid()) {
-                                this._updatePricing();
-                            } else {
-                                this._resetPickers(false);
-                            }
-                        }
-                    }
-
-                }, self));
-                //}
-                //}
-
-
-            }
 
             if (this.options.from && this.options.to) {
                 if (this.options.fromDateInitial == '' && this.options.toDateInitial == '') {
