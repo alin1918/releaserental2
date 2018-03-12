@@ -502,21 +502,13 @@ class StockManagement implements \SalesIgniter\Rental\Api\StockManagementInterfa
 	 * @throws \Magento\Framework\Exception\LocalizedException
 	 */
 	private function saveInventory( $productId, $updatedInventory ) {
-		foreach ( $this->rentalHelper->getStoreIdsForCurrentWebsite() as $storeId ) {
-			try {
-				$product = $this->productRepository->getById( $productId, false, $storeId );
-			} catch ( NoSuchEntityException $e ) {
-				return [];
-			}
-			$this->updateGridTableWithData( $updatedInventory, $productId );
-			$product->setSirentInvBydateSerialized( serialize( $updatedInventory ) );
+		$this->updateGridTableWithData( $updatedInventory, $productId );
 
-			$this->attributeAction->updateAttributes(
-				[ $product->getId() ],
-				[ 'sirent_inv_bydate_serialized' => serialize( $updatedInventory ) ],
-				$storeId
-			);
-		}
+		$this->attributeAction->updateAttributes(
+			[ $productId ],
+			[ 'sirent_inv_bydate_serialized' => serialize( $updatedInventory ) ],
+			0
+		);
 	}
 
 	/**
@@ -532,20 +524,12 @@ class StockManagement implements \SalesIgniter\Rental\Api\StockManagementInterfa
 	 * @throws \Magento\Framework\Exception\LocalizedException
 	 */
 	public function updateSirentQuantity( $productId, $qty ) {
-		foreach ( $this->rentalHelper->getStoreIdsForCurrentWebsite() as $storeId ) {
-			try {
-				$product = $this->productRepository->getById( $productId, false, $storeId );
-			} catch ( NoSuchEntityException $e ) {
-				return false;
-			}
-			$product->setSirentQuantity( $qty );
 
-			$this->attributeAction->updateAttributes(
-				[ $product->getId() ],
-				[ 'sirent_quantity' => $qty ],
-				$storeId
-			);
-		}
+		$this->attributeAction->updateAttributes(
+			[ $productId ],
+			[ 'sirent_quantity' => $qty ],
+			0
+		);
 
 		return true;
 	}

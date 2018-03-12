@@ -12,470 +12,461 @@ use SalesIgniter\Rental\Helper\Report as ReportHelper;
 use SalesIgniter\Rental\Model\ResourceModel\SerialNumberDetails\Collection as SerialDetailsCollection;
 use SalesIgniter\Rental\Model\SerialNumberDetailsFactory as SerialNumberFactory;
 
-class Serialnumber
-{
+class Serialnumber {
 
-    /**
-     * @var UrlBuilder
-     */
-    protected $_urlBuilder;
+	/**
+	 * @var UrlBuilder
+	 */
+	protected $_urlBuilder;
 
-    /**
-     * @var ProductCollection|Product[]
-     */
-    protected $_collection;
+	/**
+	 * @var ProductCollection|Product[]
+	 */
+	protected $_collection;
 
-    /**
-     * @var RentalStock
-     */
-    protected $_rentalStock;
+	/**
+	 * @var RentalStock
+	 */
+	protected $_rentalStock;
 
-    /**
-     * @var string
-     */
-    protected $_rendererName;
+	/**
+	 * @var string
+	 */
+	protected $_rendererName;
 
-    /**
-     * @var
-     */
-    protected $_dateTo;
+	/**
+	 * @var
+	 */
+	protected $_dateTo;
 
-    /**
-     * @var
-     */
-    protected $_dateFrom;
+	/**
+	 * @var
+	 */
+	protected $_dateFrom;
 
-    /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    protected $_request;
+	/**
+	 * @var \Magento\Framework\App\RequestInterface
+	 */
+	protected $_request;
 
-    /**
-     * @var ReportHelper
-     */
-    protected $_reportHelper;
+	/**
+	 * @var ReportHelper
+	 */
+	protected $_reportHelper;
 
-    /**
-     * @var StockManagement
-     */
-    private $_stockManagement;
+	/**
+	 * @var StockManagement
+	 */
+	private $_stockManagement;
 
-    /**
-     * @var SerialNumberFactory
-     */
-    private $_serialNumberFactory;
+	/**
+	 * @var SerialNumberFactory
+	 */
+	private $_serialNumberFactory;
 
-    /**
-     * @var mixed
-     */
-    protected $_serialNumberFilter = null;
-    /**
-     * Instance of application resource.
-     *
-     * @var \Magento\Framework\App\ResourceConnection
-     */
-    protected $resource;
-    /**
-     * @var \SalesIgniter\Rental\Model\ResourceModel\SerialNumberDetails\Collection
-     */
-    private $serialDetailsColection;
-    /**
-     * @var \Magento\Catalog\Api\ProductRepositoryInterface
-     */
-    private $productRepository;
+	/**
+	 * @var mixed
+	 */
+	protected $_serialNumberFilter = null;
+	/**
+	 * Instance of application resource.
+	 *
+	 * @var \Magento\Framework\App\ResourceConnection
+	 */
+	protected $resource;
+	/**
+	 * @var \SalesIgniter\Rental\Model\ResourceModel\SerialNumberDetails\Collection
+	 */
+	private $serialDetailsColection;
+	/**
+	 * @var \Magento\Catalog\Api\ProductRepositoryInterface
+	 */
+	private $productRepository;
 
-    /**
-     * Serialnumber constructor.
-     *
-     * @param UrlBuilder                                                              $urlBuilder
-     * @param \Magento\Framework\App\ResourceConnection                               $resource
-     * @param ProductCollection                                                       $ProductCollection
-     * @param \Magento\Catalog\Api\ProductRepositoryInterface                         $productRepository
-     * @param \SalesIgniter\Rental\Model\ResourceModel\SerialNumberDetails\Collection $serialDetailsCollection
-     * @param StockManagement                                                         $StockManagement
-     * @param SerialNumberFactory                                                     $SerialNumberFactory
-     * @param ReportHelper                                                            $ReportHelper
-     */
-    public function __construct(
-        UrlBuilder $urlBuilder,
-        \Magento\Framework\App\ResourceConnection $resource,
-        ProductCollection $ProductCollection,
-        ProductRepositoryInterface $productRepository,
-        SerialDetailsCollection $serialDetailsCollection,
-        StockManagement $StockManagement,
-        SerialNumberFactory $SerialNumberFactory,
-        ReportHelper $ReportHelper
-    ) {
-        $this->_urlBuilder = $urlBuilder;
-        $this->resource = $resource;
-        $this->_collection = $serialDetailsCollection;
-        $this->_collection->getSelect()->where('type_id = ?', \SalesIgniter\Rental\Model\Product\Type\Sirent::TYPE_RENTAL);
-        $this->_collection->getSelect()->joinLeft(['product_table' => $this->resource->getTableName('catalog_product_entity')], 'main_table.product_id = product_table.entity_id');
+	/**
+	 * Serialnumber constructor.
+	 *
+	 * @param UrlBuilder                                                              $urlBuilder
+	 * @param \Magento\Framework\App\ResourceConnection                               $resource
+	 * @param ProductCollection                                                       $ProductCollection
+	 * @param \Magento\Catalog\Api\ProductRepositoryInterface                         $productRepository
+	 * @param \SalesIgniter\Rental\Model\ResourceModel\SerialNumberDetails\Collection $serialDetailsCollection
+	 * @param StockManagement                                                         $StockManagement
+	 * @param SerialNumberFactory                                                     $SerialNumberFactory
+	 * @param ReportHelper                                                            $ReportHelper
+	 */
+	public function __construct(
+		UrlBuilder $urlBuilder,
+		\Magento\Framework\App\ResourceConnection $resource,
+		ProductCollection $ProductCollection,
+		ProductRepositoryInterface $productRepository,
+		SerialDetailsCollection $serialDetailsCollection,
+		StockManagement $StockManagement,
+		SerialNumberFactory $SerialNumberFactory,
+		ReportHelper $ReportHelper
+	) {
+		$this->_urlBuilder = $urlBuilder;
+		$this->resource    = $resource;
+		$this->_collection = $serialDetailsCollection;
+		$this->_collection->getSelect()->where( 'type_id = ?', \SalesIgniter\Rental\Model\Product\Type\Sirent::TYPE_RENTAL );
+		$this->_collection->getSelect()->joinLeft( [ 'product_table' => $this->resource->getTableName( 'catalog_product_entity' ) ], 'main_table.product_id = product_table.entity_id' );
 
-        $this->_reportHelper = $ReportHelper;
-        $this->_stockManagement = $StockManagement;
-        $this->_serialNumberFactory = $SerialNumberFactory;
-        $this->productRepository = $productRepository;
-    }
+		$this->_reportHelper        = $ReportHelper;
+		$this->_stockManagement     = $StockManagement;
+		$this->_serialNumberFactory = $SerialNumberFactory;
+		$this->productRepository    = $productRepository;
+	}
 
-    /**
-     * @return \Magento\Catalog\Model\Product[]|ProductCollection
-     */
-    public function getCollection()
-    {
-        return $this->_collection;
-    }
+	/**
+	 * @return \Magento\Catalog\Model\Product[]|ProductCollection
+	 */
+	public function getCollection() {
+		return $this->_collection;
+	}
 
-    /**
-     * @param $Collection
-     *
-     * @return $this
-     */
-    public function setCollection($Collection)
-    {
-        $this->_collection = $Collection;
-        return $this;
-    }
+	/**
+	 * @param $Collection
+	 *
+	 * @return $this
+	 */
+	public function setCollection( $Collection ) {
+		$this->_collection = $Collection;
 
-    public function getRendererCode()
-    {
-        return $this->getRequest()->getParam('rendererCode', 'month');
-    }
+		return $this;
+	}
 
-    /**
-     * @param $DateFrom
-     *
-     * @return $this
-     */
-    public function setDateFrom($DateFrom)
-    {
-        $this->_dateFrom = $DateFrom;
-        return $this;
-    }
+	public function getRendererCode() {
+		return $this->getRequest()->getParam( 'rendererCode', 'month' );
+	}
 
-    /**
-     * @param $DateTo
-     *
-     * @return $this
-     */
-    public function setDateTo($DateTo)
-    {
-        $this->_dateTo = $DateTo;
-        return $this;
-    }
+	/**
+	 * @param $DateFrom
+	 *
+	 * @return $this
+	 */
+	public function setDateFrom( $DateFrom ) {
+		$this->_dateFrom = $DateFrom;
 
-    /**
-     * @param \Magento\Framework\App\RequestInterface $Request
-     *
-     * @return $this
-     */
-    public function setRequest(\Magento\Framework\App\RequestInterface $Request)
-    {
-        $this->_request = $Request;
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @return \Magento\Framework\App\RequestInterface
-     */
-    public function getRequest()
-    {
-        return $this->_request;
-    }
+	/**
+	 * @param $DateTo
+	 *
+	 * @return $this
+	 */
+	public function setDateTo( $DateTo ) {
+		$this->_dateTo = $DateTo;
 
-    /**
-     * @return array
-     */
-    public function getData()
-    {
-        $RequestParams = $this->getRequest()->getParams();
-        $this->setDateFrom($this->getRequest()
-            ->getParam('dateFrom', date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), 1, date('Y')))));
-        $this->setDateTo($this->getRequest()
-            ->getParam('dateTo', date('Y-m-d H:i:s', mktime(23, 59, 59, date('m') + 1, 0, date('Y')))));
+		return $this;
+	}
 
-        $DataArray = [
-            'calendar' => [
-                'dateDataUrl' => $this->_urlBuilder->getUrl('*/report_serialnumber/getDateReportData'),
-                'dateDataUrlProduct' => $this->_urlBuilder->getUrl('*/report_inventory/getDateReportData'),
-                'rendererCode' => $this->getRendererCode()
-            ],
-            'products' => []
-        ];
-        /**
-         * Filtering the number of serials per page is impossible
-         * So we set an infinite size and then filter the return data. Which is not so correct
-         */
-        $serialsData = $this->getSerialsData();
-        $serialData = [];
-        foreach ($serialsData as $serialName => $sData) {
-            $serialData[$sData['id']][] = $sData;
-        }
-        foreach ($serialData as $productId => $sData) {
-            $DataArray['products'][] = [
-                'id' => $sData[0]['id'],
-                'sku' => $sData[0]['sku'],
-                'name' => $sData[0]['name'],
-                'sirent_quantity' => $sData[0]['sirent_quantity'],
-                'availability' => $sData[0]['availability'],
-                'serial_numbers' => $sData
-            ];
-        }
+	/**
+	 * @param \Magento\Framework\App\RequestInterface $Request
+	 *
+	 * @return $this
+	 */
+	public function setRequest( \Magento\Framework\App\RequestInterface $Request ) {
+		$this->_request = $Request;
 
-        return $DataArray;
-    }
+		return $this;
+	}
 
-    public function applyFilters()
-    {
-        $Filters = $this->getRequest()->getParam('filter', null);
-        if ($Filters) {
-            if (isset($Filters['option']) && empty($Filters['option']) === false) {
-                foreach ($Filters['option'] as $FilterName) {
-                    switch ($FilterName) {
-                        case 'product_name':
-                            $this->_collection->addAttributeToFilter('name', ['like' => '%' . $Filters['text'] . '%']);
-                            break;
-                        case 'product_sku':
-                            $this->_collection->addFieldToFilter('sku', ['like' => '%' . $Filters['text'] . '%']);
-                            break;
-                        case 'serial_number':
-                            $this->_serialNumberFilter = $Filters['text'];
-                            $this->_collection->addFieldToFilter('serialnumber', ['like' => '%' . $this->_serialNumberFilter . '%']);
-                            break;
-                    }
-                }
-            }
-        }
+	/**
+	 * @return \Magento\Framework\App\RequestInterface
+	 */
+	public function getRequest() {
+		return $this->_request;
+	}
 
-        return $this;
-    }
+	/**
+	 * @return array
+	 */
+	public function getData() {
+		$RequestParams = $this->getRequest()->getParams();
+		$this->setDateFrom( $this->getRequest()
+		                         ->getParam( 'dateFrom', date( 'Y-m-d H:i:s', mktime( 0, 0, 0, date( 'm' ), 1, date( 'Y' ) ) ) ) );
+		$this->setDateTo( $this->getRequest()
+		                       ->getParam( 'dateTo', date( 'Y-m-d H:i:s', mktime( 23, 59, 59, date( 'm' ) + 1, 0, date( 'Y' ) ) ) ) );
 
-    /**
-     * @param $Timestamp
-     *
-     * @return \DateTime
-     */
-    protected function getDateTimeObj($Timestamp)
-    {
-        $DateTime = new \DateTime();
-        $DateTime->setTimezone(new \DateTimeZone('UTC'));
-        $DateTime->setTimestamp($Timestamp);
+		$DataArray = [
+			'calendar' => [
+				'dateDataUrl'        => $this->_urlBuilder->getUrl( '*/report_serialnumber/getDateReportData' ),
+				'dateDataUrlProduct' => $this->_urlBuilder->getUrl( '*/report_inventory/getDateReportData' ),
+				'rendererCode'       => $this->getRendererCode()
+			],
+			'products' => []
+		];
+		/**
+		 * Filtering the number of serials per page is impossible
+		 * So we set an infinite size and then filter the return data. Which is not so correct
+		 */
+		$serialsData = $this->getSerialsData();
+		$serialData  = [];
+		foreach ( $serialsData as $serialName => $sData ) {
+			$serialData[ $sData['id'] ][] = $sData;
+		}
+		foreach ( $serialData as $productId => $sData ) {
+			$DataArray['products'][] = [
+				'id'              => $sData[0]['id'],
+				'sku'             => $sData[0]['sku'],
+				'name'            => $sData[0]['name'],
+				'sirent_quantity' => $sData[0]['sirent_quantity'],
+				'availability'    => $sData[0]['availability'],
+				'serial_numbers'  => $sData
+			];
+		}
 
-        return $DateTime;
-    }
+		return $DataArray;
+	}
 
-    /**
-     * @param $Product
-     *
-     * @return array
-     */
-    protected function getAvailabilityDates($Product)
-    {
-        $Availabilites = [];
+	public function applyFilters() {
+		$Filters = $this->getRequest()->getParam( 'filter', null );
+		if ( $Filters ) {
+			if ( isset( $Filters['option'] ) && empty( $Filters['option'] ) === false ) {
+				foreach ( $Filters['option'] as $FilterName ) {
+					switch ( $FilterName ) {
+						case 'product_name':
+							$this->_collection->addAttributeToFilter( 'name', [ 'like' => '%' . $Filters['text'] . '%' ] );
+							break;
+						case 'product_sku':
+							$this->_collection->addFieldToFilter( 'sku', [ 'like' => '%' . $Filters['text'] . '%' ] );
+							break;
+						case 'serial_number':
+							$this->_serialNumberFilter = $Filters['text'];
+							$this->_collection->addFieldToFilter( 'serialnumber', [ 'like' => '%' . $this->_serialNumberFilter . '%' ] );
+							break;
+					}
+				}
+			}
+		}
 
-        $HourTime = (60 * 60);
-        $DayTime = ($HourTime * 24);
-        $WeekTime = ($DayTime * 7);
+		return $this;
+	}
 
-        $StartDate = $this->getDateTimeObj(strtotime($this->_dateFrom));
-        $StartDate->setTime(0, 0, 0);
+	/**
+	 * @param $Timestamp
+	 *
+	 * @return \DateTime
+	 */
+	protected function getDateTimeObj( $Timestamp ) {
+		$DateTime = new \DateTime();
+		$DateTime->setTimezone( new \DateTimeZone( 'UTC' ) );
+		$DateTime->setTimestamp( $Timestamp );
 
-        $EndDate = $this->getDateTimeObj(strtotime($this->_dateTo));
-        $EndDate->setTime(23, 59, 59);
+		return $DateTime;
+	}
 
-        if ($this->getRendererCode() == 'day') {
-            $CurrentHour = 0;
-            for ($i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $HourTime) {
-                $_checkStartDate = $this->getDateTimeObj($i);
-                $_checkStartDate->setTime($CurrentHour, 0, 0);
+	/**
+	 * @param $Product
+	 *
+	 * @return array
+	 */
+	protected function getAvailabilityDates( $Product ) {
+		$Availabilites = [];
 
-                $_checkEndDate = $this->getDateTimeObj($i);
-                $_checkEndDate->setTime($_checkStartDate->format('H'), 59, 59);
+		$HourTime = ( 60 * 60 );
+		$DayTime  = ( $HourTime * 24 );
+		$WeekTime = ( $DayTime * 7 );
 
-                $Availabilites[$i] = [
-                    'from' => $_checkStartDate->format('Y-m-d H:i:s'),
-                    'to' => $_checkEndDate->format('Y-m-d H:i:s'),
-                    'result' => $this->_stockManagement->getAvailableQuantity($Product, $_checkStartDate, $_checkEndDate)
-                ];
+		$StartDate = $this->getDateTimeObj( strtotime( $this->_dateFrom ) );
+		$StartDate->setTime( 0, 0, 0 );
 
-                $CurrentHour++;
-                if ($CurrentHour > 23) {
-                    $CurrentHour = 0;
-                }
-            }
-        } elseif ($this->getRendererCode() == 'week') {
-            for ($i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $DayTime) {
-                $_checkStartDate = $this->getDateTimeObj($i);
-                $_checkStartDate->setTime(0, 0, 0);
+		$EndDate = $this->getDateTimeObj( strtotime( $this->_dateTo ) );
+		$EndDate->setTime( 23, 59, 59 );
 
-                $_checkEndDate = $this->getDateTimeObj($i);
-                $_checkEndDate->setTime(23, 59, 59);
+		if ( $this->getRendererCode() == 'day' ) {
+			$CurrentHour = 0;
+			for ( $i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $HourTime ) {
+				$_checkStartDate = $this->getDateTimeObj( $i );
+				$_checkStartDate->setTime( $CurrentHour, 0, 0 );
 
-                $Availabilites[$i] = [
-                    'from' => $_checkStartDate->format('Y-m-d H:i:s'),
-                    'to' => $_checkEndDate->format('Y-m-d H:i:s'),
-                    'result' => $this->_stockManagement->getAvailableQuantity($Product, $_checkStartDate, $_checkEndDate)
-                ];
-            }
-        } elseif ($this->getRendererCode() == 'month') {
-            for ($i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $DayTime) {
-                $_checkStartDate = $this->getDateTimeObj($i);
-                $_checkStartDate->setTime(0, 0, 0);
+				$_checkEndDate = $this->getDateTimeObj( $i );
+				$_checkEndDate->setTime( $_checkStartDate->format( 'H' ), 59, 59 );
 
-                $_checkEndDate = $this->getDateTimeObj($i);
-                $_checkEndDate->setTime(23, 59, 59);
+				$Availabilites[ $i ] = [
+					'from'   => $_checkStartDate->format( 'Y-m-d H:i:s' ),
+					'to'     => $_checkEndDate->format( 'Y-m-d H:i:s' ),
+					'result' => $this->_stockManagement->getAvailableQuantity( $Product, $_checkStartDate, $_checkEndDate )
+				];
 
-                $Availabilites[$i] = [
-                    'from' => $_checkStartDate->format('Y-m-d H:i:s'),
-                    'to' => $_checkEndDate->format('Y-m-d H:i:s'),
-                    'result' => $this->_stockManagement->getAvailableQuantity($Product, $_checkStartDate, $_checkEndDate)
-                ];
-            }
-        }
+				$CurrentHour ++;
+				if ( $CurrentHour > 23 ) {
+					$CurrentHour = 0;
+				}
+			}
+		} elseif ( $this->getRendererCode() == 'week' ) {
+			for ( $i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $DayTime ) {
+				$_checkStartDate = $this->getDateTimeObj( $i );
+				$_checkStartDate->setTime( 0, 0, 0 );
 
-        return $Availabilites;
-    }
+				$_checkEndDate = $this->getDateTimeObj( $i );
+				$_checkEndDate->setTime( 23, 59, 59 );
 
-    public function getSerialsData()
-    {
-        $SerialsData = [];
+				$Availabilites[ $i ] = [
+					'from'   => $_checkStartDate->format( 'Y-m-d H:i:s' ),
+					'to'     => $_checkEndDate->format( 'Y-m-d H:i:s' ),
+					'result' => $this->_stockManagement->getAvailableQuantity( $Product, $_checkStartDate, $_checkEndDate )
+				];
+			}
+		} elseif ( $this->getRendererCode() == 'month' ) {
+			for ( $i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $DayTime ) {
+				$_checkStartDate = $this->getDateTimeObj( $i );
+				$_checkStartDate->setTime( 0, 0, 0 );
 
-        $Availabilites = [];
+				$_checkEndDate = $this->getDateTimeObj( $i );
+				$_checkEndDate->setTime( 23, 59, 59 );
 
-        $HourTime = (60 * 60);
-        $DayTime = ($HourTime * 24);
-        $WeekTime = ($DayTime * 7);
+				$Availabilites[ $i ] = [
+					'from'   => $_checkStartDate->format( 'Y-m-d H:i:s' ),
+					'to'     => $_checkEndDate->format( 'Y-m-d H:i:s' ),
+					'result' => $this->_stockManagement->getAvailableQuantity( $Product, $_checkStartDate, $_checkEndDate )
+				];
+			}
+		}
 
-        $StartDate = $this->getDateTimeObj(strtotime($this->_dateFrom));
-        $StartDate->setTime(0, 0, 0);
+		return $Availabilites;
+	}
 
-        $EndDate = $this->getDateTimeObj(strtotime($this->_dateTo));
-        $EndDate->setTime(23, 59, 59);
+	public function getSerialsData() {
+		$SerialsData = [];
 
-        foreach ($this->_collection as $SerialNumber) {
-            $Product = $this->productRepository->getById($SerialNumber->getProductId());
-            if ($this->getRendererCode() == 'day') {
-                $CurrentHour = 0;
-                for ($i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $HourTime) {
-                    $_checkStartDate = $this->getDateTimeObj($i);
-                    $_checkStartDate->setTime($CurrentHour, 0, 0);
+		$Availabilites = [];
 
-                    $_checkEndDate = $this->getDateTimeObj($i);
-                    $_checkEndDate->setTime($_checkStartDate->format('H'), 59, 59);
+		$HourTime = ( 60 * 60 );
+		$DayTime  = ( $HourTime * 24 );
+		$WeekTime = ( $DayTime * 7 );
 
-                    $Availabilites[$i] = [
-                        'from' => $_checkStartDate->format('Y-m-d H:i:s'),
-                        'to' => $_checkEndDate->format('Y-m-d H:i:s'),
-                        'result' => 'available',
-                        'reservationorder_id' => null
-                    ];
+		$StartDate = $this->getDateTimeObj( strtotime( $this->_dateFrom ) );
+		$StartDate->setTime( 0, 0, 0 );
 
-                    $CurrentHour++;
-                    if ($CurrentHour > 23) {
-                        $CurrentHour = 0;
-                    }
-                }
-            } elseif ($this->getRendererCode() == 'week') {
-                for ($i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $DayTime) {
-                    $_checkStartDate = $this->getDateTimeObj($i);
-                    $_checkStartDate->setTime(0, 0, 0);
+		$EndDate = $this->getDateTimeObj( strtotime( $this->_dateTo ) );
+		$EndDate->setTime( 23, 59, 59 );
 
-                    $_checkEndDate = $this->getDateTimeObj($i);
-                    $_checkEndDate->setTime(23, 59, 59);
+		foreach ( $this->_collection as $SerialNumber ) {
+			$Product = $this->productRepository->getById( $SerialNumber->getProductId(), false, 0 );
+			if ( $this->getRendererCode() == 'day' ) {
+				$CurrentHour = 0;
+				for ( $i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $HourTime ) {
+					$_checkStartDate = $this->getDateTimeObj( $i );
+					$_checkStartDate->setTime( $CurrentHour, 0, 0 );
 
-                    $Availabilites[$i] = [
-                        'from' => $_checkStartDate->format('Y-m-d H:i:s'),
-                        'to' => $_checkEndDate->format('Y-m-d H:i:s'),
-                        'result' => 'available',
-                        'reservationorder_id' => null
-                    ];
-                }
-            } elseif ($this->getRendererCode() == 'month') {
-                for ($i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $DayTime) {
-                    $_checkStartDate = $this->getDateTimeObj($i);
-                    $_checkStartDate->setTime(0, 0, 0);
+					$_checkEndDate = $this->getDateTimeObj( $i );
+					$_checkEndDate->setTime( $_checkStartDate->format( 'H' ), 59, 59 );
 
-                    $_checkEndDate = $this->getDateTimeObj($i);
-                    $_checkEndDate->setTime(23, 59, 59);
+					$Availabilites[ $i ] = [
+						'from'                => $_checkStartDate->format( 'Y-m-d H:i:s' ),
+						'to'                  => $_checkEndDate->format( 'Y-m-d H:i:s' ),
+						'result'              => 'available',
+						'reservationorder_id' => null
+					];
 
-                    $Availabilites[$i] = [
-                        'from' => $_checkStartDate->format('Y-m-d H:i:s'),
-                        'to' => $_checkEndDate->format('Y-m-d H:i:s'),
-                        'result' => 'available',
-                        'reservationorder_id' => null
-                    ];
-                }
-            }
+					$CurrentHour ++;
+					if ( $CurrentHour > 23 ) {
+						$CurrentHour = 0;
+					}
+				}
+			} elseif ( $this->getRendererCode() == 'week' ) {
+				for ( $i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $DayTime ) {
+					$_checkStartDate = $this->getDateTimeObj( $i );
+					$_checkStartDate->setTime( 0, 0, 0 );
 
-            $SerialsData[$SerialNumber->getSerialnumber()] = [
-                'id' => $Product->getId(),
-                'sku' => $Product->getSku(),
-                'name' => $Product->getName(),
-                'sirent_quantity' => $Product->getSirentQuantity(),
-                'availability' => $this->getAvailabilityDates($Product),
-                'serial_number' => $SerialNumber->getSerialnumber(),
-                'notes' => $SerialNumber->getNotes(),
-                'cost' => $SerialNumber->getCost(),
-                'date_acquired' => $SerialNumber->getDateAcquired(),
-                'status' => $Availabilites
-            ];
-        }
+					$_checkEndDate = $this->getDateTimeObj( $i );
+					$_checkEndDate->setTime( 23, 59, 59 );
 
-        if (empty($SerialsData)) {
-            return false;
-        }
+					$Availabilites[ $i ] = [
+						'from'                => $_checkStartDate->format( 'Y-m-d H:i:s' ),
+						'to'                  => $_checkEndDate->format( 'Y-m-d H:i:s' ),
+						'result'              => 'available',
+						'reservationorder_id' => null
+					];
+				}
+			} elseif ( $this->getRendererCode() == 'month' ) {
+				for ( $i = $StartDate->getTimestamp(); $i < $EndDate->getTimestamp(); $i += $DayTime ) {
+					$_checkStartDate = $this->getDateTimeObj( $i );
+					$_checkStartDate->setTime( 0, 0, 0 );
 
-        $Reservations = $this->_reportHelper->getRentalOrders([
-            'use_turnover_date' => true,
-            'start_date' => $StartDate,
-            'end_date' => $EndDate,
-            'conditions' => [
-                'serials_shipped' => ['null' => false],
-                // 'qty_use_grid' => ['gt' => 0]
-            ]
-        ]);
+					$_checkEndDate = $this->getDateTimeObj( $i );
+					$_checkEndDate->setTime( 23, 59, 59 );
 
-        foreach ($Reservations as $Reservation) {
-            $ReservationStartDate = $this->getDateTimeObj(strtotime($Reservation['start_date_use_grid']));
-            $ReservationStartDate->setTime(0, 0, 0);
+					$Availabilites[ $i ] = [
+						'from'                => $_checkStartDate->format( 'Y-m-d H:i:s' ),
+						'to'                  => $_checkEndDate->format( 'Y-m-d H:i:s' ),
+						'result'              => 'available',
+						'reservationorder_id' => null
+					];
+				}
+			}
 
-            $ReservationEndDate = $this->getDateTimeObj(strtotime($Reservation['end_date_use_grid']));
-            $ReservationEndDate->setTime(0, 0, 0);
+			$SerialsData[ $SerialNumber->getSerialnumber() ] = [
+				'id'              => $Product->getId(),
+				'sku'             => $Product->getSku(),
+				'name'            => $Product->getName(),
+				'sirent_quantity' => $Product->getSirentQuantity(),
+				'availability'    => $this->getAvailabilityDates( $Product ),
+				'serial_number'   => $SerialNumber->getSerialnumber(),
+				'notes'           => $SerialNumber->getNotes(),
+				'cost'            => $SerialNumber->getCost(),
+				'date_acquired'   => $SerialNumber->getDateAcquired(),
+				'status'          => $Availabilites
+			];
+		}
 
-            $ShippedSerials = explode(',', $Reservation['serials_shipped']);
-            foreach ($ShippedSerials as $SerialNumber) {
-                if (isset($SerialsData[$SerialNumber])) {
-                    if ($this->getRendererCode() == 'day') {
-                        for ($i = $ReservationStartDate->getTimestamp(); $i < $ReservationEndDate->getTimestamp(); $i += $HourTime) {
-                            $SerialsData[$SerialNumber]['status'][$i]['result'] = 'out';
-                            $SerialsData[$SerialNumber]['status'][$i]['reservationorder_id'] = $Reservation['reservationorder_id'];
-                        }
-                    } elseif ($this->getRendererCode() == 'week') {
-                        for ($i = $ReservationStartDate->getTimestamp(); $i < $ReservationEndDate->getTimestamp(); $i += $DayTime) {
-                            $SerialsData[$SerialNumber]['status'][$i]['result'] = 'out';
-                            $SerialsData[$SerialNumber]['status'][$i]['reservationorder_id'] = $Reservation['reservationorder_id'];
-                        }
-                    } elseif ($this->getRendererCode() == 'month') {
-                        for ($i = $ReservationStartDate->getTimestamp(); $i < $ReservationEndDate->getTimestamp(); $i += $DayTime) {
-                            $SerialsData[$SerialNumber]['status'][$i]['result'] = 'out';
-                            $SerialsData[$SerialNumber]['status'][$i]['reservationorder_id'] = $Reservation['reservationorder_id'];
-                        }
-                    }
-                }
-            }
-        }
+		if ( empty( $SerialsData ) ) {
+			return false;
+		}
 
-        sort($SerialsData);
-        return $SerialsData;
-    }
+		$Reservations = $this->_reportHelper->getRentalOrders( [
+			'use_turnover_date' => true,
+			'start_date'        => $StartDate,
+			'end_date'          => $EndDate,
+			'conditions'        => [
+				'serials_shipped' => [ 'null' => false ],
+				// 'qty_use_grid' => ['gt' => 0]
+			]
+		] );
 
-    /**
-     * @param $timestamp
-     *
-     * @return bool|string
-     */
-    protected function getDateFormatted($timestamp)
-    {
-        return date('m/d', $timestamp);
-    }
+		foreach ( $Reservations as $Reservation ) {
+			$ReservationStartDate = $this->getDateTimeObj( strtotime( $Reservation['start_date_use_grid'] ) );
+			$ReservationStartDate->setTime( 0, 0, 0 );
+
+			$ReservationEndDate = $this->getDateTimeObj( strtotime( $Reservation['end_date_use_grid'] ) );
+			$ReservationEndDate->setTime( 0, 0, 0 );
+
+			$ShippedSerials = explode( ',', $Reservation['serials_shipped'] );
+			foreach ( $ShippedSerials as $SerialNumber ) {
+				if ( isset( $SerialsData[ $SerialNumber ] ) ) {
+					if ( $this->getRendererCode() == 'day' ) {
+						for ( $i = $ReservationStartDate->getTimestamp(); $i < $ReservationEndDate->getTimestamp(); $i += $HourTime ) {
+							$SerialsData[ $SerialNumber ]['status'][ $i ]['result']              = 'out';
+							$SerialsData[ $SerialNumber ]['status'][ $i ]['reservationorder_id'] = $Reservation['reservationorder_id'];
+						}
+					} elseif ( $this->getRendererCode() == 'week' ) {
+						for ( $i = $ReservationStartDate->getTimestamp(); $i < $ReservationEndDate->getTimestamp(); $i += $DayTime ) {
+							$SerialsData[ $SerialNumber ]['status'][ $i ]['result']              = 'out';
+							$SerialsData[ $SerialNumber ]['status'][ $i ]['reservationorder_id'] = $Reservation['reservationorder_id'];
+						}
+					} elseif ( $this->getRendererCode() == 'month' ) {
+						for ( $i = $ReservationStartDate->getTimestamp(); $i < $ReservationEndDate->getTimestamp(); $i += $DayTime ) {
+							$SerialsData[ $SerialNumber ]['status'][ $i ]['result']              = 'out';
+							$SerialsData[ $SerialNumber ]['status'][ $i ]['reservationorder_id'] = $Reservation['reservationorder_id'];
+						}
+					}
+				}
+			}
+		}
+
+		sort( $SerialsData );
+
+		return $SerialsData;
+	}
+
+	/**
+	 * @param $timestamp
+	 *
+	 * @return bool|string
+	 */
+	protected function getDateFormatted( $timestamp ) {
+		return date( 'm/d', $timestamp );
+	}
 }

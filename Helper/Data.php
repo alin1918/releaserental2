@@ -341,8 +341,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getAttributeRawValue($product, $attributeName, $store = null)
     {
         $productId = $this->getProductIdFromObject($product);
+
         if ($store === null) {
-            $store = $this->_storeManager->getStore();
+        	if($attributeName === 'sirent_quantity' || $attributeName === 'sirent_inv_bydate_serialized'){
+        	    $store = 0;
+	        } else {
+		        $store = $this->_storeManager->getStore();
+	        }
         }
         $result = $this->_resourceProduct->getAttributeRawValue(
             $productId,

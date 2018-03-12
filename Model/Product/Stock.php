@@ -378,19 +378,19 @@ class Stock
         if (null !== $inventory) {
             $inventory = serialize($inventory);
         }
-        foreach ($this->rentalHelper->getStoreIdsForCurrentWebsite() as $storeId) {
-            try {
-                $product = $this->productRepository->getById($productId, false, $storeId);
-            } catch (NoSuchEntityException $e) {
-                return [];
-            }
-            $product->setSirentInvBydateSerialized($inventory);
+        //foreach ($this->rentalHelper->getStoreIdsForCurrentWebsite() as $storeId) {
+          //  try {
+            //    $product = $this->productRepository->getById($productId, false, $storeId);
+            //} catch (NoSuchEntityException $e) {
+              //  return [];
+            //}
+            //$product->setSirentInvBydateSerialized($inventory);
             $this->attributeAction->updateAttributes(
-                [$product->getId()],
+                [$productId],
                 ['sirent_inv_bydate_serialized' => $inventory],
-                $storeId
+                0
             );
-        }
+        //}
     }
 
     /**
