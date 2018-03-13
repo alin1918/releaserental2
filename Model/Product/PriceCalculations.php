@@ -509,7 +509,7 @@ class PriceCalculations {
 				$returnValue = '';
 			}
 			if ( $returnValue !== '' && $this->_helperRental->isBundle( $productId ) ) {
-				$scripts     = $this->Translate_DoHTML_GetScripts( $returnValue );
+				/*$scripts     = $this->Translate_DoHTML_GetScripts( $returnValue );
 				$myhtml      = $scripts['body'];
 				$htmlCleaned = html5qp( '<div class="si_generated_div">' . $myhtml . '</div>' );
 				$dom         = $htmlCleaned->find( 'div.si_generated_div' )->first();
@@ -523,12 +523,12 @@ class PriceCalculations {
 				}
 				if ( $isChanged ) {
 					$returnValue = $this->Translate_DoHTML_SetScripts( $dom->innerHTML5(), $scripts['scripts'] );
-				}
+				} */
 			}
 		} else {
 			if ( $returnValue !== '' ) {
 				/** @var \QueryPath\DOMQuery $dom */
-				$scripts     = $this->Translate_DoHTML_GetScripts( $returnValue );
+				/*$scripts     = $this->Translate_DoHTML_GetScripts( $returnValue );
 				$myhtml      = $scripts['body'];
 				$htmlCleaned = html5qp( '<div class="si_generated_div">' . $myhtml . '</div>' );
 				$dom         = $htmlCleaned->find( 'div.si_generated_div' )->first();
@@ -541,7 +541,7 @@ class PriceCalculations {
 						$html = '';
 					}
 				}
-				$returnValue = $this->Translate_DoHTML_SetScripts( $dom->innerHTML5(), $scripts['scripts'] );
+				$returnValue = $this->Translate_DoHTML_SetScripts( $dom->innerHTML5(), $scripts['scripts'] );*/
 				if ( $this->_helperRental->isBundle( $productId ) && $this->_helperRental->isPricePerProduct( $productId ) ) {
 					$html = '';
 				}

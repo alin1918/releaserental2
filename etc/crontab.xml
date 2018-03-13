@@ -16,6 +16,9 @@
         <job name="send_customer_overdue" instance="SalesIgniter\Rental\Cron\SendCustomerOverdue" method="execute">
             <schedule>0 0 23 * *</schedule>
         </job>
+        <job name="async_inventory_update" instance="SalesIgniter\Rental\Cron\AsyncInventoryUpdate" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
 
     </group>
 </config>
