@@ -90,6 +90,7 @@ class OrderManagementInterface {
 			$order->setShippingAddress( $shippingAddress );
 			$order->setShippingMethod( 'free_shipping' );
 		}
+		$order->setIsReserved( 0 );
 		$returnOrder = $proceed( $order );
 		$this->catalogSession->unsetStartDateGlobal();
 		$this->catalogSession->unsetEndDateGlobal();

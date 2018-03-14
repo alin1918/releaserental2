@@ -988,7 +988,7 @@ class UpgradeSchema implements UpgradeSchemaInterface {
 				[
 					'type'     => DdlTable::TYPE_INTEGER,
 					'nullable' => false,
-					'default'  => 0,
+					'default'  => 1,
 					'comment'  => 'Flag to know if the items have been reserved',
 				]
 			);
