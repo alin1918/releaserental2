@@ -21,6 +21,25 @@
                     </item>
                 </item>
             </argument>
+            <argument name="default" xsi:type="array">
+                <item name="prices" xsi:type="array">
+
+                    <item name="final_price" xsi:type="array">
+                        <item name="render_class" xsi:type="string">Magento\Catalog\Pricing\Render\FinalPriceBox</item>
+                        <item name="render_template" xsi:type="string">SalesIgniter_Rental::product/price/final_price_default.phtml</item>
+                    </item>
+
+                </item>
+            </argument>
+            <argument name="configurable" xsi:type="array">
+                <item name="prices" xsi:type="array">
+
+                    <item name="final_price" xsi:type="array">
+                        <item name="render_class" xsi:type="string">Magento\ConfigurableProduct\Pricing\Render\FinalPriceBox</item>
+                        <item name="render_template" xsi:type="string">SalesIgniter_Rental::product/price/final_price_configurable.phtml</item>
+                    </item>
+                </item>
+            </argument>
         </arguments>
     </referenceBlock>
 </layout>

@@ -30,7 +30,6 @@
             'underscore',
             'mage/translate',
             'Magento_Ui/js/modal/alert',
-            'jslogger',
             'Magento_Bundle/js/price-bundle',
             'mage/calendar',
             'pprtimepicker',
@@ -42,7 +41,7 @@
     } else {
         factory(window.jQuery);
     }
-}(function ($, utils, mageTemplate, _, _t, alert, Logger1, priceBundle) {
+}(function ($, utils, mageTemplate, _, _t, alert, priceBundle) {
     'use strict';
 
     /**
@@ -1869,12 +1868,12 @@
             this.options.fromObj[this._picker()]('option', 'minDate', firstDateAvailable);
             var newFromDate = $.datepicker.parseDateTime("yy-mm-dd", "HH:mm:ss", this.options.fromDateInitial);
             var newToDate = $.datepicker.parseDateTime("yy-mm-dd", "HH:mm:ss", this.options.toDateInitial);
-            if (this.options.fromDateInitial != '' && (this.options.firstDateAvailable === 0 || $.datepicker._compareDateTimeObj(firstDateAvailable, newFromDate, false) === -1)) {
+            if (this.options.fromDateInitial != '' && (this.options.firstDateAvailable === 0 || $.datepicker._compareDateTimeObj(firstDateAvailable, newFromDate, false) <= 0)) {
 
                 this.options.fromDateInitial = newFromDate;
                 this.options.fromObj[this._picker()]('setDate', newFromDate);
             }
-            if (this.options.toDateInitial != '' && (this.options.firstDateAvailable === 0 || $.datepicker._compareDateTimeObj(firstDateAvailable, newToDate, false) === -1)) {
+            if (this.options.toDateInitial != '' && (this.options.firstDateAvailable === 0 || $.datepicker._compareDateTimeObj(firstDateAvailable, newToDate, false) <= 0)) {
 
                 this.options.toDateInitial = newToDate;
                 this.options.toObj[this._picker()]('setDate', newToDate);
@@ -1950,7 +1949,6 @@
         _updateTimePickerInventory: function (updatePriceAfter) {
             var self = this,
                 dataFormSerialized;
-            Logger1.get('Errorm').warn('here');
 
             dataFormSerialized = this._getFormSerialization();
             if (typeof updatePriceAfter === 'undefined') {
@@ -2017,23 +2015,23 @@
 
 
                             }, self));
-                            // var myInt = setInterval(getOptions, 50);
+                            var myInt = setInterval(getOptions, 50);
 
-                            // function getOptions() {
-                            optionsInput = $productForm.find(self.options.attributesSelector);
-                            if (optionsInput.length > 0) {
-                                optionsInput.on('change', $.proxy(function (event) {
-                                    //if (event.originalEvent !== undefined || event.isTrigger === 3) {
-                                    //self.options.hasSelectedManually = 1;
-                                    //}
-                                    if ($(self.options.isConfigurableSelector).length > 0) {
-                                        $productForm.trigger('updateProductSummary');
-                                    }
+                            function getOptions() {
+                                optionsInput = $productForm.find(self.options.attributesSelector);
+                                if (optionsInput.length > 0) {
+                                    optionsInput.on('change', $.proxy(function (event) {
+                                        //if (event.originalEvent !== undefined || event.isTrigger === 3) {
+                                        //self.options.hasSelectedManually = 1;
+                                        //}
+                                        if ($(self.options.isConfigurableSelector).length > 0) {
+                                            $productForm.trigger('updateProductSummary');
+                                        }
 
-                                }, self));
-                                //clearInterval(myInt);
+                                    }, self));
+                                    clearInterval(myInt);
+                                }
                             }
-                            //}
 
 
                             $productForm.on('updateProductSummary', $.proxy(function (event, config) {
@@ -2454,17 +2452,6 @@
             this.options.isBundleSelector = '[name^="bundle_option"]';
             this.options.qtyFieldSelector = '#qty';//.box-tocart .qty
 
-            Logger1.useDefaults({
-                defaultLevel: Logger1.WARN,
-                formatter: function (messages, context) {
-                    messages.unshift('debugwarn:' + new Date().toUTCString());
-                }
-            });
-
-            var myLogger = Logger1.get('Errorm');
-            myLogger.setLevel(Logger1.WARN);
-            var myLogger1 = Logger1.get('Debugm');
-            myLogger1.setLevel(Logger1.DEBUG);
             // selector of parental block of prices and swatches (need to know where to seek for price block)
             this.options.selectorProduct = '.product-info-main, .bundle-options-container';
             // selector of price wrapper (need to know where set price)

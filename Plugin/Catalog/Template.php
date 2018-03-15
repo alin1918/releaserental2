@@ -201,14 +201,14 @@ class Template {
 	 *
 	 * @return string
 	 */
-	private function _appendFrontendGeneralStyles( &$dom ) {
-		$html = '<script>
+	private function _appendFrontendGeneralStyles( &$html ) {
+		$html .= '<script>
             require(["css!css/general/styles.min"], function(){
                 
             });
             </script>';
-		$html = $this->cleanHtml( $html );
-		$dom->append( $html );
+		//$html = $this->cleanHtml( $html );
+		//$dom->append( $html );
 	}
 
 	/**
@@ -222,7 +222,7 @@ class Template {
 	 * @throws \Magento\Framework\Exception\LocalizedException
 	 * @throws \Magento\Framework\Exception\NoSuchEntityException
 	 */
-	private function hideCustomOptions( $subject, &$domHtml, &$isChanged ) {
+	private function hideCustomOptions( $subject, &$html ) {
 		if ( ( $subject->getNameInLayout() === 'product.info.options.wrapper' &&
 		       $this->_helperRental->isFrontend() &&
 		       $this->_helperRental->isRentalType( $this->coreRegistry->registry( 'current_product' ) ) ) ||
@@ -230,10 +230,32 @@ class Template {
 		       $this->_helperRental->isFrontend() &&
 		       $this->_helperRental->isRentalType( $this->coreRegistry->registry( 'current_product' ) ) )
 		) {
+			$scripts = $this->Translate_DoHTML_GetScripts( $html );
+			$myhtml  = $scripts['body'];
+			// $myhtml = $html;
+			$domHtmlModified = html5qp( '<div class="si_generated_local">' . $myhtml . '</div>' );
+			$isChanged       = false;
+			$domHtml         = $domHtmlModified->find( 'div.si_generated_local' )->first();
+
 			$this->_hideStartEndCustomOptions( $domHtml, $isChanged );
+			if ( $isChanged ) {
+				$html = $this->Translate_DoHTML_SetScripts( $domHtml->innerHTML5(), $scripts['scripts'] );
+				//return $domHtml->innerHTML();
+			}
 		}
 		if ( $this->_helperRental->isBackend() && strpos( $subject->getNameInLayout(), 'product.composite.fieldset' ) !== false ) {
+			$scripts = $this->Translate_DoHTML_GetScripts( $html );
+			$myhtml  = $scripts['body'];
+			// $myhtml = $html;
+			$domHtmlModified = html5qp( '<div class="si_generated_local">' . $myhtml . '</div>' );
+			$isChanged       = false;
+			$domHtml         = $domHtmlModified->find( 'div.si_generated_local' )->first();
+
 			$this->_hideStartEndCustomOptionsAdmin( $domHtml, $isChanged );
+			if ( $isChanged ) {
+				$html = $this->Translate_DoHTML_SetScripts( $domHtml->innerHTML5(), $scripts['scripts'] );
+				//return $domHtml->innerHTML();
+			}
 		}
 	}
 
@@ -246,10 +268,10 @@ class Template {
 	 *
 	 * @throws \Magento\Framework\Exception\LocalizedException
 	 */
-	private function addPricingAndStylesheets( $subject, &$domHtml, &$isChanged ) {
+	private function addPricingAndStylesheets( $subject, &$html ) {
 		if ( $subject->getNameInLayout() === 'absolute_footer' && $this->_helperRental->isFrontend() ) {
-			$this->_addPricingJs( $domHtml );
-			$this->_appendFrontendGeneralStyles( $domHtml );
+			//$this->_addPricingJs( $domHtml );
+			$this->_appendFrontendGeneralStyles( $html );
 			$isChanged = true;
 		}
 	}
@@ -277,15 +299,37 @@ class Template {
 	 * @throws \RuntimeException
 	 * @throws \InvalidArgumentException
 	 */
-	private function addDates( $subject, $fileName, &$domHtml, &$isChanged ) {
+	private function addDates( $subject, $fileName, &$html ) {
 		if ( $subject->getNameInLayout() === 'items' && strpos( $fileName, 'email' ) !== false ) {
+			$scripts = $this->Translate_DoHTML_GetScripts( $html );
+			$myhtml  = $scripts['body'];
+			// $myhtml = $html;
+			$domHtmlModified = html5qp( '<div class="si_generated_local">' . $myhtml . '</div>' );
+			$isChanged       = false;
+			$domHtml         = $domHtmlModified->find( 'div.si_generated_local' )->first();
+
 			$this->_addDatesInfoEmail( $domHtml, $subject->getOrder() );
 			$this->_removeStartEndDatesPerItem( $domHtml, $isChanged );
+			if ( $isChanged ) {
+				$html = $this->Translate_DoHTML_SetScripts( $domHtml->innerHTML5(), $scripts['scripts'] );
+				//return $domHtml->innerHTML();
+			}
 		}
 
 		if ( $subject->getNameInLayout() === 'order_info' && $this->_helperRental->isBackend() ) {
+			$scripts = $this->Translate_DoHTML_GetScripts( $html );
+			$myhtml  = $scripts['body'];
+			// $myhtml = $html;
+			$domHtmlModified = html5qp( '<div class="si_generated_local">' . $myhtml . '</div>' );
+			$isChanged       = false;
+			$domHtml         = $domHtmlModified->find( 'div.si_generated_local' )->first();
+
 			$this->_addDatesInfo( $domHtml );
 			$isChanged = true;
+			if ( $isChanged ) {
+				$html = $this->Translate_DoHTML_SetScripts( $domHtml->innerHTML5(), $scripts['scripts'] );
+				//return $domHtml->innerHTML();
+			}
 		}
 
 		if ( $this->_helperRental->isBackend() &&
@@ -294,7 +338,18 @@ class Template {
 		       $subject->getNameInLayout() === 'shipment_items' ||
 		       $subject->getNameInLayout() === 'creditmemo_items' )
 		) {
+			$scripts = $this->Translate_DoHTML_GetScripts( $html );
+			$myhtml  = $scripts['body'];
+			// $myhtml = $html;
+			$domHtmlModified = html5qp( '<div class="si_generated_local">' . $myhtml . '</div>' );
+			$isChanged       = false;
+			$domHtml         = $domHtmlModified->find( 'div.si_generated_local' )->first();
+
 			$this->_removeStartEndDatesPerItem( $domHtml, $isChanged );
+			if ( $isChanged ) {
+				$html = $this->Translate_DoHTML_SetScripts( $domHtml->innerHTML5(), $scripts['scripts'] );
+				//return $domHtml->innerHTML();
+			}
 		}
 	}
 
@@ -321,30 +376,21 @@ class Template {
 		if ( $this->_helperRental->isPaymentResponse() ) {
 			return $html;
 		}
-		$scripts = $this->Translate_DoHTML_GetScripts( $html );
-		$myhtml  = $scripts['body'];
-		// $myhtml = $html;
-		$domHtmlModified = html5qp( '<div class="si_generated_local">' . $myhtml . '</div>' );
-		$isChanged       = false;
-		$domHtml         = $domHtmlModified->find( 'div.si_generated_local' )->first();
-		$this->renameButtonsOnListingAndProductPage( $fileName, $domHtml, $isChanged );
+		$this->renameButtonsOnListingAndProductPage( $fileName, $html );
 
-		$this->hideCustomOptions( $subject, $domHtml, $isChanged );
-		$this->addPricingAndStylesheets( $subject, $domHtml, $isChanged );
+		$this->hideCustomOptions( $subject, $html );
+		$this->addPricingAndStylesheets( $subject, $html );
 
-		$this->addCalendarAdmin( $subject, $domHtml, $isChanged );
-		$this->addDates( $subject, $fileName, $domHtml, $isChanged );
+		$this->addCalendarAdmin( $subject, $html );
+		$this->addDates( $subject, $fileName, $html );
 
-		$this->orderViewUpdate( $subject, $domHtml, $isChanged );
-		$this->modifyShipPage( $subject, $domHtml, $isChanged );
+		$this->orderViewUpdate( $subject, $html );
+		$this->modifyShipPage( $subject, $html );
 
 		//todo for shipment view show serials. check regex https://simple-regex.com/build/580477fa34714
-		if ( $isChanged ) {
-			return $this->Translate_DoHTML_SetScripts( $domHtml->innerHTML5(), $scripts['scripts'] );
-			//return $domHtml->innerHTML();
-		} else {
-			return $html;
-		}
+
+		return $html;
+
 	}
 
 	/**
@@ -476,12 +522,22 @@ class Template {
 	 *
 	 * @internal param $html
 	 */
-	protected function renameButtonsOnListingAndProductPage( $fileName, $domHtml, &$isChanged ) {
+	protected function renameButtonsOnListingAndProductPage( $fileName, &$html ) {
 		if ( $this->_helperRental->isFrontend() &&
 		     ( strpos( $fileName, 'addtocart.phtml' ) !== false ||
 		       strpos( $fileName, 'list.phtml' ) !== false )
 		) {
+			$scripts = $this->Translate_DoHTML_GetScripts( $html );
+			$myhtml  = $scripts['body'];
+			// $myhtml = $html;
+			$domHtmlModified = html5qp( '<div class="si_generated_local">' . $myhtml . '</div>' );
+			$isChanged       = false;
+			$domHtml         = $domHtmlModified->find( 'div.si_generated_local' )->first();
 			$this->_renameButtons( $domHtml, $isChanged );
+			if ( $isChanged ) {
+				$html = $this->Translate_DoHTML_SetScripts( $domHtml->innerHTML5(), $scripts['scripts'] );
+				//return $domHtml->innerHTML();
+			}
 		}
 	}
 
@@ -569,20 +625,42 @@ class Template {
 	 *
 	 * @throws \Magento\Framework\Exception\LocalizedException
 	 */
-	private function addCalendarAdmin( $subject, $domHtml, &$isChanged ) {
+	private function addCalendarAdmin( $subject, &$html ) {
 		if ( ( $this->_helperRental->isBackendAdminOrderEdit() &&
 		       $subject->getNameInLayout() === 'items' ) ||
 		     ( $this->_helperRental->isBackend() &&
 		       $subject->getNameInLayout() === 'product.composite.fieldset.options.js' &&
 		       $this->_helperRental->isRentalType( $this->coreRegistry->registry( 'current_product' ) ) )
 		) {
+			$scripts = $this->Translate_DoHTML_GetScripts( $html );
+			$myhtml  = $scripts['body'];
+			// $myhtml = $html;
+			$domHtmlModified = html5qp( '<div class="si_generated_local">' . $myhtml . '</div>' );
+			$isChanged       = false;
+			$domHtml         = $domHtmlModified->find( 'div.si_generated_local' )->first();
+
 			$this->_appendCalendarAdmin( $domHtml );
 			$isChanged = true;
+			if ( $isChanged ) {
+				$html = $this->Translate_DoHTML_SetScripts( $domHtml->innerHTML5(), $scripts['scripts'] );
+				//return $domHtml->innerHTML();
+			}
 		}
 
 		if ( $this->_helperRental->isBackendAdminOrderEdit() && $subject->getNameInLayout() === 'items_grid' ) {
+			$scripts = $this->Translate_DoHTML_GetScripts( $html );
+			$myhtml  = $scripts['body'];
+			// $myhtml = $html;
+			$domHtmlModified = html5qp( '<div class="si_generated_local">' . $myhtml . '</div>' );
+			$isChanged       = false;
+			$domHtml         = $domHtmlModified->find( 'div.si_generated_local' )->first();
+
 			$this->_appendAdminCreateOrderUpdate( $domHtml );
 			$isChanged = true;
+			if ( $isChanged ) {
+				$html = $this->Translate_DoHTML_SetScripts( $domHtml->innerHTML5(), $scripts['scripts'] );
+				//return $domHtml->innerHTML();
+			}
 		}
 	}
 
@@ -593,10 +671,21 @@ class Template {
 	 * @param $domHtml
 	 * @param $isChanged
 	 */
-	private function orderViewUpdate( $subject, $domHtml, &$isChanged ) {
+	private function orderViewUpdate( $subject, &$html ) {
 		if ( $subject->getNameInLayout() === 'sales_order_edit-return_order-button' && $this->_helperRental->isBackend() ) {
+			$scripts = $this->Translate_DoHTML_GetScripts( $html );
+			$myhtml  = $scripts['body'];
+			// $myhtml = $html;
+			$domHtmlModified = html5qp( '<div class="si_generated_local">' . $myhtml . '</div>' );
+			$isChanged       = false;
+			$domHtml         = $domHtmlModified->find( 'div.si_generated_local' )->first();
+
 			$this->_addReturnGridPanel( $domHtml );
 			$isChanged = true;
+			if ( $isChanged ) {
+				$html = $this->Translate_DoHTML_SetScripts( $domHtml->innerHTML5(), $scripts['scripts'] );
+				//return $domHtml->innerHTML();
+			}
 		}
 	}
 
@@ -607,11 +696,22 @@ class Template {
 	 *
 	 * @throws \Magento\Framework\Exception\LocalizedException
 	 */
-	private function modifyShipPage( $subject, $domHtml, &$isChanged ) {
+	private function modifyShipPage( $subject, &$html ) {
 		if ( $subject->getNameInLayout() === 'order_items' && $this->_helperRental->isBackend() ) {
+			$scripts = $this->Translate_DoHTML_GetScripts( $html );
+			$myhtml  = $scripts['body'];
+			// $myhtml = $html;
+			$domHtmlModified = html5qp( '<div class="si_generated_local">' . $myhtml . '</div>' );
+			$isChanged       = false;
+			$domHtml         = $domHtmlModified->find( 'div.si_generated_local' )->first();
+
 			$nodes = $domHtml->find( '.col-qty input' );
 			foreach ( $nodes as $node ) {
 				$this->_addSerialsInput( $node, $isChanged );
+			}
+			if ( $isChanged ) {
+				$html = $this->Translate_DoHTML_SetScripts( $domHtml->innerHTML5(), $scripts['scripts'] );
+				//return $domHtml->innerHTML();
 			}
 		}
 	}

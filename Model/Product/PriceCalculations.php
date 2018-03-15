@@ -443,12 +443,17 @@ class PriceCalculations {
 	public function getPriceListHtml(
 		$productId, $simple = false, $returnValue = ''
 	) {
+		if ( strpos( $returnValue, 'rental_pricing_listing' ) ) {
+			$fromListing = true;
+		} else {
+			$fromListing = false;
+		}
 		$product    = $this->_helperRental->getProductObjectFromId( $productId );
 		$priceList  = $this->getPriceList( $productId );
 		$buyoutHtml = $this->getBuyoutHtml( $productId );
 
 		$html = '';
-		if ( $this->isProductDetailsPage() ) {
+		if ( ! $fromListing && $this->isProductDetailsPage() ) {
 			$numberOfPricesListed = - 1;
 		} else {
 			$numberOfPricesListed = $this->getPricePointsNumber();
@@ -458,7 +463,7 @@ class PriceCalculations {
 		$priceExclTaxRow   = [];
 		$priceInclTaxRow   = [];
 		foreach ( $priceList as $price ) {
-			if ( $numberOfPricesListed > - 1 && $listedPricePoints >= $numberOfPricesListed ) {
+			if ( $numberOfPricesListed === 0 || $numberOfPricesListed > - 1 && $listedPricePoints >= $numberOfPricesListed ) {
 				break;
 			}
 			$priceAdditionalHtml = $this->getAdditionalPriceHtml( $price, $product );
@@ -479,15 +484,15 @@ class PriceCalculations {
 			return $html;
 		}
 		$startDate = '';
-		if ( $this->helperCalendar->globalDatesPricingOnListing() !== GlobalDatesPricingOnListing::NORMAL ) {
+		/*if ( $this->helperCalendar->globalDatesPricingOnListing() !== GlobalDatesPricingOnListing::NORMAL ) {
 			$startDate = $this->helperCalendar->getGlobalDates( 'from' );
 			$endDate   = $this->helperCalendar->getGlobalDates( 'to' );
-		}
+		} */
 		$listClass = 'pricing-ppr-list';
 		if ( $this->coreRegistry->registry( 'current_product' ) ) {
 			$listClass = '';
 		}
-		if ( ! $this->coreRegistry->registry( 'current_product' ) ) {
+		if ( ! $this->coreRegistry->registry( 'current_product' ) || $fromListing ) {
 			if ( ! $this->_helperRental->isBundle( $productId ) || ! $this->_helperRental->isPricePerProduct( $productId ) ) {
 				if ( $startDate !== '' ) {
 					$priceListValue = $this->calculatePrice( $productId, $startDate, $endDate, 1 );
@@ -508,44 +513,7 @@ class PriceCalculations {
 			} else {
 				$returnValue = '';
 			}
-			if ( $returnValue !== '' && $this->_helperRental->isBundle( $productId ) ) {
-				/*$scripts     = $this->Translate_DoHTML_GetScripts( $returnValue );
-				$myhtml      = $scripts['body'];
-				$htmlCleaned = html5qp( '<div class="si_generated_div">' . $myhtml . '</div>' );
-				$dom         = $htmlCleaned->find( 'div.si_generated_div' )->first();
-				$priceFields = $dom->find( '.price-wrapper' );
-				$isChanged   = false;
-				foreach ( $priceFields as $priceField ) {
-					if ( strpos( $priceField->attr( 'id' ), 'from-' ) !== false ) {
-						$priceField->parent()->attr( 'style', 'display:none' );
-						$isChanged = true;
-					}
-				}
-				if ( $isChanged ) {
-					$returnValue = $this->Translate_DoHTML_SetScripts( $dom->innerHTML5(), $scripts['scripts'] );
-				} */
-			}
-		} else {
-			if ( $returnValue !== '' ) {
-				/** @var \QueryPath\DOMQuery $dom */
-				/*$scripts     = $this->Translate_DoHTML_GetScripts( $returnValue );
-				$myhtml      = $scripts['body'];
-				$htmlCleaned = html5qp( '<div class="si_generated_div">' . $myhtml . '</div>' );
-				$dom         = $htmlCleaned->find( 'div.si_generated_div' )->first();
-				$priceFields = $dom->find( '.price-wrapper' );
-				foreach ( $priceFields as $priceField ) {
-					$priceField->attr( 'style', 'display:none' );
-					if ( strpos( $priceField->attr( 'id' ), 'old-price' ) !== false || strpos( $priceField->attr( 'id' ), 'from-' ) !== false ) {
-						$priceField->parent()->attr( 'style', 'display:none' );
 
-						$html = '';
-					}
-				}
-				$returnValue = $this->Translate_DoHTML_SetScripts( $dom->innerHTML5(), $scripts['scripts'] );*/
-				if ( $this->_helperRental->isBundle( $productId ) && $this->_helperRental->isPricePerProduct( $productId ) ) {
-					$html = '';
-				}
-			}
 		}
 
 		$dataType = $this->_helperRental->isBuyout( $productId ) ? 'rental-buyout' : '';

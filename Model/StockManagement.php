@@ -1221,7 +1221,6 @@ class StockManagement implements \SalesIgniter\Rental\Api\StockManagementInterfa
 	public function getFirstDateAvailable( $product = null, $format = true ) {
 		$today = $this->calendarHelper->getTimeAccordingToTimeZone();
 
-
 		$todayWithTime   = $today;
 		$hoursForNextDay = $this->calendarHelper->getNextDayHour();
 		$todayCurrent    = new \DateTime( $today->format( 'Y-m-d' ) );

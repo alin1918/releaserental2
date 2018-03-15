@@ -30,7 +30,12 @@ $themeStyle   = $configHelper->getThemeStyle();
 <?php endif; ?>
 
 <?php echo $block->getHtmlCalendar(); ?>
+<div><?php
+	$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+	$objDate       = $objectManager->create( 'Magento\Framework\Stdlib\DateTime\DateTime' );
+	echo __( 'Current Store Time: ' ) . $objDate->gmtDate();
 
+	?></div>
 <div id="button_template" style="display: none;">
     <button type="button" title="<?php echo __( 'Go' ); ?>" class="sirent-go action primary" style="display: none">
         <span><?php echo __( 'Go' ); ?></span>

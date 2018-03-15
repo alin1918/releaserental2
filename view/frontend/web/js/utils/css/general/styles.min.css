@@ -58,3 +58,15 @@
 .box-tocart.update {
     clear: both;
 }
+
+.rental_bundle_option .price-notice .price {
+    display: none;
+}
+
+.aw-wvtav-container .product-item-details .rental_pricing {
+    display: none;
+}
+
+.rental_pricing .price-container {
+    display: none;
+}
