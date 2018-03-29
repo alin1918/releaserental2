@@ -961,7 +961,7 @@ class PriceCalculations {
 				$periodValue = (int) $periodValue;
 			}
 
-			return $price * floor( $multiplicationValue / $periodValue );
+			return $price * ( floor( $multiplicationValue / $periodValue ) + 1 );
 		}
 
 		return 0;
@@ -1005,8 +1005,18 @@ class PriceCalculations {
 
 					if ( ! empty( $price['period_additional'] ) && ! empty( $price['price_additional'] ) && (float) $price['price_additional'] > 0 && $this->helperCalendar->stringPeriodToMinutes( $price['period_additional'] ) > 0 ) {
 						if ( $this->helperDate->compareInterval( $price['period'], $price['period_additional'] ) >= 0 ) {
-							$priceDiff = $this->pricePerDifferencePeriod( $price['period_additional'], $price['price_additional'], $dateDifference );
-							$sum       += $priceDiff;
+							//$priceDiff = $this->pricePerDifferencePeriod( $price['period_additional'], $price['price_additional'], $dateDifference );
+							$solutionPrice                             = 0;
+							$solutionArray                             = [];
+							$priceListModified                         = [];
+							$priceListModified[]                       = $price;
+							$priceListModified[0]['price']             = $priceListModified[0]['price_additional'];
+							$priceListModified[0]['period']            = $priceListModified[0]['period_additional'];
+							$priceListModified[0]['price_additional']  = 0;
+							$priceListModified[0]['period_additional'] = '0d';
+							$this->checkAllPrices( $priceListModified, $currentDateAdditional, $toDate, $isNonProrated, $solutionPrice, $solutionArray );
+
+							$sum += $solutionPrice;
 
 							if ( $sum < $solutionPriceTemp ) {
 								$currentDate = $currentDateAdditional->add( $dateDifference );
