@@ -45,6 +45,13 @@ class InfoEmail extends \Magento\Framework\View\Element\Template
     {
         $dates = $this->helperCalendar->getDatesForOrder($this->getData('hasOrder'));
         $htmlDates = '';
+        
+        if (isset($dates[0]['is_buyout'])
+            && $dates[0]['is_buyout'] == 1
+        ) {
+            return $htmlDates;
+        } 
+        
         if (count($dates) > 0) {
             if ($dates[0]['start_date']->format('H:i') !== '00:00') {
                 $htmlDates = '<p>' . __('Start Date: ') . $this->helperCalendar->formatDateTime($dates[0]['start_date']) . '</p>';
