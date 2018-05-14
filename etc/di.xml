@@ -142,5 +142,7 @@
                 sortOrder="10"
                 disabled="false"/>
     </type>
-
+    <type name="Magento\Quote\Model\Quote">
+        <plugin name="add_related_product" type="SalesIgniter\Rental\Plugin\Quote\Model\Quote\BeforeAddProduct" sortOrder="1" />
+    </type>
 </config>
