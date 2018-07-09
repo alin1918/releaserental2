@@ -3,7 +3,6 @@
 /**
  * Copyright © 2018 SalesIgniter. All rights reserved.
  * See https://rentalbookingsoftware.com/license.html for license details.
- *
  */
 
 namespace SalesIgniter\Rental\Cron;
@@ -18,9 +17,7 @@ use SalesIgniter\Rental\Model\Product\Stock;
 
 /**
  * Class SendCustomerReminder
- * cron for customer reminders
- *
- * @package SalesIgniter\Rental\Model
+ * cron for customer reminders.
  */
 class AsyncInventoryUpdate
 {
@@ -65,17 +62,26 @@ class AsyncInventoryUpdate
     private $filterBuilder;
 
     /**
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder                  $searchCriteriaBuilder
-     * @param \Magento\Sales\Api\Data\OrderInterfaceFactory                 $orderInterfaceFactory
-     * @param \SalesIgniter\Rental\Model\Emails\ReturnOverdueSender         $returnOverdueSender
-     * @param \SalesIgniter\Rental\Helper\Calendar                          $calendarHelper
-     * @param \Magento\Sales\Api\OrderRepositoryInterface                   $orderRepository
-     * @param \Magento\Sales\Api\OrderItemRepositoryInterface               $orderItemRepository
-     * @param \SalesIgniter\Rental\Model\Product\Stock                      $stock
-     * @param \SalesIgniter\Rental\Api\StockManagementInterface             $stockManagement
-     * @param \SalesIgniter\Rental\Api\ReservationOrdersRepositoryInterface $reservationOrdersRepository
+     * $state.
      *
-     * @internal param $
+     * @var \Magento\Framework\App\State
+     */
+    private $state;
+
+    /**
+     * Constructor function.
+     *
+     * @param SearchCriteriaBuilder                             $searchCriteriaBuilder
+     * @param \Magento\Sales\Api\Data\OrderInterfaceFactory     $orderInterfaceFactory
+     * @param ReturnOverdueSender                               $returnOverdueSender
+     * @param \SalesIgniter\Rental\Helper\Calendar              $calendarHelper
+     * @param OrderRepositoryInterface                          $orderRepository
+     * @param OrderItemRepositoryInterface                      $orderItemRepository
+     * @param Stock                                             $stock
+     * @param \Magento\Framework\App\State                      $state
+     * @param FilterBuilder                                     $filterBuilder
+     * @param \SalesIgniter\Rental\Api\StockManagementInterface $stockManagement
+     * @param ReservationOrdersRepositoryInterface              $reservationOrdersRepository
      */
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -85,6 +91,7 @@ class AsyncInventoryUpdate
         OrderRepositoryInterface $orderRepository,
         OrderItemRepositoryInterface $orderItemRepository,
         Stock $stock,
+        \Magento\Framework\App\State $state,
         FilterBuilder $filterBuilder,
         \SalesIgniter\Rental\Api\StockManagementInterface $stockManagement,
         ReservationOrdersRepositoryInterface $reservationOrdersRepository
@@ -99,12 +106,12 @@ class AsyncInventoryUpdate
         $this->stock = $stock;
         $this->filterBuilder = $filterBuilder;
         $this->stockManagement = $stockManagement;
+        $this->state = $state;
     }
 
-    public function execute()
+    public function updateIsReserved()
     {
         if ($this->stock->reserveInventoryWithoutOrderInvoiced()) {
-
             /*$this->searchCriteriaBuilder->addFilters(
             [
             $this->filterBuilder
@@ -123,5 +130,14 @@ class AsyncInventoryUpdate
                 $item->save();
             }
         }
+    }
+
+    public function execute()
+    {
+        $this->state->emulateAreaCode(
+            'frontend',
+            [$this, 'updateIsReserved']
+        );
+        $this->updateIsReserved();
     }
 }
