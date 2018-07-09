@@ -80,7 +80,7 @@ class PostDataProcessor
             if ($product !== null) {
                 $hasTimes = $product->getSirentUseTimes() > 0;
             }
-        }
+        }        
         foreach (['start_date', 'end_date'] as $dateField) {
             if (!empty($data[$dateField]) && $data[$dateField] !== '0000-00-00 00:00:00') {
                 if ($hasTimes) {
@@ -88,6 +88,7 @@ class PostDataProcessor
                 } else {
                     $filterRules[$dateField] = $this->dateFilter;
                 }
+                $data[$dateField] = new \DateTime($data[$dateField]);                                   
             }
         }
 

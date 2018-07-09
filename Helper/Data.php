@@ -423,6 +423,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper {
 	public function getStoreId() {
 		return $this->_storeManager->getStore()->getId();
 	}
+    
+	public function getWebsiteId() {
+		return $this->_storeManager->getWebsite()->getId();
+	}
 
 	/**
 	 * Function return current store id in frontend or backend.

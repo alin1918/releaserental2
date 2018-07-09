@@ -305,14 +305,15 @@ class PriceCalculations {
 	private function getPriceList( $productId, $qty = - 1, $sortType = - 1 ) {
 		$customerGroupId = (int) $this->_helperRental->getCustomerGroupId();
 		$storeId         = $this->_helperRental->getStoreId();
-
+		$websiteId       = $this->_helperRental->getWebsiteId();
+        
 		// init prices array
 		$priceList = [];
 
 		$priceCollection = $this->_priceResource->create()
-		                                        ->getCollection()
-		                                        ->addFieldToFilter( 'entity_id', $productId )
-		                                        ->addFieldToFilter( 'website_id', [ 'in' => [ 0, $storeId ] ] );
+            ->getCollection()
+            ->addFieldToFilter( 'entity_id', $productId )
+            ->addFieldToFilter( 'website_id', [ 'in' => [ 0, (int)$websiteId ] ] );
 
 		foreach ( $priceCollection as $itemPrice ) {
 			if ( (int) $itemPrice->getCustomerGroupId() !== - 1 && ! $itemPrice->getAllGroups() && (int) $itemPrice->getCustomerGroupId() !== $customerGroupId ) {
