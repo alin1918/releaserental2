@@ -993,14 +993,17 @@ class UpgradeSchema implements UpgradeSchemaInterface {
 				]
 			);
 		}
-		if ( version_compare( $context->getVersion(), '1.0.20180709' ) < 0 ) {
+		if ( version_compare( $context->getVersion(), '1.0.20180710' ) < 0 ) {
 
 			$setup->getConnection()->changeColumn(
 				$setup->getTable( 'sales_order' ),
 				'is_reserved',
 				'is_reserved',
 				[
+					'type'     => DdlTable::TYPE_INTEGER,
+					'nullable' => false,
 					'default'  => 0,
+					'comment'  => 'Flag to know if the items have been reserved',
 				]
 			);
 		}
