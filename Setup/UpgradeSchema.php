@@ -988,12 +988,12 @@ class UpgradeSchema implements UpgradeSchemaInterface {
 				[
 					'type'     => DdlTable::TYPE_INTEGER,
 					'nullable' => false,
-					'default'  => 0,
+					'default'  => 1,
 					'comment'  => 'Flag to know if the items have been reserved',
 				]
 			);
 		}
-		if ( version_compare( $context->getVersion(), '1.0.20180710' ) < 0 ) {
+		/*if ( version_compare( $context->getVersion(), '1.0.20180710' ) < 0 ) {
 
 			$setup->getConnection()->changeColumn(
 				$setup->getTable( 'sales_order' ),
@@ -1006,7 +1006,7 @@ class UpgradeSchema implements UpgradeSchemaInterface {
 					'comment'  => 'Flag to know if the items have been reserved',
 				]
 			);
-		}
+		}*/
 
 		/*if (version_compare($context->getVersion(), '1.0.20171005') < 0) {
 			$setup->getConnection()
