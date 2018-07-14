@@ -67,21 +67,26 @@ class AsyncInventoryUpdate
      * @var \Magento\Framework\App\State
      */
     private $state;
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
 
     /**
      * Constructor function.
      *
-     * @param SearchCriteriaBuilder                             $searchCriteriaBuilder
-     * @param \Magento\Sales\Api\Data\OrderInterfaceFactory     $orderInterfaceFactory
-     * @param ReturnOverdueSender                               $returnOverdueSender
-     * @param \SalesIgniter\Rental\Helper\Calendar              $calendarHelper
-     * @param OrderRepositoryInterface                          $orderRepository
-     * @param OrderItemRepositoryInterface                      $orderItemRepository
-     * @param Stock                                             $stock
-     * @param \Magento\Framework\App\State                      $state
-     * @param FilterBuilder                                     $filterBuilder
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Sales\Api\Data\OrderInterfaceFactory $orderInterfaceFactory
+     * @param ReturnOverdueSender $returnOverdueSender
+     * @param \SalesIgniter\Rental\Helper\Calendar $calendarHelper
+     * @param OrderRepositoryInterface $orderRepository
+     * @param OrderItemRepositoryInterface $orderItemRepository
+     * @param Stock $stock
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Magento\Framework\App\State $state
+     * @param FilterBuilder $filterBuilder
      * @param \SalesIgniter\Rental\Api\StockManagementInterface $stockManagement
-     * @param ReservationOrdersRepositoryInterface              $reservationOrdersRepository
+     * @param ReservationOrdersRepositoryInterface $reservationOrdersRepository
      */
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -91,11 +96,13 @@ class AsyncInventoryUpdate
         OrderRepositoryInterface $orderRepository,
         OrderItemRepositoryInterface $orderItemRepository,
         Stock $stock,
+        \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\App\State $state,
         FilterBuilder $filterBuilder,
         \SalesIgniter\Rental\Api\StockManagementInterface $stockManagement,
         ReservationOrdersRepositoryInterface $reservationOrdersRepository
-    ) {
+    )
+    {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->reservationOrdersRepository = $reservationOrdersRepository;
         $this->orderInterfaceFactory = $orderInterfaceFactory;
@@ -107,6 +114,7 @@ class AsyncInventoryUpdate
         $this->filterBuilder = $filterBuilder;
         $this->stockManagement = $stockManagement;
         $this->state = $state;
+        $this->logger = $logger;
     }
 
     public function updateIsReserved()
@@ -134,6 +142,7 @@ class AsyncInventoryUpdate
 
     public function execute()
     {
+        //$this->logger->info('here');
         $this->state->emulateAreaCode(
             'frontend',
             [$this, 'updateIsReserved']
