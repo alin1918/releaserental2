@@ -393,6 +393,7 @@ class CalendarWidget extends \Magento\Framework\View\Element\Template implements
         $turnoverBefore = $this->_calendarHelper->stringPeriodToMinutes($this->_calendarHelper->getTurnoverBefore($prodObj));
         $turnoverAfter = $this->_calendarHelper->stringPeriodToMinutes($this->_calendarHelper->getTurnoverAfter($prodObj));
         $futureLimit = $this->_calendarHelper->stringPeriodToMinutes($this->_calendarHelper->getFutureLimit($prodObj));
+        $allowZeroPrice = $this->_calendarHelper->getAllowZeroPrice();
 
         //$firstDateAvailable = $this->stockManagement->getFirstDateAvailable($prodObj);
         //$firstTimeAvailable = $this->stockManagement->getFirstTimeAvailable($prodObj);
@@ -544,6 +545,7 @@ class CalendarWidget extends \Magento\Framework\View\Element\Template implements
                     disabledDatesPricing: ' .$this->_jsonEncoder->encode($disabledDatesPricing).',
                     numberOfMonths: ' .$numberOfMonths.',
                     alwaysShow: ' .($alwaysShow ? 'true' : 'false').',
+                    allowZero: ' .($allowZeroPrice ? 'true' : 'false').',
                     minimumPeriod: ' .$minimumPeriod.',
                     maximumPeriod: ' .$maximumPeriod.',
                     turnoverBefore: ' .$turnoverBefore.',

@@ -1648,7 +1648,9 @@
             }
 
             var rentButton = $productForm.find(this.options.buttonsSelector).not('.rental-buyout');
-            if (price <= 0) {
+            if (price <= 0 
+                && !this.options.allowZero
+            ) {
                 rentButton.prop('disabled', true);
             } else {
                 rentButton.prop('disabled', false);

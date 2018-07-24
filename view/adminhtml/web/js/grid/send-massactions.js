@@ -89,6 +89,8 @@ define([
                 serials_shipped: this.getSerialsShipped()
             };
 
+            delete data.excluded;
+
             action = this.getAction(actionIndex);
             callback = this._getCallback(action, data);
 

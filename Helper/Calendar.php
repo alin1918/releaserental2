@@ -1996,4 +1996,11 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper {
 
 		return $specials;
 	}
+    
+	public function getAllowZeroPrice() {
+		return $this->scopeConfig->getValue(
+			'salesigniter_rental/price/allow_zero_price',
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+		);
+	}   
 }

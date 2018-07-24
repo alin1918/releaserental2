@@ -171,6 +171,10 @@
                     <label>Show prices in table format</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="allow_zero_price" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow zero price</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>                
             </group>
             <group id="listing" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Category / Listing Page</label>

@@ -88,6 +88,8 @@ define([
                 qty_returned: this.getQtyReturned(),
                 serials_returned: this.getSerialsReturned()
             };
+            
+            delete data.excluded;
 
             action = this.getAction(actionIndex);
             callback = this._getCallback(action, data);
