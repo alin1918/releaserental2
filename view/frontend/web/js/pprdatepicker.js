@@ -1767,12 +1767,12 @@
         _setupFixedLength: function (self) {
             if (this.options.fixedRentalLength > 0) {
                 this._focusDatepicker();
-                this.element.find('.fixed_length select').on('change', function () {
+                this.element.find('.fixed_length select').off('change').on('change', function () {
                     self._onfixedLengthChanged(
                         self, $(this).val()
                     );
                 });
-                this.element.find('.fixed_length input').on('change', function () {
+                this.element.find('.fixed_length input').off('change').on('change', function () {
                     if ($(this).is(':checked')) {
                         self._onfixedLengthChanged(
                             self, $(this).val()
@@ -1999,14 +1999,14 @@
                             self.options.hasSelectedManually = 1;
                             var buyoutButton = $productForm.find(self.options.buttonsSelector).filter('.rental-buyout').first();
                             var rentButton = $productForm.find(self.options.buttonsSelector).not('.rental-buyout').first();
-                            buyoutButton.on('mousedown', function () {
+                            buyoutButton.off('mousedown').on('mousedown', function () {
                                 $productForm.append('<input type="hidden" class="is_buyout" name="is_buyout" value="1"/>');
                             });
 
-                            rentButton.on('mousedown', function () {
+                            rentButton.off('mousedown').on('mousedown', function () {
                                 $productForm.find('.is_buyout').remove();
                             });
-                            customOptionsInput.on('change', $.proxy(function (event) {
+                            customOptionsInput.off('change').on('change', $.proxy(function (event) {
 
                                 //self._updateTimePickerInventory();
                                 if (self._checkIntervalValid()) {
@@ -2022,7 +2022,7 @@
                             function getOptions() {
                                 optionsInput = $productForm.find(self.options.attributesSelector);
                                 if (optionsInput.length > 0) {
-                                    optionsInput.on('change', $.proxy(function (event) {
+                                    optionsInput.off('change').on('change', $.proxy(function (event) {
                                         //if (event.originalEvent !== undefined || event.isTrigger === 3) {
                                         //self.options.hasSelectedManually = 1;
                                         //}
@@ -2043,7 +2043,7 @@
                                 }
 
                             }, self));
-                            qtyInput.on('change', $.proxy(function (event) {
+                            qtyInput.off('change').on('change', $.proxy(function (event) {
                                 //if (event.originalEvent !== undefined) {
                                 self.options.currentQuantity = parseInt(qtyInput.val());
                                 self.options.fromObj[self._picker()]('option', 'currentQuantity', self.options.currentQuantity);
