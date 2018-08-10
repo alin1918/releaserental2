@@ -71,7 +71,7 @@
                     <item name="label" xsi:type="string">Dropoff Date</item>
                     <item name="enableLabel" xsi:type="boolean">true</item>
                     <item name="validation" xsi:type="array">
-                        <item name="validate-date" xsi:type="boolean">true</item>
+                        <item name="validate-required-datetime" xsi:type="boolean">true</item>
                     </item>
                 </item>
             </argument>
@@ -87,7 +87,7 @@
                     <item name="label" xsi:type="string">Pickup Date</item>
                     <item name="enableLabel" xsi:type="boolean">true</item>
                     <item name="validation" xsi:type="array">
-                        <item name="validate-date" xsi:type="boolean">true</item>
+                        <item name="validate-required-datetime" xsi:type="boolean">true</item>
                     </item>
                 </item>
             </argument>

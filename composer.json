@@ -2,7 +2,7 @@
   "name": "salesigniter/releaserental2",
   "description": "Salesigniter Rental Extension for Magento 2",
   "type": "magento2-module",
-  "version": "1.0.201800714",
+  "version": "1.0.201800715",
   "license": [
     "OSL-3.0",
     "AFL-3.0"
