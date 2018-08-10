@@ -21,15 +21,16 @@ class CustomOptionsInit
     private $request;
 
     /**
-     * @param \SalesIgniter\Rental\Helper\Data                                                                                                      $helperRental
-     * @param \Magento\Framework\App\RequestInterface                                                                                               $request
+     * @param \SalesIgniter\Rental\Helper\Data $helperRental
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface|\SalesIgniter\Rental\Plugin\Product\Initialization\Helper\StockRegistryInterface $stockRegistry
      */
     public function __construct(
         \SalesIgniter\Rental\Helper\Data $helperRental,
         RequestInterface $request,
         StockRegistryInterface $stockRegistry
-    ) {
+    )
+    {
         $this->_helperRental = $helperRental;
         $this->stockRegistry = $stockRegistry;
         $this->request = $request;
@@ -39,8 +40,8 @@ class CustomOptionsInit
      * Adds start and end date custom options to product form.
      *
      * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $subject
-     * @param \Magento\Catalog\Model\Product                                      $product
-     * @param array                                                               $productData
+     * @param \Magento\Catalog\Model\Product $product
+     * @param array $productData
      *
      * @return \Magento\Catalog\Model\Product
      *
@@ -51,7 +52,8 @@ class CustomOptionsInit
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $subject,
         \Magento\Catalog\Model\Product $product,
         array $productData
-    ) {
+    )
+    {
         $hasStartDate = -1;
         $hasEndDate = -1;
         $hasRentalBuyout = -1;
@@ -110,7 +112,7 @@ class CustomOptionsInit
      * @see \Magento\Bundle\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Bundle::afterInitialize
      *
      * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $subject
-     * @param \Magento\Catalog\Model\Product                                      $product
+     * @param \Magento\Catalog\Model\Product $product
      *
      * @return \Magento\Catalog\Model\Product
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -119,7 +121,8 @@ class CustomOptionsInit
     public function afterInitialize(
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $subject,
         \Magento\Catalog\Model\Product $product
-    ) {
+    )
+    {
         if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             $product->setProductOptionsBackup($product->getProductOptions());
         }
