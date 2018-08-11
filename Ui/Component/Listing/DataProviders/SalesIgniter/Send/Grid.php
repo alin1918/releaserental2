@@ -47,4 +47,13 @@ class Grid extends \Magento\Ui\DataProvider\AbstractDataProvider
 
         return $arrItems;
     }
+    
+    public function addFilter(\Magento\Framework\Api\Filter $filter)
+    {
+        if($filter->getField() == 'order_id') {
+            $filter->setField('increment_id');
+        }        
+        
+        parent::addFilter($filter);
+    }        
 }
