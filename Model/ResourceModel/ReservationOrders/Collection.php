@@ -26,7 +26,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     protected function _initSelect()
     {
         parent::_initSelect();
-        $filterSubSelect = $this->getSelect()->getConnection()->select();
+        /*$filterSubSelect = $this->getSelect()->getConnection()->select();
         $filterSubSelect->from(
             ['cpev' => $this->getTable('catalog_product_entity_varchar')],
             ['value as name']
@@ -43,13 +43,36 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $columnExpression = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\DB\Sql\ColumnValueExpressionFactory')->create([
             'expression' => '('.$filterSubSelect->__toString().')',
         ]);
-        $this->getSelect()->columns(['name' => $columnExpression]);
+        $this->getSelect()->columns(['name' => $columnExpression]);*/
+        
         $this->getSelect()->joinLeft(
             ['ot' => $this->getTable('sales_order')],
             'main_table.order_id = ot.entity_id',
             ['increment_id']
         );
-        
+                
+        $nameAttr = \Magento\Framework\App\ObjectManager::getInstance()->create(
+                'Magento\Eav\Model\Config')
+            ->getAttribute('catalog_product', 'name');
+        $this->getSelect()->joinInner(
+            ['at_name_default' => $this->getTable('catalog_product_entity_varchar')],
+            "at_name_default.entity_id = main_table.product_id "
+                . "AND at_name_default.attribute_id = {$nameAttr->getAttributeId()} "
+                . "AND at_name_default.store_id = 0"
+        );
+
+        $this->getSelect()->joinLeft(
+            ['at_name' => $this->getTable('catalog_product_entity_varchar')],
+            "at_name.entity_id = main_table.product_id "
+                . "AND at_name.attribute_id = {$nameAttr->getAttributeId()} "
+                . "AND at_name.store_id = ot.store_id"
+        );
+
+        $columnExpression = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\DB\Sql\ColumnValueExpressionFactory')->create([
+            'expression' => 'IF(at_name.value_id > 0, at_name.value, at_name_default.value)',
+        ]);
+        $this->getSelect()->columns(['name' => $columnExpression]);
+                
         return $this;
     }
 

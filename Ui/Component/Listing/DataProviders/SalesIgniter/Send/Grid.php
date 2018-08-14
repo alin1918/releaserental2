@@ -54,6 +54,14 @@ class Grid extends \Magento\Ui\DataProvider\AbstractDataProvider
             $filter->setField('increment_id');
         }        
         
+        if($filter->getField() == 'name') {
+            $expression = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\DB\Sql\ColumnValueExpressionFactory')->create([
+                'expression' => "IF(at_name.value_id > 0, at_name.value, at_name_default.value) {$filter->getConditionType()} '{$filter->getValue()}'",
+            ]);
+            $this->getCollection()->getSelect()->where($expression);
+            return $this;
+        }        
+        
         parent::addFilter($filter);
-    }        
+    }    
 }
