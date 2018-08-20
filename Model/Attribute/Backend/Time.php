@@ -8,7 +8,7 @@ namespace SalesIgniter\Rental\Model\Attribute\Backend;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
-class Multiselect extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+class Time extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -31,58 +31,20 @@ class Multiselect extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
         $this->helperCalendar = $helperCalendar;
     }
 
-    /**
-     * Before Attribute Save Process.
-     *
-     * @param \Magento\Framework\DataObject $object
-     *
-     * @return $this
-     *
-     * @throws \Magento\Framework\Exception\LocalizedException
-     */
     public function beforeSave($object)
     {
         $attributeCode = $this->getAttribute()->getName();
-        $data = $object->getData($attributeCode);
-        if ($object->hasData('use_config_'.$attributeCode) &&
-            $object->getData('use_config_'.$attributeCode) === '1'
+        if ($object->hasData('use_config_' . $attributeCode) &&
+            $object->getData('use_config_' . $attributeCode) === '1'
         ) {
-            $data = \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT;
-        }
-
-        if (!$object->hasData($attributeCode)) {
             $object->setData($attributeCode, null);
         } else {
-            if (!is_array($data)) {
-                $data = [$data];
-            }
-            $attributeValue = implode(',', $data) ?: '';
-            $object->setData($attributeCode, $attributeValue);
-        }
-
-        return $this;
-    }
-
-    /**
-     * After Load Attribute Process.
-     *
-     * @param \Magento\Framework\DataObject $object
-     *
-     * @return $this
-     */
-    public function afterLoad($object)
-    {
-        $attributeCode = $this->getAttribute()->getName();
-
-        $data = $object->getData($attributeCode);
-        if ($data) {
-            if (!is_array($data)) {
-                $data = explode(',', $data);
-            }
-            //if(in_array(\SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT, $data)){
-            //    $data = $this->helperCalendar->
-            //}
-            $object->setData($attributeCode, $data);
+            
+            $hr = $object->getData($attributeCode . '_hour');
+            $min = $object->getData($attributeCode . '_minute');
+            $sec = $object->getData($attributeCode . '_second');
+            
+            $object->setData($attributeCode, "{$hr}:{$min}:{$sec}");
         }
 
         return $this;

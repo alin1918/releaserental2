@@ -2106,7 +2106,9 @@
                 var dayNamesEn = $.datepicker._getDayNames();
 
                 if (dateStr === '') {
-                    day = 'monday';
+                    var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+                    var d = new Date();
+                    day = days[d.getDay()];                    
                 } else {
                     day = dayNamesEn[dateStr.getDay()];
                 }

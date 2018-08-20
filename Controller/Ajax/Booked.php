@@ -62,7 +62,7 @@ class Booked extends \Magento\Framework\App\Action\Action {
 	 * @var \SalesIgniter\Rental\Model\Product\PriceCalculations
 	 */
 	private $priceCalculations;
-
+    
 	/**
 	 * Price constructor.
 	 *
@@ -148,7 +148,9 @@ class Booked extends \Magento\Framework\App\Action\Action {
 		}
 		if ( ! $product ) {
 			$product = null;
-		}
+        } else {
+            $this->registry->register('product', $product);
+        }
 
 		//these are product specific when using configurable also per shipping
 		$disabledDaysWeekStart     = $this->calendarHelper->getDisabledDaysWeekStart( $product );

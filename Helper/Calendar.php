@@ -230,7 +230,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper {
 	 *
 	 * @return string
 	 */
-	private function storeHoursPerDay( $type, $day, $hoursStart, $hoursEnd ) {
+	public function storeHoursPerDay( $type, $day, $hoursStart, $hoursEnd ) {
 		$hours = $this->scopeConfig->getValue(
 			'salesigniter_rental/store_hours/store_' . $type . '_time_' . $day,
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -358,7 +358,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper {
 	/**
 	 * @return mixed|string
 	 */
-	private function storeHoursStart() {
+	public function storeHoursStart() {
 		$hoursStart = $this->scopeConfig->getValue(
 			'salesigniter_rental/store_hours/store_open_time',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -375,7 +375,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper {
 	 *
 	 * @return int|mixed|string
 	 */
-	private function storeHoursEnd( $timeIncrement ) {
+	public function storeHoursEnd( $timeIncrement ) {
 		$hoursEnd = $this->scopeConfig->getValue(
 			'salesigniter_rental/store_hours/store_close_time',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -1770,7 +1770,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper {
 		return $datetime;
 	}
 
-	public function getNextDayHour() {
+	public function getNextDayHour($productId = null) {        
 		$hoursNextDay = $this->scopeConfig->getValue(
 			'salesigniter_rental/store_hours/hour_next_day',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -1902,9 +1902,15 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper {
 					$optionVal = $item->getCustomOption( 'option_' . $optionId );
 				}
 				if ( $optionVal && $option && $option->getTitle() === 'Start Date:' ) {
+                    
+                    $test = $optionVal->getValue();
+                    
 					$buyRequest['calendar_selector']['from'] = $this->dateHelper->formatUTCDate( $optionVal->getValue(), $locale );
 				}
 				if ( $optionVal && $option && $option->getTitle() === 'End Date:' ) {
+                    
+                    $test = $optionVal->getValue();
+                    
 					$buyRequest['calendar_selector']['to'] = $this->dateHelper->formatUTCDate( $optionVal->getValue(), $locale );
 				}
 				if ( $optionVal && $option && $option->getTitle() === 'Rental Buyout:' ) {

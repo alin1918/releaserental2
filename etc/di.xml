@@ -178,4 +178,7 @@
         <plugin name="add_related_product" type="SalesIgniter\Rental\Plugin\Quote\Model\Quote\BeforeAddProduct"
                 sortOrder="1"/>
     </type>
+    <type name="SalesIgniter\Rental\Helper\Calendar">
+        <plugin name="storehours_next_day_hour" type="SalesIgniter\Rental\Plugin\Helper\Calendar\StoreHours" sortOrder="1" />
+    </type>    
 </config>

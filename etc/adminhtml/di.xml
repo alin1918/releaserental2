@@ -44,7 +44,7 @@
                 <item name="fixedSelectionType" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedSelectionType</item>
                 <item name="futureLimit" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FutureLimit</item>
                 <item name="damageWaiver" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DamageWaiver</item>
-
+                <item name="storeHours" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\StoreHours</item>
             </argument>
         </arguments>
     </type>
@@ -75,7 +75,7 @@
                 <item name="fixedSelectionType" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedSelectionType</item>
                 <item name="futureLimit" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FutureLimit</item>
                 <item name="damageWaiver" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DamageWaiver</item>
-
+                <item name="storeHours" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\StoreHours</item>
             </argument>
         </arguments>
     </type>
@@ -106,6 +106,7 @@
                 <item name="fixedSelectionType" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedSelectionType</item>
                 <item name="futureLimit" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FutureLimit</item>
                 <item name="damageWaiver" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DamageWaiver</item>
+                <item name="storeHours" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\StoreHours</item>                
             </argument>
         </arguments>
     </type>
