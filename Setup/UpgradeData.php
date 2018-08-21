@@ -1084,7 +1084,7 @@ class UpgradeData implements UpgradeDataInterface {
 			] );
 		}
 
-        if (version_compare($context->getVersion(),	'1.0.20180716', '>=')) {
+        if (version_compare($context->getVersion(),	'1.0.20180101', '>=')) {
             
             $attrs = [
                 [
