@@ -55,7 +55,7 @@
     </div>
     <div id="day_details_template" style="display: none">
         <div class="daydetails day-detail-container">
-            <div class="day-detail-header">Day details</div>
+            <div class="day-detail-header"><?php echo __('Day details') ?></div>
             <table class="day-detail">
                 <thead>
                 <tr class="table_head">
@@ -71,11 +71,11 @@
                 <tbody>
                 <tr>
                     <td class="busy ui-state-disabled"></td>
-                    <td class="description">Busy Time</td>
+                    <td class="description"><?php echo __('Busy Time') ?></td>
                     <td class="available ui-state-default"></td>
-                    <td class="description">Available Time</td>
+                    <td class="description"><?php echo __('Available Time') ?></td>
                     <td class="selected-time ui-state-active"></td>
-                    <td class="description">Selected Time</td>
+                    <td class="description"><?php echo __('Selected Time') ?></td>
                 </tr>
                 </tbody>
             </table>
