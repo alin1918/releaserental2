@@ -135,11 +135,11 @@
                     <comment><![CDATA[Allow Overbooking for all products]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="admin_allow_overbooking" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <!--<field id="admin_allow_overbooking" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Admin is allowed to overbook all products</label>
                     <comment><![CDATA[Allow Overbooking for all products in admin]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
+                </field> -->
                 <field id="admin_show_warning_overbooking" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>If Admin is allowed to overbook then a warning will show if overbooking</label>
                     <comment><![CDATA[If Admin is allowed to overbook then a warning will show if overbooking]]></comment>

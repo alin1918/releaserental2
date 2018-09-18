@@ -98,10 +98,6 @@ class StoreHours
         $hoursStart, 
         $hoursEnd
     ) {
-        
-        if ($day == 'monday') {
-            $test = '';
-        }
 
         $product = $this->registry->registry('product');
         if ($product

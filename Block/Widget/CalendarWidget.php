@@ -363,7 +363,7 @@ class CalendarWidget extends \Magento\Framework\View\Element\Template implements
         /*
          * here I get the settings for calendar
          */
-        $storeHours = $this->_calendarHelper->storeHours();
+        $storeHours = $this->_calendarHelper->storeHours(false,$prodObj);
 
         $timeFormat = $this->_calendarHelper->getCalendarTimeFormat();
         if (null !== $prodObj) {
