@@ -1226,6 +1226,8 @@ class StockManagement implements \SalesIgniter\Rental\Api\StockManagementInterfa
 		$todayCurrent    = new \DateTime( $today->format( 'Y-m-d' ) );
 		$todayNoTime     = new \DateTime( $today->format( 'Y-m-d' ) );
 		if ( $hoursForNextDay ) {
+            $todayCurrent   = new \DateTime($today->format( 'Y-m-d' ), $today->getTimezone());
+            $todayNoTime    = new \DateTime($today->format( 'Y-m-d' ), $today->getTimezone());
 			$todayCurrent->setTime( $hoursForNextDay[0], $hoursForNextDay[1], $hoursForNextDay[2] );
 		} else {
 			$todayCurrent->setTime( 23, 59, 59 );
