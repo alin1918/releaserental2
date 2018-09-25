@@ -1,9 +1,5 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-<<<<<<< HEAD
     <module name="SalesIgniter_Rental" setup_version="1.0.20180925"/>
-=======
-    <module name="SalesIgniter_Rental" setup_version="1.1.20180918"/>
->>>>>>> 827b81462e8b5f593c8ce8cb1edb5dbf079cd76b
 </config>
