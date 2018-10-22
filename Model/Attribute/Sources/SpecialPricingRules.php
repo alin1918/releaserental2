@@ -33,17 +33,18 @@ class SpecialPricingRules extends \Magento\Eav\Model\Entity\Attribute\Source\Abs
     private $searchCriteriaBuilder;
 
     /**
-     * @param ScopeConfigInterface                                         $scopeConfig
+     * @param ScopeConfigInterface $scopeConfig
      * @param \Magento\CatalogRule\Api\FixedRentalNamesRepositoryInterface $catalogRuleRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder                 $searchCriteriaBuilder
-     * @param \SalesIgniter\Rental\Helper\Calendar                         $helperCalendar
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \SalesIgniter\Rental\Helper\Calendar $helperCalendar
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         FixedRentalNamesRepositoryInterface $catalogRuleRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         \SalesIgniter\Rental\Helper\Calendar $helperCalendar
-    ) {
+    )
+    {
         $this->scopeConfig = $scopeConfig;
         $this->helperCalendar = $helperCalendar;
         $this->catalogRuleRepository = $catalogRuleRepository;
@@ -70,20 +71,19 @@ class SpecialPricingRules extends \Magento\Eav\Model\Entity\Attribute\Source\Abs
     }
 
     /**
-     * {@inheritdoc}
+     * Retrieve option array with empty value
+     *
+     * @return string[]
      */
     public function getAllOptions()
     {
-        if ($this->_options === null) {
-            foreach ($this->getOptionArray() as $index => $value) {
-                $this->_options[] = [
-                    'label' => $value,
-                    'value' => $index,
-                ];
-            }
+        $result = [];
+
+        foreach ($this->getOptionArray() as $index => $value) {
+            $result[] = ['value' => (string)$index, 'label' => $value];
         }
 
-        return $this->_options;
+        return $result;
     }
 
     /**
