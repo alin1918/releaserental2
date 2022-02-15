@@ -5,8 +5,7 @@
  * See COPYING.txt for license details.
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="sirent_reminders">
         <job name="send_admin_reminders" instance="SalesIgniter\Rental\Cron\SendAdminReminders" method="execute">
             <schedule>0 0 23 * *</schedule>
@@ -16,9 +15,6 @@
         </job>
         <job name="send_customer_overdue" instance="SalesIgniter\Rental\Cron\SendCustomerOverdue" method="execute">
             <schedule>0 0 23 * *</schedule>
-        </job>
-        <job name="async_inventory_update" instance="SalesIgniter\Rental\Cron\AsyncInventoryUpdate" method="execute">
-            <schedule>* * * * *</schedule>
         </job>
 
     </group>

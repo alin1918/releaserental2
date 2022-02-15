@@ -36,29 +36,23 @@ class Body extends BlockTemplate
      * @var \SalesIgniter\Rental\Api\StockManagementInterface
      */
     private $stockManagement;
-	/**
-	 * @var \SalesIgniter\Rental\Helper\Data
-	 */
-	private $helperRental;
 
-	/**
-	 * Content constructor.
-	 *
-	 * @param Context                                           $context
-	 * @param JsonEncoder                                       $JsonEncoder
-	 * @param ProductCollection                                 $Collection
-	 * @param StockStateInterface                               $StockState
-	 * @param \SalesIgniter\Rental\Helper\Data                  $helperRental
-	 * @param \SalesIgniter\Rental\Api\StockManagementInterface $stockManagement
-	 * @param RentalStock                                       $RentalStock
-	 * @param array                                             $data
-	 */
+    /**
+     * Content constructor.
+     *
+     * @param Context                                           $context
+     * @param JsonEncoder                                       $JsonEncoder
+     * @param ProductCollection                                 $Collection
+     * @param StockStateInterface                               $StockState
+     * @param \SalesIgniter\Rental\Api\StockManagementInterface $stockManagement
+     * @param RentalStock                                       $RentalStock
+     * @param array                                             $data
+     */
     public function __construct(
         Context $context,
         JsonEncoder $JsonEncoder,
         ProductCollection $Collection,
         StockStateInterface $StockState,
-	    \SalesIgniter\Rental\Helper\Data $helperRental,
         \SalesIgniter\Rental\Api\StockManagementInterface $stockManagement,
         RentalStock $RentalStock,
         array $data = []
@@ -77,7 +71,6 @@ class Body extends BlockTemplate
         $this->_stockState = $StockState;
         $this->_rentalStock = $RentalStock;
         $this->stockManagement = $stockManagement;
-	    $this->helperRental = $helperRental;
     }
 
     /**
@@ -118,7 +111,7 @@ class Body extends BlockTemplate
 
     public function getSerializedInventory($Product)
     {
-        $SerializedString = $this->helperRental->getAttribute( $Product->getId(), 'sirent_inv_bydate_serialized' );
+        $SerializedString = $Product->getData('sirent_inv_bydate_serialized');
 
         $Json = [];
         if ($SerializedString) {

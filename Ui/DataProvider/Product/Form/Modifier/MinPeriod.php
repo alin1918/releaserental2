@@ -59,7 +59,6 @@ class MinPeriod extends AbstractModifier
 
     /**
      * {@inheritdoc}
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function modifyData(array $data)
     {

@@ -62,26 +62,16 @@ class QuantityValidatorObserver implements ObserverInterface
      * @var \Magento\Framework\Registry
      */
     private $registry;
-    /**
-     * @var \Magento\Backend\Model\Session\Quote
-     */
-    private $quoteSession;
-    /**
-     * @var \Magento\Framework\Serialize\Serializer\Json
-     */
-    private $serializer;
 
     /**
-     * @param \SalesIgniter\Rental\Helper\Data $helperRental
-     * @param \SalesIgniter\Rental\Helper\Calendar $calendarHelper
+     * @param \SalesIgniter\Rental\Helper\Data                  $helperRental
+     * @param \SalesIgniter\Rental\Helper\Calendar              $calendarHelper
      * @param \SalesIgniter\Rental\Api\StockManagementInterface $productStock
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Checkout\Model\Session $quoteSessionFrontend
-     * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Magento\Framework\Serialize\Serializer\Json $serializer
-     * @param \Magento\Backend\Model\Session\Quote $quoteSession
-     * @param \Magento\Catalog\Model\Session $catalogSession
+     * @param \Magento\Framework\Registry                       $registry
+     * @param \Magento\Framework\App\RequestInterface           $request
+     * @param \Magento\Checkout\Model\Session                   $quoteSessionFrontend
+     * @param \Magento\Framework\Message\ManagerInterface       $messageManager
+     * @param \Magento\Catalog\Model\Session                    $catalogSession
      */
     public function __construct(
         \SalesIgniter\Rental\Helper\Data $helperRental,
@@ -91,11 +81,8 @@ class QuantityValidatorObserver implements ObserverInterface
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Checkout\Model\Session $quoteSessionFrontend,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\Framework\Serialize\Serializer\Json $serializer,
-        \Magento\Backend\Model\Session\Quote $quoteSession,
         \Magento\Catalog\Model\Session $catalogSession
-    )
-    {
+    ) {
         $this->helperRental = $helperRental;
         $this->calendarHelper = $calendarHelper;
         $this->catalogSession = $catalogSession;
@@ -104,15 +91,13 @@ class QuantityValidatorObserver implements ObserverInterface
         $this->productStock = $productStock;
         $this->messageManager = $messageManager;
         $this->registry = $registry;
-        $this->quoteSession = $quoteSession;
-        $this->serializer = $serializer;
     }
 
     /**
      * Removes error statuses from quote and item, set by this observer.
      *
      * @param \Magento\Quote\Model\Quote\Item $item
-     * @param int $code
+     * @param int                             $code
      */
     protected function _removeErrorsFromQuoteAndItem($item, $code)
     {
@@ -155,7 +140,6 @@ class QuantityValidatorObserver implements ObserverInterface
      *
      * @return bool
      *
-     * @throws \InvalidArgumentException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \LogicException
@@ -167,42 +151,26 @@ class QuantityValidatorObserver implements ObserverInterface
         $quoteItems = $quote->getAllItems();
         $firstQuoteItem = false;
         foreach ($quoteItems as $quoteItem) {
-            if ($quoteItem->getParentItem() || !$this->helperRental->isRentalType($quoteItem->getProduct()->getId())) {
-                continue;
-            }
             if ($quoteItem->getParentItem()) {
-                $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItem->getParentItem());
-            } else {
-                $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItem);
-            }
-            try {
-                $dates = $this->calendarHelper->getDatesFromBuyRequest(
-                    $buyRequest, $quoteItem->getProduct()
-                );
-            } catch (\Exception $e) {
                 continue;
             }
+            $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItem);
+            $dates = $this->calendarHelper->getDatesFromBuyRequest(
+                $buyRequest, $quoteItem->getProduct()
+            );
             if (!$firstQuoteItem && $dates->getStartDate() && $dates->getEndDate()) {
                 $startDate = $dates->getStartDate();
                 $endDate = $dates->getEndDate();
 
                 $counter = 0;
                 foreach ($quoteItems as $quoteItemNew) {
-                    if ($quoteItemNew->getParentItem() || !$this->helperRental->isRentalType($quoteItemNew->getProduct()->getId())) {
-                        continue;
-                    }
                     if ($quoteItemNew->getParentItem()) {
-                        $buyRequestNew = $this->calendarHelper->prepareBuyRequest($quoteItemNew->getParentItem());
-                    } else {
-                        $buyRequestNew = $this->calendarHelper->prepareBuyRequest($quoteItemNew);
-                    }
-                    try {
-                        $datesNew = $this->calendarHelper->getDatesFromBuyRequest(
-                            $buyRequestNew, $quoteItemNew->getProduct()
-                        );
-                    } catch (\Exception $e) {
                         continue;
                     }
+                    $buyRequestNew = $this->calendarHelper->prepareBuyRequest($quoteItemNew);
+                    $datesNew = $this->calendarHelper->getDatesFromBuyRequest(
+                        $buyRequestNew, $quoteItemNew->getProduct()
+                    );
                     if ($datesNew->getStartDate() && $datesNew->getEndDate()) {
                         if ($counter > 0) {
                             $startDateNew = $datesNew->getStartDate();
@@ -233,7 +201,6 @@ class QuantityValidatorObserver implements ObserverInterface
      *
      * @return array
      *
-     * @throws \InvalidArgumentException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \LogicException
@@ -245,19 +212,6 @@ class QuantityValidatorObserver implements ObserverInterface
         $quoteItems = $quote->getAllItems();
 
         $updatedInventory = $this->productStock->getInventoryTable($quoteItem->getProduct());
-        $cancelInventory = $quoteItem->getOptionByCode('inventory_to_cancel');
-        if ($cancelInventory) {
-            $dataCancel = $this->serializer->unserialize($cancelInventory->getValue());
-            $updatedInventory = $this->productStock->getUpdatedInventory(
-                $quoteItem->getProduct()->getId(),
-                $dataCancel['start_date_with_turnover'],
-                $dataCancel['end_date_with_turnover'],
-                0,
-                $dataCancel['qty'],
-                0,
-                $updatedInventory
-            );
-        }
         $sirentFrontendId = false;
         if ($this->request->getParam('sirent_quote_id_frontend')) {
             $sirentFrontendId = $this->request->getParam('sirent_quote_id_frontend');
@@ -276,13 +230,8 @@ class QuantityValidatorObserver implements ObserverInterface
                 if ($productObj->getId() !== $quoteItemObj->getProduct()->getId()) {
                     continue;
                 }
-                if ($quoteItemObj->getParentItem()) {
-                    $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItemObj->getParentItem());
-                } else {
-                    $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItemObj);
-                }
                 $datesConfigure = $this->calendarHelper->getDatesFromBuyRequest(
-                    $buyRequest, $productObj
+                    $quoteItemObj->getOptionByCode('info_buyRequest'), $productObj
                 );
                 $updatedInventory = $this->productStock->getUpdatedInventory(
                     $quoteItemObj->getProduct()->getId(),
@@ -306,11 +255,7 @@ class QuantityValidatorObserver implements ObserverInterface
             if ($productObj->getId() !== $quoteItem->getProduct()->getId()) {
                 continue;
             }
-            if ($quoteItemObj->getParentItem()) {
-                $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItemObj->getParentItem());
-            } else {
-                $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItemObj);
-            }
+            $buyRequest = $this->calendarHelper->prepareBuyRequest($quoteItemObj);
             $dates = $this->calendarHelper->getDatesFromBuyRequest(
                 $buyRequest, $productObj
             );
@@ -322,19 +267,6 @@ class QuantityValidatorObserver implements ObserverInterface
                     $dates->getEndDateWithTurnover(),
                     $quoteItemObj->getQty(),
                     0,
-                    0,
-                    $updatedInventory
-                );
-            }
-            $cancelInventory = $quoteItemObj->getOptionByCode('inventory_to_cancel');
-            if ($cancelInventory) {
-                $dataCancel = $this->serializer->unserialize($cancelInventory->getValue());
-                $updatedInventory = $this->productStock->getUpdatedInventory(
-                    $productObj->getId(),
-                    $dataCancel['start_date_with_turnover'],
-                    $dataCancel['end_date_with_turnover'],
-                    0,
-                    $dataCancel['qty'],
                     0,
                     $updatedInventory
                 );
@@ -351,7 +283,6 @@ class QuantityValidatorObserver implements ObserverInterface
      *
      * @return $this
      *
-     * @throws \InvalidArgumentException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \LogicException
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -380,7 +311,6 @@ class QuantityValidatorObserver implements ObserverInterface
             if (!$this->helperRental->isBackendAdminOrderEdit() && $this->calendarHelper->sameDatesEnforce() && !$this->sameDatesEnforce($quoteItem)) {
                 return $this;
             }
-
             $qty = $quoteItem->getQty();
             if ($quoteItem->getParentItem()) {
                 $qty *= $quoteItem->getParentItem()->getQty();

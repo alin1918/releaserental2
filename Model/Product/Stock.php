@@ -73,16 +73,16 @@ class Stock
     protected $scopeConfig;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
-     * @param \Magento\Catalog\Model\Product\Action $attributeAction
-     * @param \Magento\Framework\Registry $coreRegistry
-     * @param \SalesIgniter\Rental\Helper\Data $rentalHelper
+     * @param \Magento\Store\Model\StoreManagerInterface         $storeManager
+     * @param \Magento\Catalog\Model\Session                     $catalogSession
+     * @param \Magento\Catalog\Model\ProductRepository           $productRepository
+     * @param \Magento\Catalog\Model\Product\Action              $attributeAction
+     * @param \Magento\Framework\Registry                        $coreRegistry
+     * @param \SalesIgniter\Rental\Helper\Data                   $rentalHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \SalesIgniter\Rental\Helper\Date $dateHelper
-     * @param \Magento\Framework\Stdlib\DateTime\DateTime $datetime
-     * @param \SalesIgniter\Rental\Helper\Calendar $calendarHelper
+     * @param \SalesIgniter\Rental\Helper\Date                   $dateHelper
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime        $datetime
+     * @param \SalesIgniter\Rental\Helper\Calendar               $calendarHelper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -97,8 +97,7 @@ class Stock
         \SalesIgniter\Rental\Helper\Date $dateHelper,
         \Magento\Framework\Stdlib\DateTime\DateTime $datetime,
         \SalesIgniter\Rental\Helper\Calendar $calendarHelper
-    )
-    {
+    ) {
         $this->_storeManager = $storeManager;
         $this->_catalogSession = $catalogSession;
         $this->_coreRegistry = $coreRegistry;
@@ -178,10 +177,9 @@ class Stock
      *
      * @param $updatedInventory
      *
-     * @param $product
      * @return array
      */
-    public function updateFullDatesBooking($updatedInventory, $product)
+    public function updateFullDatesBooking($updatedInventory)
     {
         $firstVal = 0;
         $fullDaysArray = [];
@@ -195,8 +193,8 @@ class Stock
             return $fullDaysArray;
         }
 
-        $fullDaysArray = $this->getFullDaysArray($updatedInventory, $firstVal, $fullDaysArray, $product);
-        $fullDaysArray = $this->getFullDaysArray($mergedInventory, $firstVal, $fullDaysArray, $product);
+        $fullDaysArray = $this->getFullDaysArray($updatedInventory, $firstVal, $fullDaysArray);
+        $fullDaysArray = $this->getFullDaysArray($mergedInventory, $firstVal, $fullDaysArray);
         usort($fullDaysArray, function ($aVal, $bVal) {
             $diff = strtotime($aVal['s'] . ':00') - strtotime($bVal['s'] . ':00');
             return $diff;
@@ -380,19 +378,19 @@ class Stock
         if (null !== $inventory) {
             $inventory = serialize($inventory);
         }
-        //foreach ($this->rentalHelper->getStoreIdsForCurrentWebsite() as $storeId) {
-        //  try {
-        //    $product = $this->productRepository->getById($productId, false, $storeId);
-        //} catch (NoSuchEntityException $e) {
-        //  return [];
-        //}
-        //$product->setSirentInvBydateSerialized($inventory);
-        $this->attributeAction->updateAttributes(
-            [$productId],
-            ['sirent_inv_bydate_serialized' => $inventory],
-            0
-        );
-        //}
+        foreach ($this->rentalHelper->getStoreIdsForCurrentWebsite() as $storeId) {
+            try {
+                $product = $this->productRepository->getById($productId, false, $storeId);
+            } catch (NoSuchEntityException $e) {
+                return [];
+            }
+            $product->setSirentInvBydateSerialized($inventory);
+            $this->attributeAction->updateAttributes(
+                [$product->getId()],
+                ['sirent_inv_bydate_serialized' => $inventory],
+                $storeId
+            );
+        }
     }
 
     /**
@@ -404,16 +402,15 @@ class Stock
      *
      * @param $iVal
      *
-     * @param $product
      * @return \League\Period\Period
      */
-    private function getNextPeriod($reservationPeriod, $iVal, $product)
+    private function getNextPeriod($reservationPeriod, $iVal)
     {
         $startDateInitial = strtotime('+' . $iVal . ' DAY',
             strtotime($reservationPeriod->getStartDate()->format('Y-m-d'))
         );
         $dateTimeInitial = new \DateTime('@' . $startDateInitial);
-        $storeHoursPeriod = $this->calendarHelper->storeHoursForDate($dateTimeInitial, $product);
+        $storeHoursPeriod = $this->calendarHelper->storeHoursForDate($dateTimeInitial);
         $startDate = new \DateTime($dateTimeInitial->format('Y-m-d') . ' ' . $storeHoursPeriod['start'] . ':00');
         $endDate = new \DateTime($dateTimeInitial->format('Y-m-d') . ' ' . $storeHoursPeriod['end'] . ':00');
 
@@ -432,10 +429,9 @@ class Stock
      * @param       $firstVal
      * @param       $fullDaysArray
      *
-     * @param $product
      * @return array
      */
-    protected function getFullDaysArray($updatedInventory, $firstVal, $fullDaysArray, $product)
+    protected function getFullDaysArray($updatedInventory, $firstVal, $fullDaysArray)
     {
         while ($firstVal < count($updatedInventory)) {
             /** @var Period $reservationPeriod */
@@ -444,7 +440,7 @@ class Stock
                 $updatedInventory[$firstVal]['e'] . ':00'
             );
             $iVal = 0;
-            $nextPeriod = $this->getNextPeriod($reservationPeriod, $iVal, $product);
+            $nextPeriod = $this->getNextPeriod($reservationPeriod, $iVal);
             while ($nextPeriod->getStartDate() < $reservationPeriod->getEndDate()) {
                 if ($reservationPeriod->contains($nextPeriod)) {
                     $dateFormatted = $nextPeriod->getStartDate()->format('Y-m-d H:i');
@@ -457,7 +453,7 @@ class Stock
                     }
                 }
                 $iVal++;
-                $nextPeriod = $this->getNextPeriod($reservationPeriod, $iVal, $product);
+                $nextPeriod = $this->getNextPeriod($reservationPeriod, $iVal);
             }
 
             $firstVal++;

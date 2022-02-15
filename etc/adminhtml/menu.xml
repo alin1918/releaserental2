@@ -10,7 +10,7 @@
         <add id="SalesIgniter_Rental::general" title="General" module="SalesIgniter_Rental" parent="SalesIgniter_Rental::rental"
              resource="SalesIgniter_Rental::rental" sortOrder="10"/>
         <add id="SalesIgniter_Rental::manualedit" title="Manually Reserve Inventory" module="SalesIgniter_Rental" parent="SalesIgniter_Rental::general" resource="SalesIgniter_Rental::rental" action="salesigniter_rental/manualedit/index" sortOrder="10"/>
-        <add id="SalesIgniter_Rental::fixeddates" title="Predetermined Dates(Experimental)" module="SalesIgniter_Rental" parent="SalesIgniter_Rental::general" resource="SalesIgniter_Rental::rental" action="salesigniter_rental/fixeddates/index" sortOrder="10"/>
+        <!--<add id="SalesIgniter_Rental::fixeddates" title="Predetermined Dates" module="SalesIgniter_Rental" parent="SalesIgniter_Rental::general" resource="SalesIgniter_Rental::rental" action="salesigniter_rental/fixeddates/index" sortOrder="10"/>-->
         <add id="SalesIgniter_Rental::settings" title="Settings" module="SalesIgniter_Rental" parent="SalesIgniter_Rental::general" resource="SalesIgniter_Rental::rental" action="adminhtml/system_config/edit/section/salesigniter_rental/" sortOrder="20"/>
 
         <!-- Reservations Sub-Menu -->
@@ -27,46 +27,46 @@
         <!--<add id="SalesIgniter_Rental::low_inventory" title="Low Inventory" module="SalesIgniter_Rental" parent="SalesIgniter_Rental::reports" resource="SalesIgniter_Rental::rental"/>-->
         <!--<add id="SalesIgniter_Rental::roi" title="ROI" module="SalesIgniter_Rental" parent="SalesIgniter_Rental::reports" resource="SalesIgniter_Rental::rental"/>-->
         <add
-                id="SalesIgniter_Rental::report_inventory"
-                title="Inventory Report"
-                module="SalesIgniter_Rental"
-                parent="SalesIgniter_Rental::reports"
-                resource="SalesIgniter_Rental::rental"
-                action="salesigniter_rental/report/inventory"
+            id="SalesIgniter_Rental::report_inventory"
+            title="Inventory Report"
+            module="SalesIgniter_Rental"
+            parent="SalesIgniter_Rental::reports"
+            resource="SalesIgniter_Rental::rental"
+            action="salesigniter_rental/report/inventory"
         />
         <add
-                id="SalesIgniter_Rental::serial"
-                title="Serial Number Report"
-                module="SalesIgniter_Rental"
-                parent="SalesIgniter_Rental::reports"
-                resource="SalesIgniter_Rental::rental"
-                action="salesigniter_rental/report/serialnumber"
+            id="SalesIgniter_Rental::serial"
+            title="Serial Number Report"
+            module="SalesIgniter_Rental"
+            parent="SalesIgniter_Rental::reports"
+            resource="SalesIgniter_Rental::rental"
+            action="salesigniter_rental/report/serialnumber"
         />
 
         <!-- Rental Calendar Sub-Menu -->
         <add
-                id="SalesIgniter_Rental::rental_calendar"
-                title="Rental Calendar"
-                module="SalesIgniter_Rental"
-                parent="SalesIgniter_Rental::rental"
-                resource="SalesIgniter_Rental::rental"
-                sortOrder="40"
+            id="SalesIgniter_Rental::rental_calendar"
+            title="Rental Calendar"
+            module="SalesIgniter_Rental"
+            parent="SalesIgniter_Rental::rental"
+            resource="SalesIgniter_Rental::rental"
+            sortOrder="40"
         />
         <add
-                id="SalesIgniter_Rental::rental_calendar_byorder"
-                title="By Order"
-                module="SalesIgniter_Rental"
-                parent="SalesIgniter_Rental::rental_calendar"
-                resource="SalesIgniter_Rental::rental"
-                action="salesigniter_rental/calendar/index/renderer/byorder"
+            id="SalesIgniter_Rental::rental_calendar_byorder"
+            title="By Order"
+            module="SalesIgniter_Rental"
+            parent="SalesIgniter_Rental::rental_calendar"
+            resource="SalesIgniter_Rental::rental"
+            action="salesigniter_rental/calendar/index/renderer/byorder"
         />
         <add
-                id="SalesIgniter_Rental::rental_calendar_bydate"
-                title="By Start/End Date"
-                module="SalesIgniter_Rental"
-                parent="SalesIgniter_Rental::rental_calendar"
-                resource="SalesIgniter_Rental::rental"
-                action="salesigniter_rental/calendar/index/renderer/bydate"
+            id="SalesIgniter_Rental::rental_calendar_bydate"
+            title="By Start/End Date"
+            module="SalesIgniter_Rental"
+            parent="SalesIgniter_Rental::rental_calendar"
+            resource="SalesIgniter_Rental::rental"
+            action="salesigniter_rental/calendar/index/renderer/bydate"
         />
 
     </menu>

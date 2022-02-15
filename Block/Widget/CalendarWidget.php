@@ -363,7 +363,7 @@ class CalendarWidget extends \Magento\Framework\View\Element\Template implements
         /*
          * here I get the settings for calendar
          */
-        $storeHours = $this->_calendarHelper->storeHours(false,$prodObj);
+        $storeHours = $this->_calendarHelper->storeHours();
 
         $timeFormat = $this->_calendarHelper->getCalendarTimeFormat();
         if (null !== $prodObj) {
@@ -393,7 +393,6 @@ class CalendarWidget extends \Magento\Framework\View\Element\Template implements
         $turnoverBefore = $this->_calendarHelper->stringPeriodToMinutes($this->_calendarHelper->getTurnoverBefore($prodObj));
         $turnoverAfter = $this->_calendarHelper->stringPeriodToMinutes($this->_calendarHelper->getTurnoverAfter($prodObj));
         $futureLimit = $this->_calendarHelper->stringPeriodToMinutes($this->_calendarHelper->getFutureLimit($prodObj));
-        $allowZeroPrice = $this->_calendarHelper->getAllowZeroPrice();
 
         //$firstDateAvailable = $this->stockManagement->getFirstDateAvailable($prodObj);
         //$firstTimeAvailable = $this->stockManagement->getFirstTimeAvailable($prodObj);
@@ -461,7 +460,7 @@ class CalendarWidget extends \Magento\Framework\View\Element\Template implements
             $html .= $this->_calendarHelper->getFixedTemplate($prodObj);
             $fixedRentalLength = $this->_calendarHelper->stringPeriodToMinutes($fixedOptions['length'][0]);
         }
-        $html .= '<div class="range-line date">'.
+        $html .= '<div style="border-top: solid 1px #666;"><div class="range-line date"><div class="calendar-label">From</div><div class="calendar-input">'.
             '<input readonly="readonly" 
                     type="text" 
                     name="' .$this->_getHtmlName().'[from]" 
@@ -469,24 +468,26 @@ class CalendarWidget extends \Magento\Framework\View\Element\Template implements
             ' value="'.''.'" 
                     class="input-text no-changes ' .($alwaysShow ? 'hiddenDates' : '').'" 
                     placeholder="' .__('From').'" '.
-            $this->getUiId('filter', $this->_getHtmlName(), 'from').'/>';
+            $this->getUiId('filter', $this->_getHtmlName(), 'from').'/></div>';
         if ($alwaysShow) {
             $html .= '<div id="'.$htmlId.'_from'.'">'.'</div>';
         }
-        $html .= '</div>';
-
-        $html .= '<div class="range-line date">'.
+        $html .= '</div></div>';
+        $html .= '<div style="clear: both;"></div>';
+        $html .= '<div style="border-top: solid 1px #666;"><div class="range-line date"><div class="calendar-label">To</div><div class="calendar-input">'.
             '<input readonly="readonly" 
                         type="text" name="' .$this->_getHtmlName().'[to]" 
                         id="' .$htmlId.'_to'.($alwaysShow ? '_alt' : '').'"'.' 
                         value="' .''.'" 
                         class="input-text no-changes ' .$newClass.' '.($alwaysShow ? 'hiddenDates' : '').'" 
                         placeholder="' .__('To').'" '.
-            $this->getUiId('filter', $this->_getHtmlName(), 'to').'/>';
+            $this->getUiId('filter', $this->_getHtmlName(), 'to').'/></div>';
         if ($alwaysShow) {
             $html .= '<div id="'.$htmlId.'_to'.'">'.'</div>';
         }
-        $html .= '</div>';
+        $html .= '</div></div>';
+        
+        $html .= '<div style="clear: both; border-bottom: solid 1px #666;"></div>';
 
         $html .= '<input type="hidden" 
                         name="' .$this->_getHtmlName().'[locale]"'.' 
@@ -545,7 +546,6 @@ class CalendarWidget extends \Magento\Framework\View\Element\Template implements
                     disabledDatesPricing: ' .$this->_jsonEncoder->encode($disabledDatesPricing).',
                     numberOfMonths: ' .$numberOfMonths.',
                     alwaysShow: ' .($alwaysShow ? 'true' : 'false').',
-                    allowZero: ' .($allowZeroPrice ? 'true' : 'false').',
                     minimumPeriod: ' .$minimumPeriod.',
                     maximumPeriod: ' .$maximumPeriod.',
                     turnoverBefore: ' .$turnoverBefore.',

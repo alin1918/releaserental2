@@ -110,25 +110,25 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Calendar constructor.
      *
-     * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Catalog\Model\ResourceModel\Product $resourceProduct
-     * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Framework\App\State $appState
-     * @param ProductRepositoryInterface $productRepository
-     * @param OrderRepository $orderRepository
-     * @param PriceCurrencyInterface $priceCurrency
-     * @param FixedRentalDatesRepositoryInterface $fixedRentalDatesRepository
-     * @param FixedRentalNamesRepositoryInterface $fixedRentalNamesRepository
-     * @param Data $helperRental
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param Date $dateHelper
+     * @param \Magento\Framework\App\Helper\Context                $context
+     * @param \Magento\Store\Model\StoreManagerInterface           $storeManager
+     * @param \Magento\Catalog\Model\Session                       $catalogSession
+     * @param \Magento\Catalog\Model\ResourceModel\Product         $resourceProduct
+     * @param \Magento\Framework\Registry                          $coreRegistry
+     * @param \Magento\Framework\App\State                         $appState
+     * @param ProductRepositoryInterface                           $productRepository
+     * @param OrderRepository                                      $orderRepository
+     * @param PriceCurrencyInterface                               $priceCurrency
+     * @param FixedRentalDatesRepositoryInterface                  $fixedRentalDatesRepository
+     * @param FixedRentalNamesRepositoryInterface                  $fixedRentalNamesRepository
+     * @param Data                                                 $helperRental
+     * @param SearchCriteriaBuilder                                $searchCriteriaBuilder
+     * @param Date                                                 $dateHelper
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param DateTimeFormatterInterface $dateTimeFormatter
-     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Framework\Stdlib\DateTime\DateTime $datetime
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param DateTimeFormatterInterface                           $dateTimeFormatter
+     * @param \Magento\Framework\Locale\ResolverInterface          $localeResolver
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime          $datetime
+     * @param \Magento\Catalog\Model\ProductFactory                $productFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -150,8 +150,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Stdlib\DateTime\DateTime $datetime,
         \Magento\Catalog\Model\ProductFactory $productFactory
-    )
-    {
+    ) {
         $this->_storeManager = $storeManager;
         $this->catalogSession = $catalogSession;
         $this->_coreRegistry = $coreRegistry;
@@ -181,7 +180,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function showTurnovers()
     {
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             'salesigniter_rental/turnover/show_turnover',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -194,7 +193,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function keepSelectedDates()
     {
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             'salesigniter_rental/calendar_options/keep_selected_dates',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -202,7 +201,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function sameDatesEnforce()
     {
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             'salesigniter_rental/calendar_options/same_dates_enforce',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -223,27 +222,35 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function timeIncrement()
     {
-        return (int)$this->scopeConfig->getValue(
+        return (int) $this->scopeConfig->getValue(
             'salesigniter_rental/store_hours/time_increment',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }
 
     /**
-     * returns theme calendar style.
+     * @param string $type
+     * @param string $day
+     * @param string $hoursStart
+     * @param string $hoursEnd
      *
-     * @return int
-     *
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return string
      */
-    public function getThemeStyle()
+    private function storeHoursPerDay($type, $day, $hoursStart, $hoursEnd)
     {
-        return $this->helperRental->isFrontend() ? $this->scopeConfig->getValue(
-            'salesigniter_rental/calendar_options/theme_style',
+        $hours = $this->scopeConfig->getValue(
+            'salesigniter_rental/store_hours/store_'.$type.'_time_'.$day,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) : \SalesIgniter\Rental\Model\Config\ThemeStyle::DEFAULT_STYLE;
-    }
+        );
+        if ($hours == '00,00,00') {
+            $hours = $hoursEnd;
+            if ($type == 'open') {
+                $hours = $hoursStart;
+            }
+        }
 
+        return $hours;
+    }
 
     /**
      * @return string
@@ -265,7 +272,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      * Accepts array in.
      *
      * @param array $hours
-     * @param bool $forceNotAmPm
+     * @param bool  $forceNotAmPm
      *
      * @return array|string
      */
@@ -281,7 +288,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
                 if (is_array($v)) {
                     $hours[$k] = $this->normalizeHours($v, $forceNotAmPm);
                 } else {
-                    $formattingDate = new \DateTime('2016-07-19 ' . str_replace(',', ':', $v));
+                    $formattingDate = new \DateTime('2016-07-19 '.str_replace(',', ':', $v));
                     if ($timeTypeAmpm) {
                         $hours[$k] = $formattingDate->format('h:i a');
                     } else {
@@ -294,39 +301,14 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         return $hours;
     }
 
-    public function getNextDayHour($product = null)
-    {
-        $hoursNextDay = $this->scopeConfig->getValue(
-            'salesigniter_rental/store_hours/hour_next_day',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-        if (!is_null($product)) {
-            $product = $this->helperRental->getProductIdFromObject($product);
-            if ($sihour = $this->helperRental->getAttribute($product, 'sirent_hour_next_day')) {
-                $hoursNextDay = implode(',', explode(':', $sihour));
-            }
-        }
-        if ($hoursNextDay == '00,00,00') {
-            return false;
-        } else {
-            $hoursNextDay = explode(',', $hoursNextDay);
-            foreach ($hoursNextDay as $key => $hour) {
-                $hoursNextDay[$key] = (int)$hour;
-            }
-        }
-
-        return $hoursNextDay;
-    }
-
     /**
      * @param \DateTime $date
      *
-     * @param $product
      * @return array
      */
-    public function storeHoursForDate($date, $product = null)
+    public function storeHoursForDate($date)
     {
-        $hours = $this->storeHours(true, $product);
+        $hours = $this->storeHours(true);
 
         return [
             'start' => $hours['start'][strtolower($date->format('l'))],
@@ -341,89 +323,59 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @param bool $forceNotAmpPm
      *
-     * @param null $product
      * @return array
      */
-    public function storeHours($forceNotAmpPm = false, $product = null)
+    public function storeHours($forceNotAmpPm = false)
     {
         $hours = [];
         $timeIncrement = $this->timeIncrement();
-        $hoursStart = $this->storeHoursStart($product);
-        $hoursEnd = $this->storeHoursEnd($timeIncrement, $product);
+        $hoursStart = $this->storeHoursStart();
+        $hoursEnd = $this->storeHoursEnd($timeIncrement);
         $hours['start'] = [
-            'monday' => $this->storeHoursPerDay('open', 'monday', $hoursStart, $hoursEnd, $product),
-            'tuesday' => $this->storeHoursPerDay('open', 'tuesday', $hoursStart, $hoursEnd, $product),
-            'wednesday' => $this->storeHoursPerDay('open', 'wednesday', $hoursStart, $hoursEnd, $product),
-            'thursday' => $this->storeHoursPerDay('open', 'thursday', $hoursStart, $hoursEnd, $product),
-            'friday' => $this->storeHoursPerDay('open', 'friday', $hoursStart, $hoursEnd, $product),
-            'saturday' => $this->storeHoursPerDay('open', 'saturday', $hoursStart, $hoursEnd, $product),
-            'sunday' => $this->storeHoursPerDay('open', 'sunday', $hoursStart, $hoursEnd, $product),
+            'monday' => $this->storeHoursPerDay('open', 'monday', $hoursStart, $hoursEnd),
+            'tuesday' => $this->storeHoursPerDay('open', 'tuesday', $hoursStart, $hoursEnd),
+            'wednesday' => $this->storeHoursPerDay('open', 'wednesday', $hoursStart, $hoursEnd),
+            'thursday' => $this->storeHoursPerDay('open', 'thursday', $hoursStart, $hoursEnd),
+            'friday' => $this->storeHoursPerDay('open', 'friday', $hoursStart, $hoursEnd),
+            'saturday' => $this->storeHoursPerDay('open', 'saturday', $hoursStart, $hoursEnd),
+            'sunday' => $this->storeHoursPerDay('open', 'sunday', $hoursStart, $hoursEnd),
         ];
 
         $hours['end'] = [
-            'monday' => $this->storeHoursPerDay('close', 'monday', $hoursStart, $hoursEnd, $product),
-            'tuesday' => $this->storeHoursPerDay('close', 'tuesday', $hoursStart, $hoursEnd, $product),
-            'wednesday' => $this->storeHoursPerDay('close', 'wednesday', $hoursStart, $hoursEnd, $product),
-            'thursday' => $this->storeHoursPerDay('close', 'thursday', $hoursStart, $hoursEnd, $product),
-            'friday' => $this->storeHoursPerDay('close', 'friday', $hoursStart, $hoursEnd, $product),
-            'saturday' => $this->storeHoursPerDay('close', 'saturday', $hoursStart, $hoursEnd, $product),
-            'sunday' => $this->storeHoursPerDay('close', 'sunday', $hoursStart, $hoursEnd, $product),
+            'monday' => $this->storeHoursPerDay('close', 'monday', $hoursStart, $hoursEnd),
+            'tuesday' => $this->storeHoursPerDay('close', 'tuesday', $hoursStart, $hoursEnd),
+            'wednesday' => $this->storeHoursPerDay('close', 'wednesday', $hoursStart, $hoursEnd),
+            'thursday' => $this->storeHoursPerDay('close', 'thursday', $hoursStart, $hoursEnd),
+            'friday' => $this->storeHoursPerDay('close', 'friday', $hoursStart, $hoursEnd),
+            'saturday' => $this->storeHoursPerDay('close', 'saturday', $hoursStart, $hoursEnd),
+            'sunday' => $this->storeHoursPerDay('close', 'sunday', $hoursStart, $hoursEnd),
         ];
 
         return $this->normalizeHours($hours, $forceNotAmpPm);
     }
 
-
     /**
-     * @param string $type
-     * @param string $day
-     * @param string $hoursStart
-     * @param string $hoursEnd
+     * returns theme calendar style.
      *
-     * @param $product
-     * @return string
-     */
-    public function storeHoursPerDay($type, $day, $hoursStart, $hoursEnd, $product)
+     * @return int
+     * */
+    public function getThemeStyle()
     {
-        $hours = $this->scopeConfig->getValue(
-            'salesigniter_rental/store_hours/store_' . $type . '_time_' . $day,
+        return $this->helperRental->isFrontend() ? $this->scopeConfig->getValue(
+            'salesigniter_rental/calendar_options/theme_style',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-        if (!is_null($product)) {
-            $product = $this->helperRental->getProductIdFromObject($product);
-            if ($sihour = $this->helperRental->getAttribute($product, 'sirent_store_{$type}_{$day}')) {
-                $hours = implode(',', explode(':', $sihour));
-            }
-        }
-        if ($hours == '00,00,00' || $hours === null) {
-            $hours = $hoursEnd;
-            if ($type == 'open') {
-                $hours = $hoursStart;
-            }
-        }
-
-        return $hours;
+        ) : \SalesIgniter\Rental\Model\Config\ThemeStyle::DEFAULT_STYLE;
     }
 
-
     /**
-     * @param $product
      * @return mixed|string
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function storeHoursStart($product)
+    private function storeHoursStart()
     {
         $hoursStart = $this->scopeConfig->getValue(
             'salesigniter_rental/store_hours/store_open_time',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        if (!is_null($product)) {
-            $product = $this->helperRental->getProductIdFromObject($product);
-            if ($sihour = $this->helperRental->getAttribute($product, 'sirent_store_open_time')) {
-                $hoursStart = implode(',', explode(':', $sihour));
-            }
-        }
         if ($hoursStart == '00,00,00') {
             $hoursStart = '00:00:00';
         }
@@ -434,23 +386,16 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param $timeIncrement
      *
-     * @param $product
      * @return int|mixed|string
      */
-    public function storeHoursEnd($timeIncrement, $product)
+    private function storeHoursEnd($timeIncrement)
     {
         $hoursEnd = $this->scopeConfig->getValue(
             'salesigniter_rental/store_hours/store_close_time',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        if (!is_null($product)) {
-            $product = $this->helperRental->getProductIdFromObject($product);
-            if ($sihour = $this->helperRental->getAttribute($product, 'sirent_store_close_time')) {
-                $hoursEnd = implode(',', explode(':', $sihour));
-            }
-        }
         if ($hoursEnd == '00,00,00') {
-            $hoursEnd = '23:' . (60 - $timeIncrement) > 0 ? '23:' . (60 - $timeIncrement) . ':00' : '23:59:00';
+            $hoursEnd = '23:'.(60 - $timeIncrement) > 0 ? '23:'.(60 - $timeIncrement).':00' : '23:59:00';
         }
 
         return $hoursEnd;
@@ -482,7 +427,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         if (in_array('-1', $disabledDaysExcludeFrom)) {
             return [];
         }
-        if (in_array((string)\SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT, $disabledDaysExcludeFrom)) {
+        if (in_array((string) \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT, $disabledDaysExcludeFrom)) {
             return $this->getDisabledDaysWeekFrom($product, true);
         }
 
@@ -493,8 +438,8 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      * returns the disabled days for both start and end.
      *
      * @param string (calendar,price,turnover) $type
-     * @param null $product
-     * @param bool $configOnly
+     * @param null                             $product
+     * @param bool                             $configOnly
      *
      * @return array
      *
@@ -517,7 +462,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             if (in_array('-1', $disabledDaysExclude)) {
                 return [];
             }
-            if (in_array((string)\SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT, $disabledDaysExclude)) {
+            if (in_array((string) \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT, $disabledDaysExclude)) {
                 return $this->getDisabledDaysWeek($type, $product, true);
             }
 
@@ -554,7 +499,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         if (in_array('-1', $disabledDaysWeekStart)) {
             return [];
         }
-        if (in_array((string)\SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT, $disabledDaysWeekStart)) {
+        if (in_array((string) \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT, $disabledDaysWeekStart)) {
             return $this->getDisabledDaysWeekStart($product, true);
         }
 
@@ -590,7 +535,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         if (in_array('-1', $disabledDaysWeekEnd)) {
             return [];
         }
-        if (in_array((string)\SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT, $disabledDaysWeekEnd)) {
+        if (in_array((string) \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT, $disabledDaysWeekEnd)) {
             return $this->getDisabledDaysWeekEnd($product, true);
         }
         $disabledDaysWeekCalendar = $this->getDisabledDaysWeek(ExcludedDaysWeekFrom::CALENDAR, $product);
@@ -654,15 +599,15 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
                         } else {
                             $returnExcluded[] = [
                                 's' => $start,
-                                'e' => $endFull . '23:59',
+                                'e' => $endFull.'23:59',
                                 'r' => $disabledDate['disabled_type'],
                             ];
                             /** @var Period $period */
                             $period = new Period($startFull, $endFull);
                             foreach ($period->getDatePeriod('1 DAY', 1) as $repeatDay) {
                                 $returnExcluded[] = [
-                                    's' => $repeatDay->format('Y-m-d') . ' 00:00',
-                                    'e' => $repeatDay->format('Y-m-d') . ' 23:59',
+                                    's' => $repeatDay->format('Y-m-d').' 00:00',
+                                    'e' => $repeatDay->format('Y-m-d').' 23:59',
                                     'r' => $disabledDate['disabled_type'],
                                 ];
                             }
@@ -674,7 +619,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
                         }
                     } else {
                         $start = (new \DateTime($disabledDate['disabled_from']))->format('Y-m-d H:i');
-                        $end = (new \DateTime($disabledDate['disabled_from']))->format('Y-m-d') . ' ' .
+                        $end = (new \DateTime($disabledDate['disabled_from']))->format('Y-m-d').' '.
                             (new \DateTime($disabledDate['disabled_to']))->format('H:i');
                         $returnExcluded[] = [
                             's' => $start,
@@ -685,8 +630,8 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
                 }
             } elseif (array_key_exists('exclude_dates_from', $disabledDate) && in_array(substr($type, 5), $disabledDate['exclude_dates_from'])) {
                 if ($disabledDate['all_day']) {
-                    $start = (new \DateTime($disabledDate['disabled_from']))->format('Y-m-d') . ' 00:00';
-                    $end = (new \DateTime($disabledDate['disabled_to']))->format('Y-m-d') . ' 00:00';
+                    $start = (new \DateTime($disabledDate['disabled_from']))->format('Y-m-d').' 00:00';
+                    $end = (new \DateTime($disabledDate['disabled_to']))->format('Y-m-d').' 00:00';
                     $returnExcluded[] = [
                         's' => $start,
                         'e' => $start,
@@ -727,7 +672,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         $lastChar = substr($period, -1);
         if (array_key_exists($lastChar, $periodArray)) {
             $value = substr($period, 0, -1); //remove last char for string
-            $returnValue = (int)$value * $periodArray[$lastChar];
+            $returnValue = (int) $value * $periodArray[$lastChar];
         }
 
         return $returnValue;
@@ -751,14 +696,13 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $minimumPeriod = $this->helperRental->getAttribute($product, 'sirent_min');
         }
-
-        if ($minimumPeriod === '' || (int)$minimumPeriod === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $minimumPeriod === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $minimumPeriod = $this->getMinimumPeriod($product, true);
         }
         if (!$minimumPeriod || $minimumPeriod === '') {
             $minimumPeriod = '0d';
         }
-        if ($minimumPeriod === '0d' && $product !== null && $this->useTimes($product) === false && (int)$this->getHotelMode($product) === 1) {
+        if ($minimumPeriod === '0d' && $this->useTimes($product) === false && (int) $this->getHotelMode($product) === 1) {
             $minimumPeriod = '1d';
         }
 
@@ -784,7 +728,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $maximumPeriod = $this->helperRental->getAttribute($product, 'sirent_max');
         }
 
-        if ($maximumPeriod === '' || (int)$maximumPeriod === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $maximumPeriod === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $maximumPeriod = $this->getMaximumPeriod($product, true);
         }
         if (!$maximumPeriod || $maximumPeriod === '') {
@@ -812,10 +756,10 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $turnoverBefore = $this->helperRental->getAttribute($product, 'sirent_turnover_before');
         }
-        if ($turnoverBefore === '' || (int)$turnoverBefore === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+
+        if ((int) $turnoverBefore === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $turnoverBefore = $this->getTurnoverBefore($product, true);
         }
-
         if (!$turnoverBefore || $turnoverBefore === '') {
             $turnoverBefore = '0d';
         }
@@ -842,7 +786,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $turnoverAfter = $this->helperRental->getAttribute($product, 'sirent_turnover_after');
         }
 
-        if ($turnoverAfter === '' || (int)$turnoverAfter === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $turnoverAfter === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $turnoverAfter = $this->getTurnoverAfter($product, true);
         }
         if (!$turnoverAfter || $turnoverAfter === '') {
@@ -871,7 +815,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $padding = $this->helperRental->getAttribute($product, 'sirent_padding');
         }
 
-        if ($padding === '' || (int)$padding === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $padding === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $padding = $this->getPadding($product, true);
         }
         if (!$padding || $padding === '') {
@@ -900,7 +844,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $fixedLength = $this->helperRental->getAttribute($product, 'sirent_fixed_length');
         }
 
-        if ($fixedLength === '' || (int)$fixedLength === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $fixedLength === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $fixedLength = $this->getFixedLength($product, true);
         }
         if (!$fixedLength || $fixedLength === '') {
@@ -929,7 +873,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $fixedType = $this->helperRental->getAttribute($product, 'sirent_fixed_type');
         }
 
-        if ($fixedType === '' || (int)$fixedType === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $fixedType === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $fixedType = $this->getFixedOptions($product, true);
         }
         if (!$fixedType || $fixedType === '') {
@@ -960,7 +904,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         }
         $template = '';
         if ($fixedOptions === 'select') {
-            $template .= '<div class="fixed_length"> ' . __('Choose Your Period:') . ' <select name="fixedLength">';
+            $template .= '<div class="fixed_length"> '.__('Choose Your Period:').' <select name="fixedLength">';
             $pCount = 0;
 
             foreach ($fixedValues as $fixedLength) {
@@ -968,19 +912,19 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
                 if ($pCount === 0) {
                     $selected = ' selected';
                 }
-                $template .= '<option ' . $selected . ' value="' . $this->stringPeriodToMinutes($fixedLength) . '">' . $this->getTextForType($fixedLength) . '</option>';
+                $template .= '<option '.$selected.' value="'.$this->stringPeriodToMinutes($fixedLength).'">'.$this->getTextForType($fixedLength).'</option>';
                 ++$pCount;
             }
             $template .= '</select></div>';
         } else {
-            $template .= '<div class="fixed_length">' . __('Choose Your Period:');
+            $template .= '<div class="fixed_length">'.__('Choose Your Period:');
             $pCount = 0;
             foreach ($fixedValues as $fixedLength) {
                 $checked = '';
                 if ($pCount === 0) {
                     $checked = ' checked';
                 }
-                $template .= '<div class="fixed-date"><input ' . $checked . ' type="radio" name="fixedLength" value="' . $this->stringPeriodToMinutes($fixedLength) . '">' . $this->getTextForType($fixedLength) . '</div>';
+                $template .= '<div class="fixed-date"><input '.$checked.' type="radio" name="fixedLength" value="'.$this->stringPeriodToMinutes($fixedLength).'">'.$this->getTextForType($fixedLength).'</div>';
                 ++$pCount;
             }
             $template .= '</div>';
@@ -1007,7 +951,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $futureLimit = $this->helperRental->getAttribute($product, 'sirent_future_limit');
         }
-        if ($futureLimit === '' || (int)$futureLimit === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $futureLimit === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $futureLimit = $this->getFutureLimit($product, true);
         }
         if (!$futureLimit || $futureLimit === '') {
@@ -1048,7 +992,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $alwaysShow = $this->helperRental->getAttribute($product, 'sirent_always_show');
         }
-        if ($alwaysShow === '' || (int)$alwaysShow === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $alwaysShow === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $alwaysShow = $this->getAlwaysShow($product, true);
         }
         if (!$alwaysShow || $alwaysShow === '') {
@@ -1063,7 +1007,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function timeTypeAmpm()
     {
-        $timeTypeAmpm = (bool)$this->scopeConfig->getValue(
+        $timeTypeAmpm = (bool) $this->scopeConfig->getValue(
             'salesigniter_rental/store_hours/time_type_ampm',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -1095,7 +1039,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $hotelMode = $this->helperRental->getAttribute($product, 'sirent_hotel_mode');
         }
-        if ($hotelMode === '' || (int)$hotelMode === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $hotelMode === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $hotelMode = $this->getHotelMode($product, true);
         }
         if (!$hotelMode || $hotelMode === '') {
@@ -1125,7 +1069,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $disableShipping = $this->helperRental->getAttribute($product, 'sirent_disable_shipping');
         }
-        if ($disableShipping === '' || (int)$disableShipping === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $disableShipping === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $disableShipping = $this->getDisabledShipping($product, true);
         }
         if (!$disableShipping || $disableShipping === '') {
@@ -1154,7 +1098,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
             $allowOverbooking = $this->helperRental->getAttribute($product, 'sirent_allow_overbooking');
         }
 
-        if ($allowOverbooking === '' || (int)$allowOverbooking === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $allowOverbooking === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $allowOverbooking = $this->allowOverbooking($product, true);
         }
         if (!$allowOverbooking || $allowOverbooking === '') {
@@ -1166,11 +1110,10 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function allowOverbookingAdmin()
     {
-        return true;
-        /*return $this->scopeConfig->getValue(
-			'salesigniter_rental/inventory/admin_allow_overbooking',
-			ScopeInterface::SCOPE_STORE
-		);*/
+        return $this->scopeConfig->getValue(
+            'salesigniter_rental/inventory/admin_allow_overbooking',
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     public function allowOverbookingShowWarningAdmin()
@@ -1198,7 +1141,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $damageWaiver = $this->helperRental->getAttribute($product, 'sirent_damage_waiver');
         }
-        if ($damageWaiver === '' || (int)$damageWaiver === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
+        if ((int) $damageWaiver === \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT) {
             $damageWaiver = $this->getDamageWaiver($product, true);
         }
         if (!$damageWaiver || $damageWaiver === '') {
@@ -1212,8 +1155,8 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      * Gets Insurance amount.
      *
      * @param null | int $product
-     * @param float $price
-     * @param bool $formatted
+     * @param float      $price
+     * @param bool       $formatted
      *
      * @return float
      *
@@ -1284,9 +1227,9 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      * Convert given date to default UTC format
      * Remember, UTC is not a timezone, rather a time format https://www.timeanddate.com/time/gmt-utc-time.html.
      *
-     * @param string $date input format is like 12/16/2016 10:00 am
-     * @param bool $hasTime
-     * @param null $locale
+     * @param string $date    input format is like 12/16/2016 10:00 am
+     * @param bool   $hasTime
+     * @param null   $locale
      *
      * @return \DateTime|null output format is like 2016-12-16 10:00:00.000000
      */
@@ -1315,7 +1258,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param string $date
+     * @param string    $date
      * @param \DateTime $dateFormatted
      *
      * @return \DateTime
@@ -1333,16 +1276,16 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
 
             preg_match_all($regEx, $time, $matches);
             if (isset($matches[4][0]) && $matches[4][0] !== '') {
-                $hour = (int)$matches[1][0];
+                $hour = (int) $matches[1][0];
                 if ($hour !== 12 && strtolower($matches[4][0]) === 'pm') {
-                    $hour = 12 + (int)$matches[1][0];
+                    $hour = 12 + (int) $matches[1][0];
                 } elseif ($hour === 12 && strtolower($matches[4][0]) === 'am') {
                     $hour = 0;
                 }
             } else {
                 $hour = 0;
                 if (isset($matches[1][0])) {
-                    $hour = (int)$matches[1][0];
+                    $hour = (int) $matches[1][0];
                 }
             }
             $dateFormatted->setTime($hour, $matches[2][0], 0);
@@ -1357,14 +1300,13 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      * Function returns if any product type has calendar enabled.
      *
      * @param \Magento\Catalog\Model\Product|int $product
-     * @param bool $checkGrid
-     * @param bool $fromPricing
+     * @param bool                               $checkGrid
      *
      * @return bool
      *
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function useTimes($product, $checkGrid = false, $fromPricing = false)
+    public function useTimes($product, $checkGrid = false)
     {
         if ($product === null) {
             return false;
@@ -1375,13 +1317,9 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         }
         $priceType = $this->helperRental->getAttributeRawValue($product, 'sirent_use_times');
         if (!$checkGrid) {
-            return (int)$priceType > 0;
+            return (int) $priceType > 0;
         } else {
-            if (!$fromPricing) {
-                return (int)$priceType === 2 || (int)$priceType === 3;
-            } else {
-                return (int)$priceType === 2;
-            }
+            return (int) $priceType === 2;
         }
     }
 
@@ -1414,33 +1352,27 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      * @param $hasTimes
      *
      * @return \DateTime|null
-     *
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function getDate($type, $buyRequest, $product)
+    private function getDate($type, $buyRequest, $product, $hasTimes)
     {
         /** @var array $calendarSelector */
         $calendarSelector = [];
         if (array_key_exists('calendar_selector', $buyRequest)) {
             $calendarSelector = $buyRequest['calendar_selector'];
         }
+        //if (null !== $product) {
+        //$hasTimes = $this->useTimes($product);
+        //}
 
         /*todo check this part might introduce a bug*/
         //if (array_key_exists('calendar_use_times', $buyRequest)) {
         //$hasTimes = $buyRequest['calendar_use_times'] === '1';
         //}
+        $hasTimes = true;
         $newDate = null;
         if (array_key_exists($type, $calendarSelector) && $calendarSelector[$type] !== '') {
-
             /* @var \DateTime $startDate */
-            $newDate = $this->convertDateToUTC($calendarSelector[$type], true, $calendarSelector['locale']);
-            $hasTimes = false;
-            if (null !== $product) {
-                $hasTimes = $this->useTimes($product, true, true);
-            }
-            if ($hasTimes) {
-                $newDate = $this->dateHelper->getCloneDate($newDate);
-            }
+            $newDate = $this->convertDateToUTC($calendarSelector[$type], $hasTimes, $calendarSelector['locale']);
         }
 
         return $newDate;
@@ -1462,24 +1394,16 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getDatesFromBuyRequest($buyRequest, $product = null, $hasTimes = false)
     {
-        /*
-         * We can modify the dates here. The dates are already setup into custom options
-         * These values are the working values. So for when times with grid full day I can change it here
-         * so into db the values for start end date are full day.
-         */
         $dates = new \Magento\Framework\DataObject();
 
         if (is_object($buyRequest)) {
             /** @var array $buyRequest */
             $buyRequest = $this->helperRental->unserialize($buyRequest->getValue());
         }
-        $startDate = $this->getDate('from', $buyRequest, $product);
-        $endDate = $this->getDate('to', $buyRequest, $product);
-        if ($endDate !== null && $this->dateHelper->compareDates($startDate, $endDate) === 0) {
-            $endDate = $endDate->add(new \DateInterval('PT23H59M'));
-        }
-        $startDateWithTurnover = $this->getDate('turnover_from', $buyRequest, $product);
-        $endDateWithTurnover = $this->getDate('turnover_to', $buyRequest, $product);
+        $startDate = $this->getDate('from', $buyRequest, $product, $hasTimes);
+        $endDate = $this->getDate('to', $buyRequest, $product, $hasTimes);
+        $startDateWithTurnover = $this->getDate('turnover_from', $buyRequest, $product, $hasTimes);
+        $endDateWithTurnover = $this->getDate('turnover_to', $buyRequest, $product, $hasTimes);
 
         if (isset($buyRequest['is_buyout'])) {
             $dates->setIsBuyout(1);
@@ -1566,7 +1490,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
 
         $timeIncrement = $this->timeIncrement();
         if ($turnoverBefore >= 1440) {
-            $turnoverBeforeTemp = (int)($turnoverBefore / 1440);
+            $turnoverBeforeTemp = (int) ($turnoverBefore / 1440);
 
             $initVal = 0;
             while ($initVal < $turnoverBeforeTemp) {
@@ -1580,7 +1504,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
                     --$initVal;
                 }
                 $findResult = \Underscore\Types\Arrays::find($disabledDaysWeekTurnover, function ($day) use ($sendDate) {
-                    return ($day - 1) === (int)$sendDate->format('w');
+                    return ($day - 1) === (int) $sendDate->format('w');
                 });
                 if (null !== $findResult && $findResult !== false) {
                     --$initVal;
@@ -1604,7 +1528,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
                 if (null !== $findResult && $findResult !== false) {
                     $initVal -= $timeIncrement;
                 }
-                $dateInterval = $this->dateHelper->normalizeInterval($timeIncrement . 'm');
+                $dateInterval = $this->dateHelper->normalizeInterval($timeIncrement.'m');
                 $sendDate->sub($dateInterval);
                 $initVal += $timeIncrement;
             }
@@ -1628,7 +1552,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         $timeIncrement = $this->timeIncrement();
 
         if ($turnoverAfter >= 1440) {
-            $turnoverAfterTemp = (int)($turnoverAfter / 1440);
+            $turnoverAfterTemp = (int) ($turnoverAfter / 1440);
 
             $initVal = 0;
             while ($initVal < $turnoverAfterTemp) {
@@ -1641,7 +1565,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
                     --$initVal;
                 }
                 $findResult = \Underscore\Types\Arrays::find($disabledDaysWeekTurnover, function ($day) use ($returnDate) {
-                    return ($day - 1) === (int)$returnDate->format('w');
+                    return ($day - 1) === (int) $returnDate->format('w');
                 });
                 if (null !== $findResult && $findResult !== false) {
                     --$initVal;
@@ -1665,7 +1589,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
                 if (null !== $findResult && $findResult !== false) {
                     $initVal -= $timeIncrement;
                 }
-                $dateInterval = $this->dateHelper->normalizeInterval($timeIncrement . 'm');
+                $dateInterval = $this->dateHelper->normalizeInterval($timeIncrement.'m');
                 $returnDate->add($dateInterval);
                 $initVal += $timeIncrement;
             }
@@ -1758,8 +1682,8 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
      * */
     public function hideTimePeriodNumbers()
     {
-        return (bool)$this->scopeConfig->getValue(
-            'salesigniter_rental/price/hide_time_periods_numbers',
+        return (bool) $this->scopeConfig->getValue(
+            'salesigniter_rental/listing/hide_time_periods_numbers',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }
@@ -1774,11 +1698,11 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
     private function _showTextForPeriodType($periodNumber, $hidePeriodNumbers, $type)
     {
         if ($periodNumber === 1 || $hidePeriodNumbers) {
-            $text = (!$hidePeriodNumbers ? ($periodNumber . ' ') : '') . __(
+            $text = (!$hidePeriodNumbers ? ($periodNumber.' ') : '').__(
                     substr($type, 0, strlen($type) - 1)
                 );
         } else {
-            $text = $periodNumber . ' ' . __($type);
+            $text = $periodNumber.' '.__($type);
         }
 
         return $text;
@@ -1845,7 +1769,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         $periodType = 0;
         $periodNumber = 0;
         if (array_key_exists($lastChar, $periodArray)) {
-            $periodNumber = (int)substr($period, 0, -1); //remove last char for string
+            $periodNumber = (int) substr($period, 0, -1); //remove last char for string
             $periodType = $periodArray[$lastChar];
         }
         $text = $this->getPeriodLocalizedText($hidePeriodNumbers, $periodType, $periodNumber);
@@ -1855,7 +1779,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \DateTime $datetime
-     * @param int $precision
+     * @param int       $precision
      *
      * @return \DateTime
      */
@@ -1863,25 +1787,43 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
     {
         // 1) Set number of seconds to 0 (by rounding up to the nearest minute if necessary)
 
-        $second = (int)$datetime->format('s');
+        $second = (int) $datetime->format('s');
         if ($second > 30) {
             // Jumps to the next minute
-            $datetime->add(new \DateInterval('PT' . (60 - $second) . 'S'));
+            $datetime->add(new \DateInterval('PT'.(60 - $second).'S'));
         } elseif ($second > 0) {
             // Back to 0 seconds on current minute
-            $datetime->sub(new \DateInterval('PT' . $second . 'S'));
+            $datetime->sub(new \DateInterval('PT'.$second.'S'));
         }
 
-        $minute = (int)$datetime->format('i');
+        $minute = (int) $datetime->format('i');
         $minute = $minute % $precision;
         if ($minute > 0) {
             // 4) Count minutes to next $precision-multiple minutes
             $diff = $precision - $minute;
             // 5) Add the difference to the original date time
-            $datetime->add(new \DateInterval('PT' . $diff . 'M'));
+            $datetime->add(new \DateInterval('PT'.$diff.'M'));
         }
 
         return $datetime;
+    }
+
+    public function getNextDayHour()
+    {
+        $hoursNextDay = $this->scopeConfig->getValue(
+            'salesigniter_rental/store_hours/hour_next_day',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        if ($hoursNextDay == '00,00,00') {
+            return false;
+        } else {
+            $hoursNextDay = explode(',', $hoursNextDay);
+            foreach ($hoursNextDay as $key => $hour) {
+                $hoursNextDay[$key] = (int) $hour;
+            }
+        }
+
+        return $hoursNextDay;
     }
 
     /**
@@ -1892,14 +1834,13 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
     public function getTimeAccordingToTimeZone($dateTime = null)
     {
         $currentDateTime = $this->_localeDate->scopeDate($this->_storeManager->getStore()->getId(), $dateTime, true);
-
         //$currentDateTime->setTime(17, 10, 0);
         return $currentDateTime;
     }
 
     /**
      * @param \DateTime | string $dateObj
-     * @param int $productId
+     * @param int                $productId
      *
      * @return \DateTime
      *
@@ -1921,7 +1862,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $date->add(new \DateInterval('P1D'));
 
-            return new \DateTime($date->format('Y-m-d') . ' 00:00:00');
+            return new \DateTime($date->format('Y-m-d').' 00:00:00');
         }
     }
 
@@ -1999,20 +1940,14 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         if ($optionIds) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 $option = $product->getOptionById($optionId);
-                $optionVal = $item->getOptionByCode('option_' . $optionId);
+                $optionVal = $item->getOptionByCode('option_'.$optionId);
                 if (!$optionVal) {
-                    $optionVal = $item->getCustomOption('option_' . $optionId);
+                    $optionVal = $item->getCustomOption('option_'.$optionId);
                 }
                 if ($optionVal && $option && $option->getTitle() === 'Start Date:') {
-
-                    $test = $optionVal->getValue();
-
                     $buyRequest['calendar_selector']['from'] = $this->dateHelper->formatUTCDate($optionVal->getValue(), $locale);
                 }
                 if ($optionVal && $option && $option->getTitle() === 'End Date:') {
-
-                    $test = $optionVal->getValue();
-
                     $buyRequest['calendar_selector']['to'] = $this->dateHelper->formatUTCDate($optionVal->getValue(), $locale);
                 }
                 if ($optionVal && $option && $option->getTitle() === 'Rental Buyout:') {
@@ -2070,7 +2005,7 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         if (in_array('-1', $specialRulesAttribute)) {
             return [];
         }
-        if (in_array((string)\SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT, $specialRulesAttribute)) {
+        if (in_array((string) \SalesIgniter\Rental\Helper\Data::USE_CONFIG_DEFAULT, $specialRulesAttribute)) {
             return $this->getSpecialPricingRules($product, true);
         }
 
@@ -2105,13 +2040,5 @@ class Calendar extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return $specials;
-    }
-
-    public function getAllowZeroPrice()
-    {
-        return $this->scopeConfig->getValue(
-            'salesigniter_rental/price/allow_zero_price',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
     }
 }

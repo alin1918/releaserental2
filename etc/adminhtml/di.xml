@@ -5,15 +5,12 @@
  * See COPYING.txt for license details.
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool">
         <arguments>
             <argument name="modifiers" xsi:type="array">
                 <item name="reservation" xsi:type="array">
-                    <item name="class" xsi:type="string">
-                        SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\Composite
-                    </item>
+                    <item name="class" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\Composite</item>
                     <item name="sortOrder" xsi:type="number">125</item>
                 </item>
             </argument>
@@ -23,253 +20,100 @@
     <type name="Magento\ConfigurableProduct\Ui\DataProvider\Product\Form\Modifier\Composite">
         <arguments>
             <argument name="modifiers" xsi:type="array">
-                <item name="reservationAdvancedPricing" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationAdvancedPricing
-                </item>
-                <item name="serialNumbers" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SerialNumbers
-                </item>
-                <item name="reservationExcludedDates" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationExcludedDates
-                </item>
-                <item name="reservationQuantity" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationQuantity
-                </item>
-                <item name="excludedDays" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDays
-                </item>
-                <item name="excludedDaysFrom" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysFrom
-                </item>
-                <item name="specialPricingRules" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SpecialPricingRules
-                </item>
-                <item name="excludedDaysStart" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysStart
-                </item>
-                <item name="excludedDaysEnd" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysEnd
-                </item>
-                <item name="disableShipping" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DisableShipping
-                </item>
-                <item name="hotelMode" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\HotelMode
-                </item>
-                <item name="useSerials" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseSerials
-                </item>
-                <item name="useGlobalExcluded" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseGlobalExcluded
-                </item>
-                <item name="allowOverbooking" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AllowOverbooking
-                </item>
-                <item name="alwaysShow" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AlwaysShow
-                </item>
-                <item name="minPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MinPeriod
-                </item>
-                <item name="maxPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MaxPeriod
-                </item>
-                <item name="turnoverBeforePeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverBeforePeriod
-                </item>
-                <item name="turnoverAfterPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverAfterPeriod
-                </item>
-                <item name="paddingPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\PaddingPeriod
-                </item>
-                <item name="fixedLength" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedLength
-                </item>
-                <item name="fixedSelectionType" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedSelectionType
-                </item>
-                <item name="futureLimit" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FutureLimit
-                </item>
-                <item name="damageWaiver" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DamageWaiver
-                </item>
-                <item name="storeHours" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\StoreHours
-                </item>
+                <item name="reservationAdvancedPricing" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationAdvancedPricing</item>
+                <item name="serialNumbers" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SerialNumbers</item>
+                <item name="reservationExcludedDates" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationExcludedDates</item>
+                <item name="reservationQuantity" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationQuantity</item>
+                <item name="excludedDays" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDays</item>
+                <item name="excludedDaysFrom" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysFrom</item>
+                <item name="specialPricingRules" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SpecialPricingRules</item>
+                <item name="excludedDaysStart" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysStart</item>
+                <item name="excludedDaysEnd" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysEnd</item>
+                <item name="disableShipping" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DisableShipping</item>
+                <item name="hotelMode" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\HotelMode</item>
+                <item name="useSerials" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseSerials</item>
+                <item name="useGlobalExcluded" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseGlobalExcluded</item>
+                <item name="allowOverbooking" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AllowOverbooking</item>
+                <item name="alwaysShow" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AlwaysShow</item>
+                <item name="minPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MinPeriod</item>
+                <item name="maxPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MaxPeriod</item>
+                <item name="turnoverBeforePeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverBeforePeriod</item>
+                <item name="turnoverAfterPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverAfterPeriod</item>
+                <item name="paddingPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\PaddingPeriod</item>
+                <item name="fixedLength" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedLength</item>
+                <item name="fixedSelectionType" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedSelectionType</item>
+                <item name="futureLimit" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FutureLimit</item>
+                <item name="damageWaiver" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DamageWaiver</item>
+
             </argument>
         </arguments>
     </type>
     <type name="Magento\Bundle\Ui\DataProvider\Product\Form\Modifier\Composite">
         <arguments>
             <argument name="modifiers" xsi:type="array">
-                <item name="reservationAdvancedPricing" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationAdvancedPricing
-                </item>
-                <item name="serialNumbers" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SerialNumbers
-                </item>
-                <item name="reservationExcludedDates" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationExcludedDates
-                </item>
-                <item name="reservationQuantity" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationQuantity
-                </item>
-                <item name="excludedDays" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDays
-                </item>
-                <item name="specialPricingRules" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SpecialPricingRules
-                </item>
-                <item name="excludedDaysFrom" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysFrom
-                </item>
-                <item name="excludedDaysStart" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysStart
-                </item>
-                <item name="excludedDaysEnd" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysEnd
-                </item>
-                <item name="disableShipping" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DisableShipping
-                </item>
-                <item name="hotelMode" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\HotelMode
-                </item>
-                <item name="useSerials" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseSerials
-                </item>
-                <item name="useGlobalExcluded" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseGlobalExcluded
-                </item>
-                <item name="allowOverbooking" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AllowOverbooking
-                </item>
-                <item name="alwaysShow" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AlwaysShow
-                </item>
-                <item name="minPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MinPeriod
-                </item>
-                <item name="maxPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MaxPeriod
-                </item>
-                <item name="turnoverBeforePeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverBeforePeriod
-                </item>
-                <item name="turnoverAfterPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverAfterPeriod
-                </item>
-                <item name="paddingPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\PaddingPeriod
-                </item>
-                <item name="fixedLength" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedLength
-                </item>
-                <item name="fixedSelectionType" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedSelectionType
-                </item>
-                <item name="futureLimit" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FutureLimit
-                </item>
-                <item name="damageWaiver" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DamageWaiver
-                </item>
-                <item name="storeHours" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\StoreHours
-                </item>
+                <item name="reservationAdvancedPricing" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationAdvancedPricing</item>
+                <item name="serialNumbers" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SerialNumbers</item>
+                <item name="reservationExcludedDates" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationExcludedDates</item>
+                <item name="reservationQuantity" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationQuantity</item>
+                <item name="excludedDays" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDays</item>
+                <item name="specialPricingRules" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SpecialPricingRules</item>
+                <item name="excludedDaysFrom" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysFrom</item>
+                <item name="excludedDaysStart" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysStart</item>
+                <item name="excludedDaysEnd" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysEnd</item>
+                <item name="disableShipping" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DisableShipping</item>
+                <item name="hotelMode" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\HotelMode</item>
+                <item name="useSerials" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseSerials</item>
+                <item name="useGlobalExcluded" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseGlobalExcluded</item>
+                <item name="allowOverbooking" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AllowOverbooking</item>
+                <item name="alwaysShow" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AlwaysShow</item>
+                <item name="minPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MinPeriod</item>
+                <item name="maxPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MaxPeriod</item>
+                <item name="turnoverBeforePeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverBeforePeriod</item>
+                <item name="turnoverAfterPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverAfterPeriod</item>
+                <item name="paddingPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\PaddingPeriod</item>
+                <item name="fixedLength" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedLength</item>
+                <item name="fixedSelectionType" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedSelectionType</item>
+                <item name="futureLimit" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FutureLimit</item>
+                <item name="damageWaiver" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DamageWaiver</item>
+
             </argument>
         </arguments>
     </type>
     <type name="SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\Composite">
         <arguments>
             <argument name="modifiers" xsi:type="array">
-                <item name="reservationAdvancedPricing" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationAdvancedPricing
-                </item>
-                <item name="serialNumbers" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SerialNumbers
-                </item>
-                <item name="reservationExcludedDates" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationExcludedDates
-                </item>
-                <item name="reservationQuantity" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationQuantity
-                </item>
-                <item name="excludedDays" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDays
-                </item>
-                <item name="specialPricingRules" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SpecialPricingRules
-                </item>
-                <item name="excludedDaysFrom" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysFrom
-                </item>
-                <item name="excludedDaysStart" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysStart
-                </item>
-                <item name="excludedDaysEnd" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysEnd
-                </item>
-                <item name="disableShipping" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DisableShipping
-                </item>
-                <item name="hotelMode" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\HotelMode
-                </item>
-                <item name="useSerials" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseSerials
-                </item>
-                <item name="useGlobalExcluded" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseGlobalExcluded
-                </item>
-                <item name="allowOverbooking" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AllowOverbooking
-                </item>
-                <item name="alwaysShow" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AlwaysShow
-                </item>
-                <item name="minPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MinPeriod
-                </item>
-                <item name="maxPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MaxPeriod
-                </item>
-                <item name="turnoverBeforePeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverBeforePeriod
-                </item>
-                <item name="turnoverAfterPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverAfterPeriod
-                </item>
-                <item name="paddingPeriod" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\PaddingPeriod
-                </item>
-                <item name="fixedLength" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedLength
-                </item>
-                <item name="fixedSelectionType" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedSelectionType
-                </item>
-                <item name="futureLimit" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FutureLimit
-                </item>
-                <item name="damageWaiver" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DamageWaiver
-                </item>
-                <item name="storeHours" xsi:type="string">
-                    SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\StoreHours
-                </item>
+                <item name="reservationAdvancedPricing" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationAdvancedPricing</item>
+                <item name="serialNumbers" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SerialNumbers</item>
+                <item name="reservationExcludedDates" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationExcludedDates</item>
+                <item name="reservationQuantity" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ReservationQuantity</item>
+                <item name="excludedDays" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDays</item>
+                <item name="specialPricingRules" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\SpecialPricingRules</item>
+                <item name="excludedDaysFrom" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysFrom</item>
+                <item name="excludedDaysStart" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysStart</item>
+                <item name="excludedDaysEnd" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\ExcludedDaysEnd</item>
+                <item name="disableShipping" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DisableShipping</item>
+                <item name="hotelMode" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\HotelMode</item>
+                <item name="useSerials" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseSerials</item>
+                <item name="useGlobalExcluded" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\UseGlobalExcluded</item>
+                <item name="allowOverbooking" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AllowOverbooking</item>
+                <item name="alwaysShow" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\AlwaysShow</item>
+                <item name="minPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MinPeriod</item>
+                <item name="maxPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\MaxPeriod</item>
+                <item name="turnoverBeforePeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverBeforePeriod</item>
+                <item name="turnoverAfterPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\TurnoverAfterPeriod</item>
+                <item name="paddingPeriod" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\PaddingPeriod</item>
+                <item name="fixedLength" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedLength</item>
+                <item name="fixedSelectionType" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FixedSelectionType</item>
+                <item name="futureLimit" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\FutureLimit</item>
+                <item name="damageWaiver" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\DamageWaiver</item>
             </argument>
         </arguments>
     </type>
 
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
         <!-- plugins used to modify default behaviour of bundle items which don't allow to save custom options TODO change the path to be Plugin first -->
-        <plugin name="CustomOptionsInitial"
-                type="SalesIgniter\Rental\Plugin\Product\Initialization\Helper\CustomOptionsInit" sortOrder="50"/>
-        <plugin name="CustomOptionsLast"
-                type="SalesIgniter\Rental\Plugin\Product\Initialization\Helper\CustomOptionsLast" sortOrder="70"/>
+        <plugin name="CustomOptionsInitial" type="SalesIgniter\Rental\Plugin\Product\Initialization\Helper\CustomOptionsInit" sortOrder="50"/>
+        <plugin name="CustomOptionsLast" type="SalesIgniter\Rental\Plugin\Product\Initialization\Helper\CustomOptionsLast" sortOrder="70"/>
     </type>
 
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
@@ -292,14 +136,11 @@
         </type>-->
 
     <!-- Manual Edit multiple products dynamic form!!! -->
-    <virtualType name="SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\Pool"
-                 type="Magento\Ui\DataProvider\Modifier\Pool">
+    <virtualType name="SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
         <arguments>
             <argument name="modifiers" xsi:type="array">
                 <item name="reservation-order" xsi:type="array">
-                    <item name="class" xsi:type="string">
-                        SalesIgniter\Rental\Ui\DataProvider\Reservation\Form\Modifier\ReservationOrder
-                    </item>
+                    <item name="class" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\Reservation\Form\Modifier\ReservationOrder</item>
                     <item name="sortOrder" xsi:type="number">90</item>
                 </item>
             </argument>
@@ -307,38 +148,28 @@
     </virtualType>
     <type name="SalesIgniter\Rental\Ui\Component\Listing\DataProviders\SalesIgniter\ManualEdit\FormFull">
         <arguments>
-            <argument name="pool" xsi:type="object">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\Pool
-            </argument>
+            <argument name="pool" xsi:type="object">SalesIgniter\Rental\Ui\DataProvider\Product\Form\Modifier\Pool</argument>
         </arguments>
     </type>
 
     <!-- Fixed Dates dyncamic form -->
-    <virtualType name="SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\Pool"
-                 type="Magento\Ui\DataProvider\Modifier\Pool">
+    <virtualType name="SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
         <arguments>
             <argument name="modifiers" xsi:type="array">
                 <item name="fixed-rental-dates" xsi:type="array">
-                    <item name="class" xsi:type="string">
-                        SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\FixedRentalDates
-                    </item>
+                    <item name="class" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\FixedRentalDates</item>
                     <item name="sortOrder" xsi:type="number">90</item>
                 </item>
                 <item name="fixed-rental-catalogrules" xsi:type="array">
-                    <item name="class" xsi:type="string">
-                        SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\FixedRentalCatalogRules
-                    </item>
+                    <item name="class" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\FixedRentalCatalogRules</item>
                     <item name="sortOrder" xsi:type="number">90</item>
                 </item>
                 <item name="fixed-rental-name" xsi:type="array">
-                    <item name="class" xsi:type="string">
-                        SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\FixedRentalName
-                    </item>
+                    <item name="class" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\FixedRentalName</item>
                     <item name="sortOrder" xsi:type="number">90</item>
                 </item>
                 <item name="fixed-rental-name-id" xsi:type="array">
-                    <item name="class" xsi:type="string">
-                        SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\FixedRentalNameId
-                    </item>
+                    <item name="class" xsi:type="string">SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\FixedRentalNameId</item>
                     <item name="sortOrder" xsi:type="number">90</item>
                 </item>
             </argument>
@@ -346,8 +177,7 @@
     </virtualType>
     <type name="SalesIgniter\Rental\Ui\Component\Listing\DataProviders\SalesIgniter\FixedDates\Form">
         <arguments>
-            <argument name="pool" xsi:type="object">SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\Pool
-            </argument>
+            <argument name="pool" xsi:type="object">SalesIgniter\Rental\Ui\DataProvider\FixedDates\Form\Modifier\Pool</argument>
         </arguments>
     </type>
 

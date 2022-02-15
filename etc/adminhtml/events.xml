@@ -6,7 +6,4 @@
 	<event name="quote_request_create_update_product_before">
 		<observer name="quote_request_observer" instance="SalesIgniter\Rental\Observer\QuoteRequest\Create\UpdateProductBefore"/>
 	</event>
-	<event name="sales_convert_order_item_to_quote_item">
-		<observer name="sales_convert_order_item_to_quote_item_observer" instance="SalesIgniter\Rental\Observer\OrderItemToQuoteItem"/>
-	</event>
 </config>

@@ -16,11 +16,16 @@ class PageActions extends \Magento\Ui\Component\Listing\Columns\Column
                 if (isset($item['order_id'])) {
                     $idOrder = $item['order_id'];
                 }
-                $item[$name][] = [
+                $item[$name]['view'] = [
                     'href' => $this->getContext()->getUrl(
                         'salesigniter_rental/manualedit/edit', ['id' => $id]),
                     'label' => __('Edit'),
-                ];                
+                ];
+                $item[$name]['view_order'] = [
+                    'href' => $this->getContext()->getUrl(
+                        'salesigniter_rental/manualedit/editorder', ['id' => $idOrder]),
+                    'label' => __('Edit Order'),
+                ];
             }
         }
 

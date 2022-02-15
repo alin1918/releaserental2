@@ -15,64 +15,65 @@ use Magento\Framework\Data\OptionSourceInterface;
 class SerialStatus extends AbstractSource implements SourceInterface, OptionSourceInterface
 {
 
-    /**
-     * Retrieve option array
-     *
-     * @return string[]
-     */
-    public static function getOptionArray()
-    {
-        return [
-            'available' => __('Available'),
-            'out' => __('Out'),
-            'maintenance' => __('Maintenance'),
-            'broken' => __('Broken')
-        ];
-    }
+	/**
+	 * Retrieve option array
+	 *
+	 * @return string[]
+	 */
+	public static function getOptionArray()
+	{
+		return [
+			'available' => __('Available'),
+			'out' => __('Out'),
+			'maintenance' => __('Maintenance'),
+			'broken' => __('Broken'),
+			'booked' => __('Booked')
+		];
+	}
 
-    /**
-     * Retrieve option array with empty value
-     *
-     * @return string[]
-     */
-    public function getAllOptions()
-    {
-        $result = [];
+	/**
+	 * Retrieve option array with empty value
+	 *
+	 * @return string[]
+	 */
+	public function getAllOptions()
+	{
+		$result = [];
 
-        foreach (self::getOptionArray() as $index => $value) {
-            $result[] = ['value' => $index, 'label' => $value];
-        }
+		foreach (self::getOptionArray() as $index => $value) {
+			$result[] = ['value' => $index, 'label' => $value];
+		}
 
-        return $result;
-    }
+		return $result;
+	}
 
-    /**
-     * Retrieve option array with empty value
-     *
-     * @return string[]
-     */
-    public static function getOptionsArray()
-    {
-        $result = [];
+	/**
+	 * Retrieve option array with empty value
+	 *
+	 * @return string[]
+	 */
+	public static function getOptionsArray()
+	{
+		$result = [];
 
-        foreach (self::getOptionArray() as $index => $value) {
-            $result[] = ['value' => $index, 'label' => $value];
-        }
+		foreach (self::getOptionArray() as $index => $value) {
+			$result[] = ['value' => $index, 'label' => $value];
+		}
 
-        return $result;
-    }
+		return $result;
+	}
 
-    /**
-     * Retrieve option text by option value
-     *
-     * @param string $optionId
-     *
-     * @return string
-     */
-    public function getOptionText($optionId)
-    {
-        $options = self::getOptionArray();
+	/**
+	 * Retrieve option text by option value
+	 *
+	 * @param string $optionId
+	 *
+	 * @return string
+	 */
+	public function getOptionText($optionId)
+	{
+		$options = self::getOptionArray();
 
-        return isset($options[$optionId]) ? $options[$optionId] : null;
-    }
+		return isset($options[$optionId]) ? $options[$optionId] : null;
+	}
 }

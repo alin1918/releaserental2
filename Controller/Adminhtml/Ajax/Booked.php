@@ -209,7 +209,7 @@ class Booked extends \Magento\Framework\App\Action\Action
         }
 
         $inventory = $this->stockManagement->getInventoryTable($product);
-        $inventoryFull = $this->stock->updateFullDatesBooking($inventory, $product);
+        $inventoryFull = $this->stock->updateFullDatesBooking($inventory);
         //var_export($inventory);
         //var_export($inventoryFull);
 

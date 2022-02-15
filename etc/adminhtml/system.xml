@@ -45,7 +45,7 @@
                 </field>
                 <field id="fixed_rental_length" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Length for fixed rental selection</label>
-                    <comment>Comma separated in format: 7d, 14d, 21d, meaning 7 days, 14 days. The periods can be in m - minutes, h - hours, d - days, w - weeks, m - months</comment>
+                    <comment>Comma separated in format: 7d, 14d, 21d, meaning 7 days, 14 days. The periods can be in h - hours, d - days, w - weeks, m - months</comment>
                 </field>
                 <field id="same_dates_enforce" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>All products in order must use the same start and end dates</label>
@@ -135,11 +135,11 @@
                     <comment><![CDATA[Allow Overbooking for all products]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <!--<field id="admin_allow_overbooking" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="admin_allow_overbooking" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Admin is allowed to overbook all products</label>
                     <comment><![CDATA[Allow Overbooking for all products in admin]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field> -->
+                </field>
                 <field id="admin_show_warning_overbooking" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>If Admin is allowed to overbook then a warning will show if overbooking</label>
                     <comment><![CDATA[If Admin is allowed to overbook then a warning will show if overbooking]]></comment>
@@ -163,18 +163,7 @@
                     <source_model>SalesIgniter\Rental\Model\Config\SpecialPricingRules</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
-                <field id="hide_time_periods_numbers" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Hide time period numbers from price points</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="price_as_table_product_view" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Show prices in table format</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="allow_zero_price" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Allow zero price</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>                
+
             </group>
             <group id="listing" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Category / Listing Page</label>
@@ -197,8 +186,16 @@
                     <label>Sort Price List Type</label>
                     <source_model>SalesIgniter\Rental\Model\Config\PriceType</source_model>
                 </field>
+                <field id="price_as_table_product_view" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show prices in table format on product view</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="show_buyout_price" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show buyout price on listing page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="hide_time_periods_numbers" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Hide time period numbers from product info page</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
