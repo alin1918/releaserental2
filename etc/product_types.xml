@@ -1,5 +1,5 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Catalog:etc/product_types.xsd">
-    <type name="sirent" label="Reservation" modelInstance="SalesIgniter\Rental\Model\Product\Type\Sirent" composite="false" isQty="false" canUseQtyDecimals="false">
+    <type name="sirent" label="Reservation" modelInstance="SalesIgniter\Rental\Model\Product\Type\Sirent" composite="false" isQty="true" canUseQtyDecimals="false">
         <priceModel instance="SalesIgniter\Rental\Model\Product\Price"/>
         <customAttributes>
             <attribute name="is_real_product" value="true"/>
