@@ -75,6 +75,7 @@ class SpecialPricingRules extends \Magento\Eav\Model\Entity\Attribute\Source\Abs
     public function getAllOptions()
     {
         if ($this->_options === null) {
+            $this->_options = [];
             foreach ($this->getOptionArray() as $index => $value) {
                 $this->_options[] = [
                     'label' => $value,
